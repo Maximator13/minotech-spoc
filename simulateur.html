@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; base-uri 'self'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Simulateur d'asservissement SPOC | MinOtech</title>
+<meta name="description" content="Simulateur interactif de l'asservissement sonde – paroi de SPOC : réglez la consigne de 5 mm à 30 cm, inclinez la paroi, ajoutez du bruit ou un obstacle et suivez l'erreur face à la tolérance de ± 1 mm.">
+<link rel="canonical" href="https://maximator13.github.io/minotech-spoc/simulateur.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="MinOtech · SPOC">
+<meta property="og:title" content="Simulateur d'asservissement SPOC | MinOtech">
+<meta property="og:description" content="Simulateur interactif de l'asservissement sonde – paroi de SPOC : réglez la consigne de 5 mm à 30 cm, inclinez la paroi, ajoutez du bruit ou un obstacle et suivez l'erreur face à la tolérance de ± 1 mm.">
+<meta property="og:url" content="https://maximator13.github.io/minotech-spoc/simulateur.html">
+<meta property="og:image" content="https://maximator13.github.io/minotech-spoc/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#070C18" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.min.css">
+<script src="js/theme-init.js"></script>
+<script type="module" src="js/pages/simulateur.js"></script>
+</head>
+<body class="bg-paper text-ink dark:bg-night dark:text-silver font-sans antialiased">
+<a href="#main" class="skip-link">Aller au contenu</a>
+<header data-layout="header" class="h-16 border-b border-line dark:border-line-dark"></header>
+<noscript><nav aria-label="Navigation principale" class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap gap-4 text-sm"><a href="index.html">Accueil</a><a href="projet.html">Projet</a><a href="simulateur.html">Simulateur</a><a href="equipe.html">Équipe</a><a href="apropos.html">À propos</a><a href="contact.html">Contact</a></nav></noscript>
+<main id="main">
+
+  <!-- HERO -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-12">
+    <p class="font-mono text-xs tracking-wider text-accent uppercase">Simulateur interactif</p>
+    <h1 class="mt-5 max-w-3xl text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.05] text-balance">Tenir la distance, en temps réel.</h1>
+    <p class="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-ink-2 dark:text-silver">
+      Réglez la consigne entre 5&nbsp;mm et 30&nbsp;cm, inclinez la paroi, ajoutez du bruit de mesure : un régulateur recale la sonde en continu, et la courbe d'erreur montre si elle reste dans la tolérance de ± 1&nbsp;mm du cahier des charges.
+    </p>
+  </section>
+
+  <!-- 01 SIMULATION -->
+  <section id="simulation" aria-labelledby="sim-title" class="scroll-mt-20 border-t border-line dark:border-line-dark">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+      <div class="flex items-baseline gap-4">
+        <span class="font-mono text-sm text-accent">01</span>
+        <h2 id="sim-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Asservissement sonde – paroi</h2>
+      </div>
+
+      <div class="mt-8 grid lg:grid-cols-[minmax(0,1fr)_20rem] gap-6 items-start">
+        <!-- Canvas et lectures -->
+        <div class="min-w-0 rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-4 sm:p-5">
+          <div class="flex items-center justify-between gap-3">
+            <p class="font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Fig. 01 — Vue de dessus, écart zoomé</p>
+            <button type="button" id="sim-pause" class="shrink-0 inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-line dark:border-line-dark text-xs font-semibold hover:border-accent transition">
+              <svg class="icon-pause w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+              <svg class="icon-play hidden w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 7 5.5z"/></svg>
+              <span data-label>Pause</span>
+            </button>
+          </div>
+          <canvas id="sim-canvas" role="img" aria-label="Simulation : distance mesurée 50 mm pour une consigne de 50 mm, dans la tolérance de plus ou moins 1 mm." class="mt-3 block w-full aspect-[4/5] sm:aspect-[16/11]"></canvas>
+          <noscript><p class="mt-3 text-sm text-ink-2 dark:text-silver">Le simulateur nécessite JavaScript.</p></noscript>
+          <dl class="mt-4 grid grid-cols-2 sm:grid-cols-5 gap-px rounded-xl overflow-hidden border border-line dark:border-line-dark bg-line dark:bg-line-dark">
+            <div class="col-span-2 sm:col-span-1 bg-paper dark:bg-card px-3 py-3">
+              <dt class="font-mono text-[10px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Distance mesurée</dt>
+              <dd class="mt-1 font-mono text-lg font-semibold"><output id="out-dist" aria-live="off">50,0 mm</output></dd>
+            </div>
+            <div class="bg-paper dark:bg-card px-3 py-3">
+              <dt class="font-mono text-[10px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Erreur mesurée</dt>
+              <dd class="mt-1 font-mono text-lg font-semibold"><output id="out-err" aria-live="off">0,0 mm</output></dd>
+            </div>
+            <div class="bg-paper dark:bg-card px-3 py-3">
+              <dt class="font-mono text-[10px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Angle relatif</dt>
+              <dd class="mt-1 font-mono text-lg font-semibold"><output id="out-angle" aria-live="off">0,00°</output></dd>
+            </div>
+            <div class="bg-paper dark:bg-card px-3 py-3">
+              <dt class="font-mono text-[10px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Course du chariot</dt>
+              <dd class="mt-1 font-mono text-lg font-semibold"><output id="out-stroke" aria-live="off">330 mm</output></dd>
+            </div>
+            <div class="bg-paper dark:bg-card px-3 py-3">
+              <dt class="font-mono text-[10px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Temps en tolérance</dt>
+              <dd class="mt-1 font-mono text-lg font-semibold"><output id="out-tol" aria-live="off">0 %</output></dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- Réglages -->
+        <div class="min-w-0 rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-5 sm:p-6">
+          <h3 class="font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Réglages</h3>
+          <div role="group" aria-label="Préréglages de paroi" class="mt-4 grid grid-cols-2 gap-2">
+            <button type="button" data-preset="nominal" aria-pressed="true" class="px-3 py-2 rounded-lg border border-line dark:border-line-dark text-sm font-medium text-left hover:border-accent transition aria-pressed:bg-ink aria-pressed:border-ink aria-pressed:text-white dark:aria-pressed:bg-white dark:aria-pressed:border-white dark:aria-pressed:text-night">Nominal</button>
+            <button type="button" data-preset="inclinee" aria-pressed="false" class="px-3 py-2 rounded-lg border border-line dark:border-line-dark text-sm font-medium text-left hover:border-accent transition aria-pressed:bg-ink aria-pressed:border-ink aria-pressed:text-white dark:aria-pressed:bg-white dark:aria-pressed:border-white dark:aria-pressed:text-night">Paroi inclinée</button>
+            <button type="button" data-preset="rugueuse" aria-pressed="false" class="px-3 py-2 rounded-lg border border-line dark:border-line-dark text-sm font-medium text-left hover:border-accent transition aria-pressed:bg-ink aria-pressed:border-ink aria-pressed:text-white dark:aria-pressed:bg-white dark:aria-pressed:border-white dark:aria-pressed:text-night">Paroi rugueuse</button>
+            <button type="button" data-preset="obstacle" aria-pressed="false" class="px-3 py-2 rounded-lg border border-line dark:border-line-dark text-sm font-medium text-left hover:border-accent transition aria-pressed:bg-ink aria-pressed:border-ink aria-pressed:text-white dark:aria-pressed:bg-white dark:aria-pressed:border-white dark:aria-pressed:text-night">Obstacle</button>
+          </div>
+          <p class="mt-2 text-xs text-ink-2/70 dark:text-silver/60">Un préréglage relance la simulation.</p>
+
+          <div class="mt-6 space-y-5 border-t border-line dark:border-line-dark pt-5">
+            <div>
+              <div class="flex items-baseline justify-between gap-3">
+                <label for="sim-target" class="text-sm font-medium">Consigne de distance</label>
+                <output id="sim-target-out" for="sim-target" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">50 mm</output>
+              </div>
+              <input id="sim-target" type="range" min="5" max="300" step="1" value="50" aria-valuetext="50 millimètres" class="mt-2 w-full">
+              <div class="flex justify-between font-mono text-[10px] text-ink-2/70 dark:text-silver/60" aria-hidden="true"><span>5 mm</span><span>300 mm</span></div>
+            </div>
+            <div>
+              <div class="flex items-baseline justify-between gap-3">
+                <label for="sim-tilt" class="text-sm font-medium">Inclinaison de la paroi</label>
+                <output id="sim-tilt-out" for="sim-tilt" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">0,0°</output>
+              </div>
+              <input id="sim-tilt" type="range" min="-5" max="5" step="0.5" value="0" aria-valuetext="0,0 degrés" class="mt-2 w-full">
+              <div class="flex justify-between font-mono text-[10px] text-ink-2/70 dark:text-silver/60" aria-hidden="true"><span>−5°</span><span>+5°</span></div>
+            </div>
+            <div>
+              <div class="flex items-baseline justify-between gap-3">
+                <label for="sim-speed" class="text-sm font-medium">Vitesse du porteur</label>
+                <output id="sim-speed-out" for="sim-speed" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">40 mm/s</output>
+              </div>
+              <input id="sim-speed" type="range" min="10" max="100" step="5" value="40" aria-valuetext="40 millimètres par seconde" class="mt-2 w-full">
+              <div class="flex justify-between font-mono text-[10px] text-ink-2/70 dark:text-silver/60" aria-hidden="true"><span>10 mm/s</span><span>100 mm/s</span></div>
+            </div>
+            <div>
+              <div class="flex items-baseline justify-between gap-3">
+                <label for="sim-noise" class="text-sm font-medium">Bruit du capteur</label>
+                <output id="sim-noise-out" for="sim-noise" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">0,3 mm</output>
+              </div>
+              <input id="sim-noise" type="range" min="0" max="2" step="0.1" value="0.3" aria-valuetext="0,3 millimètres" class="mt-2 w-full">
+              <div class="flex justify-between font-mono text-[10px] text-ink-2/70 dark:text-silver/60" aria-hidden="true"><span>0 mm</span><span>2 mm</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="mt-6 flex items-start gap-2 text-sm text-ink-2 dark:text-silver">
+        <svg class="mt-0.5 w-4 h-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+        <span>Modèle pédagogique simplifié — ne représente pas les performances mesurées du prototype.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 02 LE MODÈLE -->
+  <section id="modele" aria-labelledby="modele-title" class="reveal scroll-mt-20 border-t border-line dark:border-line-dark">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
+      <div class="flex items-baseline gap-4">
+        <span class="font-mono text-sm text-accent">02</span>
+        <h2 id="modele-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Ce que modélise le simulateur</h2>
+      </div>
+      <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <article class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-accent">Paroi</p>
+          <h3 class="mt-1 text-lg font-bold">Un profil imparfait</h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-2 dark:text-silver">Inclinaison réglable, ondulation et défauts ponctuels. À chaque passe, le porteur reprend la paroi depuis son début.</p>
+        </article>
+        <article class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-accent">Capteur ToF</p>
+          <h3 class="mt-1 text-lg font-bold">Une mesure bruitée</h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-2 dark:text-silver">La distance mesurée est la distance réelle entachée d'un bruit gaussien, dont l'amplitude se règle.</p>
+        </article>
+        <article class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-accent">Boucle distance</p>
+          <h3 class="mt-1 text-lg font-bold">Un régulateur PI</h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-2 dark:text-silver">Il pilote la vitesse du module linéaire ; la commande est saturée par sa vitesse maximale et bornée par sa course.</p>
+        </article>
+        <article class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-accent">Boucle angle</p>
+          <h3 class="mt-1 text-lg font-bold">Le parallélisme</h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-2 dark:text-silver">La sonde suit l'inclinaison locale de la paroi avec une dynamique du premier ordre ; le cahier des charges exige ± 1°.</p>
+        </article>
+      </div>
+      <p class="mt-6 max-w-2xl text-sm text-ink-2 dark:text-silver">Sur la figure, la bande verte matérialise la tolérance de ± 1&nbsp;mm autour de la consigne ; l'échelle de la vue s'adapte à la consigne choisie.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section aria-labelledby="cta-title" class="reveal border-t border-line dark:border-line-dark">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 flex flex-col md:flex-row md:items-center justify-between gap-8">
+      <div>
+        <h2 id="cta-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Derrière le modèle, une équipe</h2>
+        <p class="mt-3 max-w-xl text-base text-ink-2 dark:text-silver">Mécanique, électronique et informatique : découvrez les élèves-ingénieurs qui conçoivent SPOC.</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
+        <a href="equipe.html" class="group inline-flex items-center gap-2 px-5 py-3 rounded-full bg-accent text-white text-sm font-semibold hover:bg-sky-800 dark:text-night dark:hover:bg-sky-300 transition">
+          Rencontrer l'équipe
+          <svg class="w-4 h-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="projet.html#exigences" class="text-sm font-semibold underline decoration-line dark:decoration-line-dark underline-offset-4 hover:decoration-accent">Voir les exigences du projet</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer data-layout="footer"></footer>
+</body>
+</html>

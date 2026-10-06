@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; base-uri 'self'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Le projet SPOC — Contexte, exigences CDC et solution | MinOtech</title>
+<meta name="description" content="Contexte du démantèlement nucléaire, exigences du cahier des charges CEA avec leur statut de vérification, architecture de la solution SPOC, sondes radiologiques et jalons.">
+<link rel="canonical" href="https://maximator13.github.io/minotech-spoc/projet.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="MinOtech · SPOC">
+<meta property="og:title" content="Le projet SPOC — Contexte, exigences CDC et solution | MinOtech">
+<meta property="og:description" content="Contexte du démantèlement nucléaire, exigences du cahier des charges CEA avec leur statut de vérification, architecture de la solution SPOC, sondes radiologiques et jalons.">
+<meta property="og:url" content="https://maximator13.github.io/minotech-spoc/projet.html">
+<meta property="og:image" content="https://maximator13.github.io/minotech-spoc/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#070C18" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.min.css">
+<script src="js/theme-init.js"></script>
+<script type="module" src="js/pages/projet.js"></script>
+</head>
+<body class="bg-paper text-ink dark:bg-night dark:text-silver font-sans antialiased">
+<a href="#main" class="skip-link">Aller au contenu</a>
+<header data-layout="header" class="h-16 border-b border-line dark:border-line-dark"></header>
+<noscript><nav aria-label="Navigation principale" class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap gap-4 text-sm"><a href="index.html">Accueil</a><a href="projet.html">Projet</a><a href="simulateur.html">Simulateur</a><a href="equipe.html">Équipe</a><a href="apropos.html">À propos</a><a href="contact.html">Contact</a></nav></noscript>
+<main id="main">
+
+  <!-- HERO -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-16">
+    <p class="font-mono text-xs tracking-wider text-accent uppercase">Le projet SPOC</p>
+    <h1 class="mt-5 max-w-3xl lg:max-w-none lg:whitespace-nowrap text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.05] text-balance">Cartographier les parois sans les toucher.</h1>
+    <p class="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-ink-2 dark:text-silver">
+      SPOC, Système de Positionnement relatif multi-Capteurs, est un projet fil rouge de 3A Mécatronique mené pour le CEA Marcoule. Cette page détaille le contexte, les exigences du cahier des charges avec leur état de vérification, la solution retenue, les sondes embarquées et les jalons.
+    </p>
+    <div class="mt-8">
+      <a href="simulateur.html" class="group inline-flex items-center gap-2 px-5 py-3 rounded-full bg-accent text-white text-sm font-semibold hover:bg-sky-800 dark:text-night dark:hover:bg-sky-300 transition">
+        Essayer le simulateur
+        <svg class="w-4 h-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <nav aria-label="Sections de la page" class="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wider">
+      <a href="#contexte" class="text-ink-2 dark:text-silver hover:text-accent">01 Contexte</a>
+      <a href="#exigences" class="text-ink-2 dark:text-silver hover:text-accent">02 Exigences</a>
+      <a href="#solution" class="text-ink-2 dark:text-silver hover:text-accent">03 Solution</a>
+      <a href="#sondes" class="text-ink-2 dark:text-silver hover:text-accent">04 Sondes</a>
+      <a href="#jalons" class="text-ink-2 dark:text-silver hover:text-accent">05 Jalons</a>
+    </nav>
+  </section>
+
+  <!-- 01 CONTEXTE -->
+  <section id="contexte" aria-labelledby="contexte-title" class="reveal scroll-mt-20 border-t border-line dark:border-line-dark">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
+      <div class="flex items-baseline gap-4">
+        <span class="font-mono text-sm text-accent">01</span>
+        <h2 id="contexte-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Démanteler et cartographier</h2>
+      </div>
+      <div class="mt-10 grid lg:grid-cols-[1.2fr_1fr] gap-10">
+        <div class="space-y-5 text-base leading-relaxed text-ink-2 dark:text-silver">
+          <p>Le démantèlement d'une installation nucléaire impose de cartographier la contamination radiologique des murs, des sols et des plafonds avant d'envisager son déclassement. Les surfaces à couvrir se chiffrent en centaines de milliers de mètres carrés : la productivité de la mesure compte autant que sa précision.</p>
+          <p>Maintenir une sonde à distance constante d'une paroi, sans contact, est difficile : l'irrégularité des parois fait varier la distance à chaque déplacement, d'où la nécessité d'asservir la distance. SPOC asservit cette distance et le parallélisme de la sonde pendant le balayage.</p>
+        </div>
+        <div class="grid gap-4 content-start">
+          <div class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6">
+            <p class="font-mono text-[11px] uppercase tracking-wider text-accent">Cas d'usage 1</p>
+            <h3 class="mt-1 text-lg font-bold">Usines de Diffusion Gazeuse de Pierrelatte</h3>
+            <p class="mt-2 text-sm text-ink-2 dark:text-silver">Arrêtées en 1996 et partiellement démantelées, avec de très grandes surfaces de murs, sols et plafonds à cartographier.</p>
+          </div>
+          <div class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6">
+            <p class="font-mono text-[11px] uppercase tracking-wider text-accent">Cas d'usage 2</p>
+            <h3 class="mt-1 text-lg font-bold">Bassins STEL de Marcoule</h3>
+            <p class="mt-2 text-sm text-ink-2 dark:text-silver">Station de traitement des effluents liquides : bassins en béton armé de grand volume, à cartographier eux aussi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 EXIGENCES -->
+  <section id="exigences" aria-labelledby="exigences-title" class="reveal scroll-mt-20 border-t border-line dark:border-line-dark">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
+      <div class="flex items-baseline gap-4">
+        <span class="font-mono text-sm text-accent">02</span>
+        <h2 id="exigences-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Exigences du cahier des charges</h2>
+      </div>
+      <p class="mt-6 max-w-2xl text-base text-ink-2 dark:text-silver">Chaque exigence reprend le cahier des charges CEA. Le statut indique l'état réel de la vérification : une exigence n'est marquée « Validé » que lorsqu'une preuve est référencée.</p>
+      <div class="relative mt-8 overflow-x-auto rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card">
+        <table class="w-full min-w-[40rem] text-left border-collapse">
+          <caption class="sr-only">Exigences du cahier des charges CEA et statut de vérification</caption>
+          <thead>
+            <tr class="font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">
+              <th scope="col" class="pl-4 pr-4 pt-4 pb-3 font-medium">Réf.</th>
+              <th scope="col" class="pr-4 pt-4 pb-3 font-medium">Exigence</th>
+              <th scope="col" class="pr-4 pt-4 pb-3 font-medium">Valeur</th>
+              <th scope="col" class="pr-4 pt-4 pb-3 font-medium">Source</th>
+              <th scope="col" class="pr-4 pt-4 pb-3 font-medium">Statut</th>
+              <th scope="col" class="pr-4 pt-4 pb-3 font-medium">Preuve</th>
+            </tr>
+          </thead>
+          <tbody id="req-rows" class="[&_tr>*:first-child]:pl-4 [&_tr>*:last-child]:pr-4"></tbody>
+        </table>
+      </div>
+      <noscript><p class="mt-4 text-sm text-ink-2 dark:text-silver">Le tableau des exigences nécessite JavaScript. Valeurs clés du CDC : distance de 5 mm à 30 cm, précision ± 1 mm, parallélisme ± 1°, charge utile jusqu'à 50 kg, autonomie d'au moins 8 h.</p></noscript>
+      <p class="mt-4 font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Légende des statuts : <span class="text-ink-2 dark:text-silver">À venir</span> · <span class="text-warn">En cours</span> · <span class="text-ok">Validé</span></p>
+    </div>
+  </section>
+
+  <!-- 03 SOLUTION -->
+  <section id="solution" aria-labelledby="solution-title" class="reveal scroll-mt-20 border-t border-line dark:border-line-dark">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
+      <div class="flex items-baseline gap-4">
+        <span class="font-mono text-sm text-accent">03</span>
+        <h2 id="solution-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">La solution SPOC</h2>
+      </div>
+      <p class="mt-6 max-w-2xl text-base text-ink-2 dark:text-silver">Des capteurs de distance mesurent l'écart à la paroi ; un contrôleur temps réel corrige la position du module linéaire et l'orientation de la sonde, et l'unité embarquée relaie les mesures vers le poste de pilotage.</p>
+      <ul id="solution-list" class="mt-6 max-w-3xl grid gap-3 sm:grid-cols-2 text-sm leading-relaxed text-ink-2 dark:text-silver"></ul>
+      <figure data-media class="mt-8 rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-4 sm:p-6">
+        <div id="solution-img" class="aspect-[16/9] [&_img]:w-full [&_img]:h-full"><noscript><p class="text-sm text-ink-2 dark:text-silver">Le schéma de la solution nécessite JavaScript.</p></noscript></div>
+        <figcaption class="mt-3 font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Architecture de la solution SPOC</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 04 SONDES -->
+  <section id="sondes" aria-labelledby="sondes-title" class="reveal scroll-mt-20 border-t border-line dark:border-line-dark">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
+      <div class="flex items-baseline gap-4">
+        <span class="font-mono text-sm text-accent">04</span>
+        <h2 id="sondes-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Quatre sondes radiologiques</h2>
+      </div>
+      <p class="mt-6 max-w-2xl text-base text-ink-2 dark:text-silver">Une seule sonde est embarquée à la fois ; quatre modèles sont envisagés. La plus lourde conditionne la charge utile de 50 kg.</p>
+      <div id="sondes-grid" class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4"><noscript><p class="text-sm text-ink-2 dark:text-silver sm:col-span-2 lg:col-span-4">Sondes : Alpha ZnS(Ag), NaI(Tl), EJ200 et détecteur BEGe.</p></noscript></div>
+    </div>
+  </section>
+
+  <!-- 05 JALONS -->
+  <section id="jalons" aria-labelledby="jalons-title" class="reveal scroll-mt-20 border-t border-line dark:border-line-dark">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
+      <div class="flex items-baseline gap-4">
+        <span class="font-mono text-sm text-accent">05</span>
+        <h2 id="jalons-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Jalons du projet</h2>
+      </div>
+      <div id="jalons-list" class="mt-10"><noscript><p class="text-sm text-ink-2 dark:text-silver">Quatre semestres : analyse du besoin, conception préliminaire, conception détaillée, intégration et prototype.</p></noscript></div>
+    </div>
+  </section>
+</main>
+<footer data-layout="footer"></footer>
+</body>
+</html>

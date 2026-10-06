@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; base-uri 'self'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Contact — Partenariats et questions techniques | MinOtech SPOC</title>
+<meta name="description" content="Contactez l'équipe MinOtech pour un partenariat, une question technique ou une demande de presse sur le projet SPOC mené avec le CEA Marcoule.">
+<link rel="canonical" href="https://maximator13.github.io/minotech-spoc/contact.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="MinOtech · SPOC">
+<meta property="og:title" content="Contact — Partenariats et questions techniques | MinOtech SPOC">
+<meta property="og:description" content="Contactez l'équipe MinOtech pour un partenariat, une question technique ou une demande de presse sur le projet SPOC mené avec le CEA Marcoule.">
+<meta property="og:url" content="https://maximator13.github.io/minotech-spoc/contact.html">
+<meta property="og:image" content="https://maximator13.github.io/minotech-spoc/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#070C18" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.min.css">
+<script src="js/theme-init.js"></script>
+<script type="module" src="js/pages/contact.js"></script>
+</head>
+<body class="bg-paper text-ink dark:bg-night dark:text-silver font-sans antialiased">
+<a href="#main" class="skip-link">Aller au contenu</a>
+<header data-layout="header" class="h-16 border-b border-line dark:border-line-dark"></header>
+<noscript><nav aria-label="Navigation principale" class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap gap-4 text-sm"><a href="index.html">Accueil</a><a href="projet.html">Projet</a><a href="simulateur.html">Simulateur</a><a href="equipe.html">Équipe</a><a href="apropos.html">À propos</a><a href="contact.html">Contact</a></nav></noscript>
+<main id="main">
+
+  <!-- HERO -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-16">
+    <p class="font-mono text-xs tracking-wider text-accent uppercase">Contact</p>
+    <h1 class="mt-5 max-w-3xl text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.05] text-balance">Parlons du projet SPOC.</h1>
+    <p class="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-ink-2 dark:text-silver">
+      Partenariat, question technique ou demande de presse : écrivez à l'équipe MinOtech. Nous utilisons vos données uniquement pour vous répondre.
+    </p>
+    <nav aria-label="Sections de la page" class="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wider">
+      <a href="#ecrire" class="text-ink-2 dark:text-silver hover:text-accent">01 Écrire à l'équipe</a>
+    </nav>
+  </section>
+
+  <!-- 01 ECRIRE -->
+  <section id="ecrire" aria-labelledby="ecrire-title" class="reveal scroll-mt-20 border-t border-line dark:border-line-dark">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
+      <div class="flex items-baseline gap-4">
+        <span class="font-mono text-sm text-accent">01</span>
+        <h2 id="ecrire-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Écrire à l'équipe</h2>
+      </div>
+      <div id="contact-alt" class="mt-10 max-w-2xl"></div>
+      <form id="contact-form" method="post" novalidate hidden class="relative mt-10 max-w-2xl space-y-6">
+        <p class="text-sm text-ink-2 dark:text-silver">Les champs marqués d'un astérisque sont obligatoires.</p>
+        <div>
+          <label for="name" class="block text-sm font-semibold">Nom <span class="text-error" aria-hidden="true">*</span><span class="sr-only"> (obligatoire)</span></label>
+          <input id="name" name="name" type="text" autocomplete="name" required aria-required="true" class="mt-2 block w-full rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card px-4 py-3 text-base text-ink dark:text-white focus:border-accent aria-[invalid=true]:border-error">
+          <p id="name-error" class="mt-2 text-sm font-medium text-error" hidden></p>
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-semibold">Adresse e-mail <span class="text-error" aria-hidden="true">*</span><span class="sr-only"> (obligatoire)</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" required aria-required="true" class="mt-2 block w-full rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card px-4 py-3 text-base text-ink dark:text-white focus:border-accent aria-[invalid=true]:border-error">
+          <p id="email-error" class="mt-2 text-sm font-medium text-error" hidden></p>
+        </div>
+        <div>
+          <label for="subject" class="block text-sm font-semibold">Objet</label>
+          <select id="subject" name="subject" class="mt-2 block w-full rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card px-4 py-3 text-base text-ink dark:text-white focus:border-accent aria-[invalid=true]:border-error">
+            <option>Partenariat</option>
+            <option>Question technique</option>
+            <option>Presse</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div>
+          <label for="message" class="block text-sm font-semibold">Message <span class="text-error" aria-hidden="true">*</span><span class="sr-only"> (obligatoire)</span></label>
+          <textarea id="message" name="message" rows="6" required aria-required="true" class="mt-2 block w-full rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card px-4 py-3 text-base text-ink dark:text-white focus:border-accent aria-[invalid=true]:border-error"></textarea>
+          <p id="message-error" class="mt-2 text-sm font-medium text-error" hidden></p>
+        </div>
+        <div class="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
+          <label for="_gotcha">Ne pas remplir ce champ</label>
+          <input id="_gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <div>
+          <div class="flex items-start gap-3">
+            <input id="consent" name="consent" type="checkbox" required aria-required="true" class="mt-1 w-5 h-5 shrink-0 accent-accent">
+            <label for="consent" class="text-sm leading-relaxed text-ink-2 dark:text-silver">J'accepte que mes données soient utilisées pour répondre à ma demande, conformément à la <a href="confidentialite.html" class="underline hover:text-accent">politique de confidentialité</a>. <span class="text-error" aria-hidden="true">*</span><span class="sr-only"> (obligatoire)</span></label>
+          </div>
+          <p id="consent-error" class="mt-2 text-sm font-medium text-error" hidden></p>
+        </div>
+        <button type="submit" class="group inline-flex items-center gap-2 px-5 py-3 rounded-full bg-accent text-white text-sm font-semibold hover:bg-sky-800 dark:text-night dark:hover:bg-sky-300 transition disabled:opacity-60">
+          Envoyer le message
+          <svg class="w-4 h-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+      <p id="contact-status" role="status" aria-live="polite" class="mt-6 max-w-2xl text-base font-medium"></p>
+      <div id="contact-direct" class="mt-6 max-w-2xl"></div>
+      <noscript><p class="mt-6 max-w-2xl text-sm text-ink-2 dark:text-silver">Le formulaire de contact nécessite JavaScript.</p></noscript>
+      <div id="contact-extra" class="mt-8"></div>
+    </div>
+  </section>
+</main>
+<footer data-layout="footer"></footer>
+</body>
+</html>
