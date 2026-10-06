@@ -2,7 +2,7 @@
 // Les chiffres affichés sont ceux du CDC CEA ; tout statut 'valide' exige une preuve (evidence).
 
 export const siteConfig = {
-  baseUrl: 'https://maximator13.github.io/minotech-spoc',
+  baseUrl: 'https://minotech-spoc.vercel.app',
   contactEmail: '',
   linkedinUrl: '',
   formspreeId: '',
