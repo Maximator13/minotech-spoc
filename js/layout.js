@@ -103,7 +103,7 @@ function footerHTML(page, dark) {
       </div>
     </div>
     <div class="border-t border-line dark:border-line-dark">
-      <p class="max-w-6xl mx-auto px-4 sm:px-6 py-5 font-mono text-[11px] text-ink-2/70 dark:text-silver/60">MinOtech · SPOC — 2024–2026</p>
+      <p class="max-w-6xl mx-auto px-4 sm:px-6 py-5 font-mono text-[11px] text-ink-2/70 dark:text-silver/60">MinOtech · SPOC — 2024–2027</p>
     </div>
   </div>`;
 }

@@ -13,21 +13,21 @@ const $ = (id) => document.getElementById(id);
 // Onglets du showcase : textes propres à la page, médias issus de data.js.
 const VIEWS = {
   team: {
-    tag: 'Promotion 2024 – 2026',
-    title: `${team.length} élèves-ingénieurs, 3 pôles, 2 demi-groupes`,
+    tag: 'Projet 2024 – 2027 · 3e année',
+    title: `${team.length} apprentis ingénieurs, 3 pôles, 2 demi-groupes`,
     desc: "Mécanique, électronique et informatique, encadrés par le CEA Marcoule et l'IMT Mines Alès.",
     fit: 'w-full h-full object-cover',
   },
   robot: {
     tag: 'Prototype',
     title: 'Module de positionnement SPOC',
-    desc: 'Module linéaire, rotule de parallélisme et préhenseur de sonde montés sur porteur.',
+    desc: 'Module linéaire de 300 mm, module de planéité à deux vérins et rotule, préhenseur et caméra de profondeur (conception détaillée, juin 2026, en révision).',
     fit: 'w-full h-full object-contain p-6',
   },
   system: {
     tag: 'Architecture',
     title: 'Architecture système',
-    desc: 'Capteurs ToF, contrôle temps réel, calculateur embarqué et IHM opérateur.',
+    desc: 'Caméra de profondeur, ESP32 temps réel, Raspberry Pi 5, liaison Wi-Fi UDP et TCP et poste de pilotage.',
     fit: 'w-full h-full object-contain p-6',
   },
 };

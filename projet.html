@@ -7,13 +7,13 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; base-uri 'self'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Le projet SPOC — Contexte, exigences CDC et solution | MinOtech</title>
-<meta name="description" content="Contexte du démantèlement nucléaire, exigences du cahier des charges CEA avec leur statut de vérification, architecture de la solution SPOC, sondes radiologiques et jalons.">
+<meta name="description" content="Contexte du démantèlement nucléaire, exigences du cahier des charges CEA avec leur statut de vérification, architecture de la solution SPOC, capteurs cités par le CEA et jalons 2024-2027.">
 <link rel="canonical" href="https://maximator13.github.io/minotech-spoc/projet.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="MinOtech · SPOC">
 <meta property="og:title" content="Le projet SPOC — Contexte, exigences CDC et solution | MinOtech">
-<meta property="og:description" content="Contexte du démantèlement nucléaire, exigences du cahier des charges CEA avec leur statut de vérification, architecture de la solution SPOC, sondes radiologiques et jalons.">
+<meta property="og:description" content="Contexte du démantèlement nucléaire, exigences du cahier des charges CEA avec leur statut de vérification, architecture de la solution SPOC, capteurs cités par le CEA et jalons 2024-2027.">
 <meta property="og:url" content="https://maximator13.github.io/minotech-spoc/projet.html">
 <meta property="og:image" content="https://maximator13.github.io/minotech-spoc/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -39,7 +39,7 @@
     <p class="font-mono text-xs tracking-wider text-accent uppercase">Le projet SPOC</p>
     <h1 class="mt-5 max-w-3xl lg:max-w-none lg:whitespace-nowrap text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.05] text-balance">Cartographier les parois sans les toucher.</h1>
     <p class="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-ink-2 dark:text-silver">
-      SPOC, Système de Positionnement relatif multi-Capteurs, est un projet fil rouge de 3A Mécatronique mené pour le CEA Marcoule. Cette page détaille le contexte, les exigences du cahier des charges avec leur état de vérification, la solution retenue, les sondes embarquées et les jalons.
+      SPOC, Système de Positionnement relatif multi-Capteurs, est un projet fil rouge mécatronique par apprentissage, 3e année, mené pour le CEA Marcoule. Cette page détaille le contexte, les exigences du cahier des charges avec leur état de vérification, la solution retenue, les capteurs cités par le CEA et les jalons.
     </p>
     <div class="mt-8">
       <a href="simulateur.html" class="group inline-flex items-center gap-2 px-5 py-3 rounded-full bg-accent text-white text-sm font-semibold hover:bg-sky-800 dark:text-night dark:hover:bg-sky-300 transition">
@@ -51,7 +51,7 @@
       <a href="#contexte" class="text-ink-2 dark:text-silver hover:text-accent">01 Contexte</a>
       <a href="#exigences" class="text-ink-2 dark:text-silver hover:text-accent">02 Exigences</a>
       <a href="#solution" class="text-ink-2 dark:text-silver hover:text-accent">03 Solution</a>
-      <a href="#sondes" class="text-ink-2 dark:text-silver hover:text-accent">04 Sondes</a>
+      <a href="#sondes" class="text-ink-2 dark:text-silver hover:text-accent">04 Capteurs</a>
       <a href="#jalons" class="text-ink-2 dark:text-silver hover:text-accent">05 Jalons</a>
     </nav>
   </section>
@@ -66,7 +66,7 @@
       <div class="mt-10 grid lg:grid-cols-[1.2fr_1fr] gap-10">
         <div class="space-y-5 text-base leading-relaxed text-ink-2 dark:text-silver">
           <p>Le démantèlement d'une installation nucléaire impose de cartographier la contamination radiologique des murs, des sols et des plafonds avant d'envisager son déclassement. Les surfaces à couvrir se chiffrent en centaines de milliers de mètres carrés : la productivité de la mesure compte autant que sa précision.</p>
-          <p>Maintenir une sonde à distance constante d'une paroi, sans contact, est difficile : l'irrégularité des parois fait varier la distance à chaque déplacement, d'où la nécessité d'asservir la distance. SPOC asservit cette distance et le parallélisme de la sonde pendant le balayage.</p>
+          <p>Maintenir une sonde à distance constante d'une paroi, sans contact, est difficile : l'irrégularité des parois fait varier la distance à chaque déplacement, d'où la nécessité de positionner la sonde à la consigne. Dans SPOC, une caméra de profondeur cartographie la surface ; le calculateur positionne la sonde à la consigne ; seule l'orientation (parallélisme) est asservie en boucle fermée.</p>
         </div>
         <div class="grid gap-4 content-start">
           <div class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6">
@@ -91,7 +91,7 @@
         <span class="font-mono text-sm text-accent">02</span>
         <h2 id="exigences-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Exigences du cahier des charges</h2>
       </div>
-      <p class="mt-6 max-w-2xl text-base text-ink-2 dark:text-silver">Chaque exigence reprend le cahier des charges CEA. Le statut indique l'état réel de la vérification : une exigence n'est marquée « Validé » que lorsqu'une preuve est référencée.</p>
+      <p class="mt-6 max-w-2xl text-base text-ink-2 dark:text-silver">Chaque exigence reprend le cahier des charges CEA. Le statut indique l'état réel de la vérification : une exigence n'est marquée « Validé » que lorsqu'une preuve est référencée. La méthode prévue vient du plan de validation ; aucun essai n'a encore eu lieu.</p>
       <div class="relative mt-8 overflow-x-auto rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card">
         <table class="w-full min-w-[40rem] text-left border-collapse">
           <caption class="sr-only">Exigences du cahier des charges CEA et statut de vérification</caption>
@@ -109,7 +109,7 @@
         </table>
       </div>
       <noscript><p class="mt-4 text-sm text-ink-2 dark:text-silver">Le tableau des exigences nécessite JavaScript. Valeurs clés du CDC : distance de 5 mm à 30 cm, précision ± 1 mm, parallélisme ± 1°, charge utile jusqu'à 50 kg, autonomie d'au moins 8 h.</p></noscript>
-      <p class="mt-4 font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Légende des statuts : <span class="text-ink-2 dark:text-silver">À venir</span> · <span class="text-warn">En cours</span> · <span class="text-ok">Validé</span></p>
+      <p class="mt-4 font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Légende des statuts : <span class="text-ink-2 dark:text-silver">À venir</span> · <span class="text-warn">En cours</span> · <span class="text-ok">Validé</span> (preuve référencée)</p>
     </div>
   </section>
 
@@ -120,11 +120,11 @@
         <span class="font-mono text-sm text-accent">03</span>
         <h2 id="solution-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">La solution SPOC</h2>
       </div>
-      <p class="mt-6 max-w-2xl text-base text-ink-2 dark:text-silver">Des capteurs de distance mesurent l'écart à la paroi ; un contrôleur temps réel corrige la position du module linéaire et l'orientation de la sonde, et l'unité embarquée relaie les mesures vers le poste de pilotage.</p>
+      <p class="mt-6 max-w-2xl text-base text-ink-2 dark:text-silver">Une caméra de profondeur cartographie la surface ; le calculateur positionne la sonde à la consigne ; seule l'orientation (parallélisme) est asservie en boucle fermée. Architecture de conception détaillée (juin 2026), en révision depuis septembre 2026.</p>
       <ul id="solution-list" class="mt-6 max-w-3xl grid gap-3 sm:grid-cols-2 text-sm leading-relaxed text-ink-2 dark:text-silver"></ul>
       <figure data-media class="mt-8 rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-4 sm:p-6">
         <div id="solution-img" class="aspect-[16/9] [&_img]:w-full [&_img]:h-full"><noscript><p class="text-sm text-ink-2 dark:text-silver">Le schéma de la solution nécessite JavaScript.</p></noscript></div>
-        <figcaption class="mt-3 font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Architecture de la solution SPOC</figcaption>
+        <figcaption class="mt-3 font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Architecture de la solution SPOC — conception détaillée, juin 2026, en révision</figcaption>
       </figure>
     </div>
   </section>
@@ -134,10 +134,10 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
       <div class="flex items-baseline gap-4">
         <span class="font-mono text-sm text-accent">04</span>
-        <h2 id="sondes-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Quatre sondes radiologiques</h2>
+        <h2 id="sondes-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Exemples de capteurs cités par le CEA</h2>
       </div>
-      <p class="mt-6 max-w-2xl text-base text-ink-2 dark:text-silver">Une seule sonde est embarquée à la fois ; quatre modèles sont envisagés. La plus lourde conditionne la charge utile de 50 kg.</p>
-      <div id="sondes-grid" class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4"><noscript><p class="text-sm text-ink-2 dark:text-silver sm:col-span-2 lg:col-span-4">Sondes : Alpha ZnS(Ag), NaI(Tl), EJ200 et détecteur BEGe.</p></noscript></div>
+      <p class="mt-6 max-w-2xl text-base text-ink-2 dark:text-silver">Une seule sonde est embarquée à la fois. Le CDC fixe la masse du capteur embarqué entre quelques centaines de grammes et 50 kg.</p>
+      <div id="sondes-grid" class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4"><noscript><p class="text-sm text-ink-2 dark:text-silver sm:col-span-2 lg:col-span-4">Capteurs cités : Alpha ZnS(Ag), NaI(Tl), EJ200 et détecteur BEGe.</p></noscript></div>
     </div>
   </section>
 
@@ -148,7 +148,8 @@
         <span class="font-mono text-sm text-accent">05</span>
         <h2 id="jalons-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Jalons du projet</h2>
       </div>
-      <div id="jalons-list" class="mt-10"><noscript><p class="text-sm text-ink-2 dark:text-silver">Quatre semestres : analyse du besoin, conception préliminaire, conception détaillée, intégration et prototype.</p></noscript></div>
+      <p class="mt-6 max-w-2xl text-base text-ink-2 dark:text-silver">Huit périodes de 2024 à 2027. Réalisé / Soutenu = période terminée, livrable daté ; Validé = preuve référencée.</p>
+      <div id="jalons-list" class="mt-10"><noscript><p class="text-sm text-ink-2 dark:text-silver">De 2024 à 2027 : besoin et exigences, conception préliminaire, conception détaillée, fabrication, essais et qualification.</p></noscript></div>
     </div>
   </section>
 </main>

@@ -154,7 +154,7 @@ export function createSimView(canvas) {
     ctx.fillStyle = c.bg; ctx.strokeStyle = c.ink; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.arc(px, yPivot, 4, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
 
-    // Faisceau ToF et cote de distance.
+    // Faisceau du capteur de distance et cote.
     const yW = yOf(wall.pos);
     ctx.strokeStyle = c.accent; ctx.lineWidth = 1; ctx.globalAlpha = 0.6; ctx.setLineDash([2, 3]);
     ctx.beginPath(); ctx.moveTo(px, yFace); ctx.lineTo(px, yW); ctx.stroke();

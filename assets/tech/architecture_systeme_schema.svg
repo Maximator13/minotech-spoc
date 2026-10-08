@@ -1,212 +1,135 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="Inter, system-ui, sans-serif" fill="#0F172A">
+  <title>Architecture du système SPOC (conception détaillée, juin 2026, en révision)</title>
   <defs>
-    <!-- Gradients -->
-    <linearGradient id="archBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#070C18" />
-      <stop offset="50%" stop-color="#0F172A" />
-      <stop offset="100%" stop-color="#0A101F" />
-    </linearGradient>
-    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#1E293B" />
-      <stop offset="100%" stop-color="#0F172A" />
-    </linearGradient>
-    <linearGradient id="cyanLine" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#0284C7" />
-      <stop offset="100%" stop-color="#38BDF8" />
-    </linearGradient>
-
-    <!-- Grid -->
-    <pattern id="archGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#334155" stroke-width="0.75" stroke-opacity="0.2" />
-    </pattern>
-    <pattern id="dotPattern" width="20" height="20" patternUnits="userSpaceOnUse">
-      <circle cx="2" cy="2" r="1" fill="#38BDF8" fill-opacity="0.15" />
-    </pattern>
-
-    <!-- Marker Arrowheads -->
-    <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L9,3 z" fill="#38BDF8" />
+    <marker id="ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0F172A"/>
     </marker>
-    <marker id="arrowEmerald" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
-    </marker>
-    <marker id="arrowAmber" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    <marker id="zeus" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0369A1"/>
     </marker>
   </defs>
 
-  <style>
-    .mono { font-family: 'JetBrains Mono', 'Courier New', monospace; }
-    .sans { font-family: 'Inter', -apple-system, sans-serif; }
-  </style>
+  <!-- fond opaque (affiché en img dans les deux thèmes) -->
+  <rect x="0.5" y="0.5" width="1599" height="899" rx="24" fill="#FFFFFF" stroke="#E2E8F0"/>
 
-  <!-- Background -->
-  <rect width="1600" height="900" fill="url(#archBg)" />
-  <rect width="1600" height="900" fill="url(#archGrid)" />
-  <rect width="1600" height="900" fill="url(#dotPattern)" />
-
-  <!-- En-tête HUD Top -->
-  <g transform="translate(60, 45)">
-    <rect x="0" y="0" width="440" height="44" rx="8" fill="#1E293B" fill-opacity="0.8" stroke="#38BDF8" stroke-width="1.5" />
-    <circle cx="22" cy="22" r="6" fill="#0284C7" />
-    <text x="38" y="27" fill="#F8FAFC" class="mono" font-size="13" font-weight="bold">ARCHITECTURE SYSTÈME • MINOTECH SPOC</text>
-    <text x="460" y="27" fill="#94A3B8" class="mono" font-size="12">COMMUNICATION BUS CAN &amp; CONTRÔLE TEMPS RÉEL</text>
+  <!-- en-tête -->
+  <text x="60" y="64" font-size="34" font-weight="700">Architecture du système SPOC</text>
+  <text x="60" y="100" font-size="22" fill="#1E293B">Schéma fonctionnel : poste de pilotage, calculateur, microcontrôleur temps réel, capteurs, actionneurs et alimentation.</text>
+  <g font-size="22" fill="#1E293B">
+    <rect x="1000" y="44" width="22" height="22" rx="4" fill="#EEF2FF" stroke="#4F46E5" stroke-width="2.5"/><text x="1032" y="62">Informatique</text>
+    <rect x="1200" y="44" width="22" height="22" rx="4" fill="#F0F9FF" stroke="#0369A1" stroke-width="2.5"/><text x="1232" y="62">Électronique</text>
+    <rect x="1400" y="44" width="22" height="22" rx="4" fill="#FFF7ED" stroke="#B45309" stroke-width="2.5"/><text x="1432" y="62">Mécanique</text>
   </g>
 
-  <g transform="translate(1240, 45)">
-    <rect x="0" y="0" width="300" height="44" rx="8" fill="#1E293B" fill-opacity="0.8" stroke="#64748B" stroke-width="1" />
-    <text x="18" y="27" fill="#38BDF8" class="mono" font-size="12" font-weight="bold">IMT MINES ALÈS • CEA MARCOULE</text>
+  <!-- Poste de pilotage -->
+  <rect x="500" y="130" width="600" height="90" rx="14" fill="#EEF2FF" stroke="#4F46E5" stroke-width="3"/>
+  <text x="800" y="166" font-size="24" font-weight="700" text-anchor="middle">Poste de pilotage</text>
+  <text x="800" y="200" font-size="22" fill="#1E293B" text-anchor="middle">Application de pilotage Java (MVC), liaison Wi-Fi</text>
+
+  <!-- liaison poste / Raspberry Pi -->
+  <line x1="800" y1="222" x2="800" y2="298" stroke="#0F172A" stroke-width="3" marker-start="url(#ink)" marker-end="url(#ink)"/>
+  <g font-size="22" fill="#1E293B">
+    <text x="770" y="252" text-anchor="end">UDP : commandes, vidéo, télémétrie</text>
+    <text x="770" y="282" text-anchor="end">trames TLV</text>
+    <text x="830" y="252">TCP : configuration, journaux, rapports</text>
+    <text x="830" y="282">heartbeat 100 ms, mode dégradé</text>
   </g>
 
-  <!-- ================= LIAISONS & BUS PRINCIPAUX ================= -->
-
-  <!-- Liaison TCP/IP entre Niveau Haut et Raspberry Pi -->
-  <path d="M 800 240 L 800 350" stroke="#38BDF8" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrowCyan)" />
-  <rect x="710" y="275" width="180" height="30" rx="6" fill="#0F172A" stroke="#0284C7" stroke-width="1.5" />
-  <text x="800" y="295" fill="#38BDF8" class="mono" font-size="11" font-weight="bold" text-anchor="middle">LIAISON TCP/IP GIGABIT</text>
-
-  <!-- Ligne BUS CAN (Distribution temps réel vers capteurs et actionneurs) -->
-  <path d="M 800 500 L 800 560" stroke="#F59E0B" stroke-width="3" />
-  <path d="M 400 560 L 1200 560" stroke="#F59E0B" stroke-width="3" />
-  <rect x="720" y="545" width="160" height="30" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1.5" />
-  <text x="800" y="565" fill="#F59E0B" class="mono" font-size="11" font-weight="bold" text-anchor="middle">BUS CAN 2.0B</text>
-
-  <!-- Ligne vers bloc capteurs (gauche) -->
-  <path d="M 400 560 L 400 610" stroke="#F59E0B" stroke-width="3" marker-end="url(#arrowAmber)" />
-
-  <!-- Ligne vers bloc actionneurs (droite) -->
-  <path d="M 1200 560 L 1200 610" stroke="#F59E0B" stroke-width="3" marker-end="url(#arrowAmber)" />
-
-  <!-- ================= 1. NIVEAU HAUT : POSTE DE PILOTAGE CEA ================= -->
-  <g transform="translate(460, 110)">
-    <rect x="0" y="0" width="680" height="130" rx="14" fill="url(#cardGrad)" stroke="#38BDF8" stroke-width="2" />
-    <path d="M 0 14 Q 0 0 14 0 L 666 0 Q 680 0 680 14 L 680 34 L 0 34 Z" fill="#0284C7" />
-    <text x="24" y="23" fill="#FFFFFF" class="mono" font-size="12" font-weight="bold">NIVEAU 1 • SUPERVISION DISTANTE (POSTE DE CONTRÔLE DU CEA)</text>
-    
-    <g transform="translate(24, 48)">
-      <rect x="0" y="0" width="190" height="64" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-      <text x="14" y="24" fill="#F8FAFC" class="sans" font-size="13" font-weight="bold">IHM de Pilotage Tactile</text>
-      <text x="14" y="44" fill="#94A3B8" class="sans" font-size="11">Visualisation télémétrique</text>
-    </g>
-
-    <g transform="translate(230, 48)">
-      <rect x="0" y="0" width="200" height="64" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-      <text x="14" y="24" fill="#F8FAFC" class="sans" font-size="13" font-weight="bold">Serveur Télémétrie</text>
-      <text x="14" y="44" fill="#94A3B8" class="sans" font-size="11">Enregistrement spectres γ</text>
-    </g>
-
-    <g transform="translate(450, 48)">
-      <rect x="0" y="0" width="205" height="64" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-      <text x="14" y="24" fill="#F8FAFC" class="sans" font-size="13" font-weight="bold">Arrêt d'Urgence Sécurisé</text>
-      <text x="14" y="44" fill="#94A3B8" class="sans" font-size="11">Liaison filaire secourue</text>
-    </g>
+  <!-- Raspberry Pi 5 -->
+  <rect x="500" y="300" width="600" height="160" rx="14" fill="#EEF2FF" stroke="#4F46E5" stroke-width="3"/>
+  <text x="800" y="334" font-size="24" font-weight="700" text-anchor="middle">Raspberry Pi 5 — calculateur</text>
+  <g font-size="22" fill="#1E293B" text-anchor="middle">
+    <text x="800" y="366">Raspberry Pi OS Lite 64 bits, logiciel embarqué Java (MVC)</text>
+    <text x="800" y="396">Base SQLite sur SSD NVMe, rapports PDF et JSON</text>
+    <text x="800" y="426">IHM locale réduite</text>
   </g>
 
-  <!-- ================= 2. NIVEAU INTERMÉDIAIRE : UNITÉ CENTRALE SPOC ================= -->
-  <g transform="translate(440, 350)">
-    <rect x="0" y="0" width="720" height="150" rx="16" fill="url(#cardGrad)" stroke="#10B981" stroke-width="2.5" />
-    <path d="M 0 16 Q 0 0 16 0 L 704 0 Q 720 0 720 16 L 720 36 L 0 36 Z" fill="#059669" />
-    <text x="24" y="25" fill="#FFFFFF" class="mono" font-size="12" font-weight="bold">NIVEAU 2 • UNITÉ CENTRALE EMBARQUÉE (RASPBERRY PI 5 + LINUX RT)</text>
+  <!-- Caméra de profondeur -->
+  <rect x="1180" y="310" width="360" height="130" rx="14" fill="#F0F9FF" stroke="#0369A1" stroke-width="3"/>
+  <text x="1360" y="346" font-size="24" font-weight="700" text-anchor="middle">Caméra de profondeur</text>
+  <g font-size="22" fill="#1E293B" text-anchor="middle">
+    <text x="1360" y="380">Intel RealSense D435</text>
+    <text x="1360" y="410">choix en cours de révision</text>
+  </g>
+  <line x1="1178" y1="380" x2="1104" y2="380" stroke="#0369A1" stroke-width="3" marker-end="url(#zeus)"/>
+  <text x="1140" y="368" font-size="22" fill="#0369A1" text-anchor="middle">USB</text>
 
-    <g transform="translate(24, 52)">
-      <!-- Sous-module 1 : Orchestrateur -->
-      <g transform="translate(0, 0)">
-        <rect x="0" y="0" width="210" height="80" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-        <text x="14" y="26" fill="#F8FAFC" class="sans" font-size="13" font-weight="bold">Noyau Linux Temps Réel</text>
-        <text x="14" y="46" fill="#38BDF8" class="mono" font-size="11">• Ordonnancement RT</text>
-        <text x="14" y="64" fill="#94A3B8" class="sans" font-size="11">• Gestion des défaillances</text>
-      </g>
+  <!-- liaison SPI -->
+  <line x1="800" y1="462" x2="800" y2="518" stroke="#0F172A" stroke-width="3" marker-start="url(#ink)" marker-end="url(#ink)"/>
+  <text x="830" y="497" font-size="22" fill="#1E293B">SPI</text>
+  <text x="770" y="497" font-size="22" fill="#1E293B" text-anchor="end">consignes et mesures</text>
 
-      <!-- Sous-module 2 : Algorithme de régulation -->
-      <g transform="translate(230, 0)">
-        <rect x="0" y="0" width="220" height="80" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-        <text x="14" y="26" fill="#F8FAFC" class="sans" font-size="13" font-weight="bold">Régulateur Numérique PID</text>
-        <text x="14" y="46" fill="#10B981" class="mono" font-size="11">• Asservissement temps réel</text>
-        <text x="14" y="64" fill="#94A3B8" class="sans" font-size="11">• Compensation angulaire ±1°</text>
-      </g>
-
-      <!-- Sous-module 3 : Passerelle Bus -->
-      <g transform="translate(470, 0)">
-        <rect x="0" y="0" width="200" height="80" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-        <text x="14" y="26" fill="#F8FAFC" class="sans" font-size="13" font-weight="bold">Contrôleur CAN &amp; I2C</text>
-        <text x="14" y="46" fill="#F59E0B" class="mono" font-size="11">• Bus CAN MCP2515</text>
-        <text x="14" y="64" fill="#94A3B8" class="sans" font-size="11">• Isolation galvanique</text>
-      </g>
-    </g>
+  <!-- ESP32 temps réel -->
+  <rect x="500" y="520" width="600" height="110" rx="14" fill="#F0F9FF" stroke="#0369A1" stroke-width="3"/>
+  <text x="800" y="554" font-size="24" font-weight="700" text-anchor="middle">ESP32 — microcontrôleur temps réel</text>
+  <g font-size="22" fill="#1E293B" text-anchor="middle">
+    <text x="800" y="586">FreeRTOS, boucle de régulation 500 Hz</text>
+    <text x="800" y="614">asservissement de l'orientation (parallélisme)</text>
   </g>
 
-  <!-- ================= 3. NIVEAU BAS GAUCHE : CHAÎNE DE DÉTECTION ================= -->
-  <g transform="translate(80, 610)">
-    <rect x="0" y="0" width="620" height="230" rx="14" fill="url(#cardGrad)" stroke="#38BDF8" stroke-width="2" />
-    <path d="M 0 14 Q 0 0 14 0 L 606 0 Q 620 0 620 14 L 620 34 L 0 34 Z" fill="#0284C7" />
-    <text x="20" y="23" fill="#FFFFFF" class="mono" font-size="12" font-weight="bold">NIVEAU 3A • INSTRUMENTATION MULTI-CAPTEURS (PÔLE ZEUS)</text>
+  <!-- Capteurs -->
+  <rect x="1180" y="490" width="360" height="160" rx="14" fill="#F0F9FF" stroke="#0369A1" stroke-width="3"/>
+  <text x="1360" y="526" font-size="24" font-weight="700" text-anchor="middle">Capteurs</text>
+  <g font-size="22" fill="#1E293B" text-anchor="middle">
+    <text x="1360" y="560">IMU Bosch BMI270</text>
+    <text x="1360" y="590">potentiomètres, fins de course</text>
+    <text x="1360" y="620">liaisons I2C et 1-Wire</text>
+  </g>
+  <line x1="1178" y1="575" x2="1104" y2="575" stroke="#0369A1" stroke-width="3" marker-end="url(#zeus)"/>
 
-    <g transform="translate(20, 50)">
-      <!-- Capteur ToF Laser -->
-      <rect x="0" y="0" width="275" height="75" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-      <circle cx="20" cy="24" r="8" fill="#0284C7" />
-      <text x="36" y="28" fill="#F8FAFC" class="sans" font-size="12" font-weight="bold">4x Télémètres ToF Laser</text>
-      <text x="14" y="48" fill="#38BDF8" class="mono" font-size="10">VL53L8CX • Temps de vol</text>
-      <text x="14" y="65" fill="#94A3B8" class="sans" font-size="10">Maintien distance d = 50 ± 1 mm</text>
+  <!-- ESP32 vers drivers -->
+  <line x1="640" y1="632" x2="640" y2="688" stroke="#0F172A" stroke-width="3" marker-end="url(#ink)"/>
+  <text x="660" y="668" font-size="22" fill="#1E293B">commande</text>
 
-      <!-- Caméra 3D -->
-      <rect x="300" y="0" width="280" height="75" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-      <circle cx="320" cy="24" r="8" fill="#818CF8" />
-      <text x="336" y="28" fill="#F8FAFC" class="sans" font-size="12" font-weight="bold">Caméra Intel RealSense D415</text>
-      <text x="314" y="48" fill="#818CF8" class="mono" font-size="10">Profondeur infrarouge stéréo</text>
-      <text x="314" y="65" fill="#94A3B8" class="sans" font-size="10">Cartographie paroi &amp; obstacles</text>
-
-      <!-- Centrale Inertielle IMU -->
-      <rect x="0" y="90" width="275" height="75" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-      <circle cx="20" cy="114" r="8" fill="#10B981" />
-      <text x="36" y="118" fill="#F8FAFC" class="sans" font-size="12" font-weight="bold">Centrale Inertielle (IMU)</text>
-      <text x="14" y="138" fill="#10B981" class="mono" font-size="10">BNO055 • Fusion capteurs</text>
-      <text x="14" y="155" fill="#94A3B8" class="sans" font-size="10">Mesure d'assiette &amp; vibrations</text>
-
-      <!-- Capteurs de contact & butées -->
-      <rect x="300" y="90" width="280" height="75" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-      <circle cx="320" cy="114" r="8" fill="#EF4444" />
-      <text x="336" y="118" fill="#F8FAFC" class="sans" font-size="12" font-weight="bold">Butées &amp; Fins de Course</text>
-      <text x="314" y="138" fill="#EF4444" class="mono" font-size="10">Capteurs optiques inductifs</text>
-      <text x="314" y="155" fill="#94A3B8" class="sans" font-size="10">Sécurité matérielle fin de rail</text>
-    </g>
+  <!-- Drivers -->
+  <rect x="500" y="690" width="280" height="130" rx="14" fill="#F0F9FF" stroke="#0369A1" stroke-width="3"/>
+  <text x="640" y="724" font-size="24" font-weight="700" text-anchor="middle">Drivers</text>
+  <g font-size="22" fill="#1E293B" text-anchor="middle">
+    <text x="640" y="758">DM542 × 2 : pas à pas</text>
+    <text x="640" y="788">BTS7960 × 2 : vérins</text>
   </g>
 
-  <!-- ================= 4. NIVEAU BAS DROITE : ACTIONNEURS & PUISSANCE ================= -->
-  <g transform="translate(900, 610)">
-    <rect x="0" y="0" width="620" height="230" rx="14" fill="url(#cardGrad)" stroke="#F59E0B" stroke-width="2" />
-    <path d="M 0 14 Q 0 0 14 0 L 606 0 Q 620 0 620 14 L 620 34 L 0 34 Z" fill="#D97706" />
-    <text x="20" y="23" fill="#FFFFFF" class="mono" font-size="12" font-weight="bold">NIVEAU 3B • ACTIONNEURS &amp; ÉNERGIE (HÉPHAÏSTOS &amp; ZEUS)</text>
-
-    <g transform="translate(20, 50)">
-      <!-- Chariot Rollon -->
-      <rect x="0" y="0" width="275" height="75" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-      <circle cx="20" cy="24" r="8" fill="#F59E0B" />
-      <text x="36" y="28" fill="#F8FAFC" class="sans" font-size="12" font-weight="bold">Module Linéaire Rollon</text>
-      <text x="14" y="48" fill="#F59E0B" class="mono" font-size="10">Vis à billes • Module linéaire</text>
-      <text x="14" y="65" fill="#94A3B8" class="sans" font-size="10">Emport ≤ 50 kg</text>
-
-      <!-- Servomoteur Brushless -->
-      <rect x="300" y="0" width="280" height="75" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-      <circle cx="320" cy="24" r="8" fill="#38BDF8" />
-      <text x="336" y="28" fill="#F8FAFC" class="sans" font-size="12" font-weight="bold">Motorisation &amp; Drivers</text>
-      <text x="314" y="48" fill="#38BDF8" class="mono" font-size="10">Moteurs Brushless asservis</text>
-      <text x="314" y="65" fill="#94A3B8" class="sans" font-size="10">Codeur incrémental</text>
-
-      <!-- Orientation angulaire -->
-      <rect x="0" y="90" width="275" height="75" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-      <circle cx="20" cy="114" r="8" fill="#10B981" />
-      <text x="36" y="118" fill="#F8FAFC" class="sans" font-size="12" font-weight="bold">Tête Orientable Rotule</text>
-      <text x="14" y="138" fill="#10B981" class="mono" font-size="10">Défaut de paroi ± 5° compensé</text>
-      <text x="14" y="155" fill="#94A3B8" class="sans" font-size="10">Alignement sonde parallèle</text>
-
-      <!-- Batterie Li-Ion & BMS -->
-      <rect x="300" y="90" width="280" height="75" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
-      <circle cx="320" cy="114" r="8" fill="#0284C7" />
-      <text x="336" y="118" fill="#F8FAFC" class="sans" font-size="12" font-weight="bold">Distribution Électrique</text>
-      <text x="314" y="138" fill="#0284C7" class="mono" font-size="10">Batterie Li-Ion avec BMS</text>
-      <text x="314" y="155" fill="#94A3B8" class="sans" font-size="10">Autonomie ≥ 8 h • Redondance secteur</text>
-    </g>
+  <!-- Actionneurs -->
+  <line x1="782" y1="755" x2="818" y2="755" stroke="#0F172A" stroke-width="3" marker-end="url(#ink)"/>
+  <rect x="820" y="690" width="280" height="130" rx="14" fill="#FFF7ED" stroke="#B45309" stroke-width="3"/>
+  <text x="960" y="724" font-size="24" font-weight="700" text-anchor="middle">Actionneurs</text>
+  <g font-size="22" fill="#1E293B" text-anchor="middle">
+    <text x="960" y="758">Nema 23, Nema 17 (codeur)</text>
+    <text x="960" y="788">2 vérins électriques</text>
   </g>
 
+  <!-- Alimentation -->
+  <rect x="60" y="300" width="380" height="250" rx="14" fill="#F0F9FF" stroke="#0369A1" stroke-width="3"/>
+  <text x="250" y="334" font-size="24" font-weight="700" text-anchor="middle">Alimentation 24 V</text>
+  <g font-size="22" fill="#1E293B" text-anchor="middle">
+    <text x="250" y="366">secteur 24 V ou batterie</text>
+    <text x="250" y="396">LiFePO4 24 V / 100 Ah avec BMS</text>
+    <text x="250" y="426">dimensionnée pour 8 h (non mesuré)</text>
+    <text x="250" y="470">distribution en étoile</text>
+    <text x="250" y="500">24 V / 5 V / 3,3 V</text>
+  </g>
+  <g stroke="#0369A1" stroke-width="3" fill="none" marker-end="url(#zeus)">
+    <line x1="442" y1="380" x2="496" y2="380"/>
+    <line x1="442" y1="575" x2="496" y2="575"/>
+    <path d="M250,552 L250,755 L496,755"/>
+  </g>
+  <g font-size="22" fill="#0369A1" text-anchor="middle">
+    <text x="469" y="368">5 V</text>
+    <text x="469" y="563">3,3 V</text>
+    <text x="300" y="743">24 V</text>
+  </g>
+
+  <!-- Chaîne de sécurité -->
+  <rect x="1180" y="690" width="360" height="130" rx="14" fill="#FFFFFF" stroke="#0F172A" stroke-width="3"/>
+  <text x="1360" y="724" font-size="24" font-weight="700" text-anchor="middle">Chaîne de sécurité</text>
+  <g font-size="22" fill="#1E293B" text-anchor="middle">
+    <text x="1360" y="758">arrêt d'urgence</text>
+    <text x="1360" y="788">coupure de la puissance</text>
+  </g>
+  <line x1="1178" y1="755" x2="1104" y2="755" stroke="#0F172A" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#ink)"/>
+
+  <!-- pied -->
+  <line x1="60" y1="860" x2="1540" y2="860" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="60" y="886" font-size="22" font-weight="700" fill="#0369A1">Conception détaillée, juin 2026 — en révision</text>
+  <text x="1540" y="886" font-size="22" fill="#1E293B" text-anchor="end">MinOtech SPOC · CEA Marcoule × IMT Mines Alès</text>
 </svg>

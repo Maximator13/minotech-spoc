@@ -1,5 +1,7 @@
 // Source unique du contenu du site MinOtech SPOC. Données pures : aucune fonction, aucun DOM.
 // Les chiffres affichés sont ceux du CDC CEA ; tout statut 'valide' exige une preuve (evidence).
+// Faits techniques : architecture de conception détaillée (juin 2026), en révision depuis le 15/09/2026,
+// source : voir v2/README.md. Choix de conception, jamais résultats.
 
 export const siteConfig = {
   baseUrl: 'https://maximator13.github.io/minotech-spoc',
@@ -14,44 +16,51 @@ export const siteConfig = {
 export const STATUS = {
   'a-venir': { label: 'À venir', tone: 'muted' },
   'en-cours': { label: 'En cours', tone: 'warn' },
-  'valide': { label: 'Validé', tone: 'ok' },
+  'realise': { label: 'Réalisé', tone: 'ok' }, // période terminée, livrable daté (jalons) ; pas une validation
+  'valide': { label: 'Validé', tone: 'ok' }, // preuve référencée obligatoire ; jamais pour les jalons
 };
 
 const poles = {
   heph: {
     key: 'heph',
     name: 'HÉPHAÏSTOS',
-    domain: 'Pôle Mécanique & Cinématique',
+    domain: 'Pôle Mécanique',
     logo: 'assets/logos/logo_hephaistos-320.webp',
     lead: 'Maelan HERVÉ',
-    summary: "Conception de la cinématique, du module de translation et des interfaces décontaminables.",
+    summary: 'Conception du bâti, du module linéaire, du module de planéité, des préhenseurs et de l\'interface porteur.',
     highlights: [
-      'Module linéaire de translation Rollon à vis à billes',
-      'Rotule de parallélisme multi-angles pour les configurations sol, mur et plafond',
-      'Préhenseurs modulaires adaptés aux géométries cubiques et cylindriques des sondes',
+      'Module linéaire de 300 mm conçu par l\'équipe : vis Igus drylin, rails inox HPC, moteur Nema 23 et courroie',
+      'Module de planéité à deux vérins électriques et rotule, orientation réglable ± 5°',
+      'Trois préhenseurs interchangeables pour sondes carrées et cylindriques',
+      'Fixation porteur symétrique : sol, mur et plafond',
     ],
   },
   zeus: {
     key: 'zeus',
     name: 'ZEUS',
-    domain: 'Pôle Électronique & Énergie',
+    domain: 'Pôle Électronique',
     logo: 'assets/logos/logo_zeus-320.webp',
     lead: 'Zinedine DJADJA',
-    summary: "Architecture de puissance, contrôle temps réel microcontrôlé et instrumentation multi-capteurs ToF.",
+    summary: 'Architecture électrique, cartes, capteurs et contrôle temps réel.',
     highlights: [
-      'Capteurs ToF laser et caméra de profondeur pour mesurer la distance à la paroi',
-      'Contrôle temps réel sur microcontrôleur STM32, interfacé sur bus CAN et I2C',
+      'Raspberry Pi 5 et microcontrôleur ESP32 temps réel reliés par SPI',
+      'Caméra de profondeur Intel RealSense D435 et centrale inertielle BMI270 (choix en révision)',
+      'Distribution 24 V / 5 V / 3,3 V, batterie LiFePO4 24 V dimensionnée pour 8 h',
+      'Deux schémas KiCad : alimentation, capteurs et drivers',
     ],
   },
   hermes: {
     key: 'hermes',
     name: 'HERMES',
-    domain: 'Pôle Informatique, Réseaux & Supervision',
+    domain: 'Pôle Informatique',
     logo: 'assets/logos/logo_hermes-320.webp',
     lead: 'Noémie BEKHIT',
-    summary: "Système embarqué, réseau de transmission et poste de pilotage IHM pour le CEA.",
+    summary: 'Logiciel embarqué, échanges réseau, base de données et poste de pilotage.',
     highlights: [
-      'Interface Homme-Machine (IHM) de supervision et de téléopération pour les opérateurs',
+      'Logiciel embarqué et application de pilotage en Java sur Raspberry Pi OS',
+      'Échanges Wi-Fi UDP et TCP, trames TLV, heartbeat 100 ms',
+      'Base SQLite sur SSD, rapports PDF et JSON',
+      'Choix du système, de la base et de l\'environnement (Java ou ROS) en révision',
     ],
   },
 };
@@ -60,67 +69,79 @@ const member = (name, role, pole, demiGroupe, isLead, slug, bio) =>
   ({ name, role, pole, demiGroupe, isLead, photo: 'assets/team/' + slug, bio });
 
 const team = [
-  member('Evan MENANTEAU', 'Chef de Projet MinOtech', 'zeus', 'G1', false, 'evan_menanteau',
-    "Pilote l'ensemble du projet MinOtech, planifie les jalons semestriels, coordonne les 3 pôles techniques et assure la relation avec la maîtrise d'ouvrage du CEA Marcoule."),
-  member('Adrien MEGEVAND', 'Responsable IVTV & Pôle Électronique', 'zeus', 'G1', false, 'adrien_megevand',
-    "Responsable des protocoles d'Intégration, Vérification, Test et Validation (IVTV). Suit la conformité du prototype aux exigences du cahier des charges CEA."),
+  member('Evan MENANTEAU', 'Chef de projet (3A) · Pôle Électronique', 'zeus', 'G1', false, 'evan_menanteau',
+    'Coordonne les trois pôles, le calendrier des périodes et la relation avec le CEA Marcoule. Membre du pôle électronique depuis la 2e année.'),
+  member('Adrien MEGEVAND', 'Responsable IVTV · Pôle Électronique', 'zeus', 'G1', false, 'adrien_megevand',
+    'Responsable de l\'intégration, de la vérification, des tests et de la validation depuis la 2e année : matrice de conformité, plan de validation et banc d\'essai.'),
   member('Mathurin GAZEAU', 'Ingénieur Électronique & Puissance', 'zeus', 'G1', false, 'mathurin_elec',
-    'Intégration et conditionnement des capteurs ToF laser, filtrage des bus I2C/CAN et interfaçage avec les microcontrôleurs STM32.'),
+    'A rejoint l\'équipe en septembre 2026. Participe à la révision de la conception électronique (cartes, capteurs) en vue de la fabrication.'),
   member('Noémie BEKHIT', 'Cheffe du Pôle Informatique & IHM', 'hermes', 'G1', true, 'noemie_info',
-    "Coordonne l'architecture logicielle sur Raspberry Pi 5, la supervision temps réel, la communication réseau avec l'IHM et l'acquisition des sondes radiologiques."),
+    'A rejoint MinOtech en septembre 2026. Pilote la révision des choix logiciels (système, base de données, Java ou ROS) et le poste de pilotage.'),
   member('Zinedine DJADJA', 'Chef du Pôle Électronique & Capteurs', 'zeus', 'G1', true, 'zineddine_djadja',
-    "Pilote la conception de l'architecture électrique en étoile, la régulation des tensions, les schémas de câblage PCB et la sécurité de puissance."),
+    'Dirige le pôle électronique depuis la 2e année : distribution 24 V / 5 V / 3,3 V, schémas KiCad des cartes alimentation et capteurs, chaîne de sécurité.'),
   member('Alexis FOURQUIER', 'Ingénieur Réseaux & Systèmes Embarqués', 'hermes', 'G1', false, 'alexis_info',
-    "Conçoit l'Interface Homme-Machine (IHM) tactile de téléopération pour les opérateurs du CEA et l'affichage des cartographies radiologiques."),
+    'A rejoint l\'équipe en septembre 2026. Travaille sur les échanges réseau et le poste de pilotage.'),
   member('Marouane EL ALAOUI', 'Ingénieur Mécanique & Cinématique', 'heph', 'G1', false, 'marouanne_meca',
-    'Conçoit les préhenseurs modulaires adaptés aux géométries cylindriques et cubiques des sondes radiologiques, avec des surfaces décontaminables.'),
+    'A rejoint l\'équipe en septembre 2026. Participe à la finalisation des préhenseurs et des interfaces mécaniques en 3e année.'),
   member('Maelan HERVÉ', 'Chef du Pôle Mécanique & CAO', 'heph', 'G2', true, 'maelan_herve',
-    "Supervise la cinématique, le module linéaire de translation Rollon, la modélisation CAO et l'intégration mécanique sur le robot porteur."),
-  member('Kilian PARISI', 'Ingénieur Mécanique & Guidage Rollon', 'heph', 'G2', false, 'killian_parisi',
-    'Fabrication atelier, usinage des préhenseurs de capteurs et montage du module linéaire de translation Rollon.'),
-  member('Victor GOYA', 'Ingénieur Mécanique & Intégration', 'heph', 'G2', false, 'victor_goya',
-    'Modélisation cinématique, dimensionnement des liaisons rotules, simulation des contraintes de charge utile et intégration sur porteur chenillé.'),
-  member('Maxime COQUET', 'Ingénieur Mécanique & Préhenseurs', 'heph', 'G2', false, 'maxime_meca',
-    "Développe le banc d'essai, ajuste les guidages Rollon et instrumente les futurs essais de charge."),
-  member('Thomas TAGLIALAVORE MORENO', 'Ingénieur Électronique & ToF', 'zeus', 'G2', false, 'thomas_taglialavore',
-    "Architecture de puissance, dimensionnement du pack batterie Li-Ion pour l'autonomie demandée par le CDC et sécurités matérielles."),
-  member('Léo RÉGINARD', 'Ingénieur Informatique & Linux RT', 'hermes', 'G2', false, 'leo_reginard',
-    "Développe les algorithmes d'asservissement en boucle fermée pour le maintien de la distance et du parallélisme à la paroi."),
+    'Dirige le pôle mécanique depuis la 2e année : auteur des mises en plan de juin 2026, module linéaire, module de planéité et demandes de devis.'),
+  member('Kilian PARISI', 'Ingénieur Mécanique · Responsable achats (3A)', 'heph', 'G2', false, 'killian_parisi',
+    'Vérification des mises en plan, guidage linéaire ; suit les devis et les achats de l\'équipe en 3e année.'),
+  member('Victor GOYA', 'Ingénieur Mécanique · Responsable banc d\'essais (3A)', 'heph', 'G2', false, 'victor_goya',
+    'Recherche et intégration des composants du commerce, vérification des plans ; responsable du banc d\'essais modulaire sol, mur et plafond.'),
+  member('Maxime COQUET', 'Ingénieur Mécanique · Responsable communication (3A)', 'heph', 'G2', false, 'maxime_meca',
+    'A rejoint l\'équipe en septembre 2026. Responsable de la communication (site, publications par période) ; participe à la fabrication.'),
+  member('Thomas TAGLIALAVORE MORENO', 'Ingénieur Électronique & Alimentation', 'zeus', 'G2', false, 'thomas_taglialavore',
+    'Membre du Groupe 10 depuis la 1re année ; chaîne d\'alimentation 24 V et sécurités matérielles.'),
+  member('Léo RÉGINARD', 'Ingénieur Informatique · Responsable planning (3A)', 'hermes', 'G2', false, 'leo_reginard',
+    'Chef de projet de l\'équipe en 2e année ; architecture logicielle embarquée et diagrammes UML ; tient le planning en 3e année.'),
   member('Melvin PATEUX', 'Ingénieur Informatique & Télémétrie', 'hermes', 'G2', false, 'melvin_pateux',
-    'Configure Linux temps réel sur Raspberry Pi 5, met en place les serveurs de communication TCP/IP et la télémétrie des mesures.'),
+    'Responsable du pôle informatique en 2e année ; logiciel embarqué Java, échanges UDP et TCP, télémétrie et dépôt Git.'),
 ];
 
 // Numéros de besoin repris du CDC (docs/extracted_pdf.txt).
 // La charge utile (masse du capteur, jusqu'à 50 kg) est dans la section « performances » du CDC,
-// dont la numérotation repart de BESOIN. 1 : id sans numéro pour éviter le doublon avec le BESOIN. 1 initial.
+// dont la numérotation repart de BESOIN. 1 : l'équipe la numérote B32 pour éviter le doublon avec le BESOIN. 1 initial
+// (le B32 du CDC lui-même concerne l'environnement).
+// `method` : méthode de vérification prévue au plan de validation, jamais une preuve ; `evidence` reste vide tant qu'aucun essai n'a eu lieu.
 const requirements = [
-  { id: 'B29', label: 'Consigne de distance capteur / surface', value: '5 mm – 30 cm' },
-  { id: 'B30', label: 'Précision de distance', value: '± 1 mm' },
-  { id: 'B31', label: 'Parallélisme', value: '± 1°' },
-  { id: 'CDC-charge', label: 'Charge utile', value: '≤ 50 kg' },
-  { id: 'B14', label: 'Autonomie continue', value: '≥ 8 h' },
+  { id: 'B29', label: 'Consigne de distance capteur / surface', value: '5 mm – 30 cm', method: 'Consignes 5 mm et 300 mm, mesure au pied à coulisse' },
+  { id: 'B30', label: 'Précision de distance', value: '± 1 mm', method: 'Mesure au pied à coulisse numérique' },
+  { id: 'B31', label: 'Parallélisme', value: '± 1°', method: 'Deux distances aux extrémités, angle déduit' },
+  { id: 'B32', label: 'Charge utile (numérotation équipe)', value: '≤ 50 kg', method: 'Pesée des maquettes de capteurs' },
+  { id: 'B14', label: 'Autonomie continue', value: '≥ 8 h', method: 'Suivi de la charge batterie sur la séance d\'essai' },
 ].map((r) => ({ ...r, source: 'CDC CEA', status: 'a-venir', evidence: '' }));
 
+// 'realise' / « Soutenu » = période terminée et livrable daté ; 'valide' est réservé aux preuves référencées.
 const milestones = [
-  { sem: 'Semestre 7.1', title: 'Analyse du besoin & cahier des charges',
-    desc: 'Analyse des exigences du CEA Marcoule, étude fonctionnelle et choix conceptuels.' },
-  { sem: 'Semestre 7.2', title: 'Revue de conception préliminaire',
-    desc: 'Soutenance de conception préliminaire devant le jury CEA et académique : architecture en étoile et rotule 3 axes.' },
-  { sem: 'Semestre 8.1', title: 'Conception détaillée & approvisionnement',
-    desc: "Plans d'usinage, sélection des actionneurs, schémas de PCB et architecture logicielle TCP/IP sur Raspberry Pi 5." },
-  { sem: 'Semestre 8.2', title: 'Intégration & prototype',
-    desc: "Assemblage en laboratoire, réglage des asservissements, essais d'emport et validation du prototype." },
-].map((m) => ({ ...m, status: 'a-venir' }));
+  { sem: '1re année 2024-2025', title: 'Besoin, exigences et architectures', status: 'realise', statusLabel: 'Réalisé',
+    desc: 'Cahier des charges du CEA (octobre 2024), référentiel d\'exigences, analyse de mission et architectures fonctionnelles et logiques ; soutenance en juin 2025.' },
+  { sem: 'Période 7.1 · oct.-nov. 2025', title: 'Du système global au démonstrateur', status: 'realise', statusLabel: 'Réalisé',
+    desc: 'Matrice de conformité du démonstrateur, plan de validation, cahier des charges du banc d\'essai, premières revues techniques.' },
+  { sem: 'Période 7.2 · déc. 2025-févr. 2026', title: 'Conception préliminaire', status: 'realise', statusLabel: 'Soutenu',
+    desc: 'Choix du calculateur et du microcontrôleur temps réel, module linéaire de 300 mm, planéité par vérins et rotule ; dossier et soutenance le 6 février 2026.' },
+  { sem: 'Période 8.1 · mars-avril 2026', title: 'Conception détaillée', status: 'realise', statusLabel: 'Réalisé',
+    desc: 'Bâti optimisé à deux vérins et rotule, bilan de puissance, schémas KiCad initiés, réseau UDP et TCP, base SQLite.' },
+  { sem: 'Période 8.2 · mai-juin 2026', title: 'Dossier de conception détaillée', status: 'realise', statusLabel: 'Soutenu',
+    desc: 'Mises en plan, nomenclature, flyer et dossier rendus le 22 juin ; soutenance le 25 juin 2026.' },
+  { sem: 'Période 9.1 · sept.-oct. 2026', title: 'Préparation de la fabrication', status: 'en-cours', statusLabel: 'En cours',
+    desc: 'Révision de la conception, références des pièces, demandes de devis et achats, maquette 3D.' },
+  { sem: 'Période 9.2 · nov.-déc. 2026', title: 'Fabrication et intégration', status: 'a-venir', statusLabel: 'À venir',
+    desc: 'Fabrication, intégration, premiers essais et banc d\'essais.' },
+  { sem: 'Période 9.3 · févr.-mars 2027', title: 'Essais et qualification', status: 'a-venir', statusLabel: 'À venir',
+    desc: 'Essais, qualification opérationnelle avec le CEA et dossier de livraison ; soutenance en mars 2027.' },
+];
 
+// Exemples de capteurs cités par le CEA : familles seulement, aucune masse ni performance (le CDC n'en donne pas par capteur).
 const sensors = [
-  { name: 'Sonde Alpha ZnS(Ag)', type: 'Rayonnement alpha', target: 'Uranium & actinides',
-    desc: "Scintillateur sulfure de zinc activé à l'argent. Exige une faible distance sans contact mécanique pour éviter l'abrasion." },
-  { name: 'Sonde NaI(Tl)', type: 'Rayonnement gamma', target: 'Spectrométrie isotopique',
-    desc: "Cristal d'iodure de sodium dopé au thallium sous blindage en plomb : c'est le capteur le plus lourd que SPOC doit porter." },
-  { name: 'Sonde EJ200', type: 'Rayonnement bêta', target: 'Contamination surfacique',
-    desc: 'Scintillateur plastique à réponse rapide, adapté aux balayages continus le long des parois de démantèlement.' },
-  { name: 'Détecteur BEGe', type: 'Spectrométrie haute résolution', target: "Raies d'énergie précises",
-    desc: 'Germanium ultra-pur pour une discrimination isotopique fine dans les spectres radiologiques complexes.' },
+  { name: 'Sonde Alpha ZnS(Ag)', type: 'Rayonnement alpha',
+    desc: 'Scintillateur ZnS(Ag) cité par le CDC pour la mesure du rayonnement alpha.' },
+  { name: 'Sonde NaI(Tl)', type: 'Rayonnement gamma',
+    desc: 'Scintillateur NaI(Tl) cité par le CDC pour la mesure du rayonnement gamma.' },
+  { name: 'Sonde EJ200', type: 'Rayonnement bêta',
+    desc: 'Scintillateur EJ200 cité par le CDC pour la mesure du rayonnement bêta.' },
+  { name: 'Détecteur BEGe', type: 'Spectrométrie',
+    desc: 'Détecteur BEGe cité par le CDC pour la spectrométrie des rayonnements.' },
 ];
 
 const media = {
@@ -133,21 +154,21 @@ const media = {
       sizes: '(min-width: 1152px) 1104px, 100vw',
       width: 1600,
       height: 1200,
-      alt: "Photo de groupe des 14 élèves-ingénieurs de l'équipe MinOtech",
+      alt: 'Photo de groupe des 14 apprentis ingénieurs de l\'équipe MinOtech',
     },
     robot: {
       type: 'svg',
       src: 'assets/tech/prototype_robot_schema.svg',
       width: 1600,
       height: 900,
-      alt: 'Schéma du prototype SPOC : module de translation, rotule et sonde face à la paroi',
+      alt: 'Schéma du SPOC : module linéaire de 300 mm, module de planéité à deux vérins et rotule, préhenseur et caméra de profondeur face à la paroi',
     },
     system: {
       type: 'svg',
       src: 'assets/tech/architecture_systeme_schema.svg',
       width: 1600,
       height: 900,
-      alt: "Schéma de l'architecture du système : capteurs, contrôleur temps réel, unité embarquée et poste de pilotage",
+      alt: 'Schéma de l\'architecture : caméra et capteurs, ESP32 temps réel, Raspberry Pi 5, liaison Wi-Fi UDP/TCP et poste de pilotage',
     },
   },
   solution: {
@@ -155,7 +176,7 @@ const media = {
     src: 'assets/tech/architecture_systeme_schema.svg',
     width: 1600,
     height: 900,
-    alt: "Schéma de l'architecture de la solution SPOC, du capteur au poste de pilotage",
+    alt: 'Schéma de l\'architecture : caméra et capteurs, ESP32 temps réel, Raspberry Pi 5, liaison Wi-Fi UDP/TCP et poste de pilotage',
   },
 };
 
