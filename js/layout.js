@@ -62,7 +62,7 @@ function headerHTML(page) {
   return `
   <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-6">
     <a href="index.html" class="flex items-center gap-2.5 shrink-0" aria-label="MinOtech SPOC, accueil">
-      <svg class="w-7 h-7 text-accent" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="6"/><path d="M9 22V10l7 8 7-8v12"/></svg>
+      <svg class="w-7 h-7 text-accent" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 49V19l19 21 19-21v30"/><circle cx="32" cy="52.5" r="3.6" fill="currentColor" stroke="none"/></svg>
       <span class="font-bold tracking-tight">MinOtech</span>
       <span class="font-mono text-[11px] text-ink-2/70 dark:text-silver/60 border-l border-line dark:border-line-dark pl-2.5">SPOC</span>
     </a>
@@ -87,7 +87,7 @@ function footerHTML(page, dark) {
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid gap-8 md:grid-cols-[1fr_auto] items-start">
       <div>
         <div class="flex items-center gap-2.5">
-          <svg class="w-6 h-6 text-accent" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="6"/><path d="M9 22V10l7 8 7-8v12"/></svg>
+          <svg class="w-6 h-6 text-accent" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 49V19l19 21 19-21v30"/><circle cx="32" cy="52.5" r="3.6" fill="currentColor" stroke="none"/></svg>
           <span class="font-bold tracking-tight">MinOtech</span>
           <span class="font-mono text-[11px] text-ink-2/70 dark:text-silver/60">SPOC</span>
         </div>
