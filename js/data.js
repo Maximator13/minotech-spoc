@@ -6,7 +6,7 @@
 export const siteConfig = {
   baseUrl: 'https://maximator13.github.io/minotech-spoc',
   contactEmail: '',
-  linkedinUrl: '',
+  linkedinUrl: 'https://www.linkedin.com/company/minotech-spoc/',
   formspreeId: '',
   analytics: { enabled: false, src: '', domain: '' },
   searchConsoleToken: '',
