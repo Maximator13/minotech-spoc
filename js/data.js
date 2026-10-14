@@ -149,11 +149,11 @@ const media = {
   showcase: {
     team: {
       type: 'image',
-      src: 'assets/photo-groupe-960.webp',
-      srcset: 'assets/photo-groupe-480.webp 480w, assets/photo-groupe-960.webp 960w, assets/photo-groupe-1200.webp 1200w, assets/photo-groupe-1600.webp 1600w',
+      src: 'assets/photo-groupe-169-960.webp',
+      srcset: 'assets/photo-groupe-169-480.webp 480w, assets/photo-groupe-169-960.webp 960w, assets/photo-groupe-169-1200.webp 1200w',
       sizes: '(min-width: 1152px) 1104px, 100vw',
-      width: 1600,
-      height: 1200,
+      width: 1200,
+      height: 675,
       alt: 'Photo de groupe des 14 apprentis ingénieurs de l\'équipe MinOtech',
     },
     robot: {

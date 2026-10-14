@@ -10,7 +10,7 @@
   <rect x="0.5" y="0.5" width="1599" height="899" rx="24" fill="#FFFFFF" stroke="#E2E8F0"/>
 
   <!-- en-tête -->
-  <text x="60" y="64" font-size="34" font-weight="700">SPOC — vue de côté du système de positionnement</text>
+  <text x="60" y="64" font-size="34" font-weight="700">SPOC : vue de côté du système de positionnement</text>
   <text x="60" y="100" font-size="22" fill="#1E293B">Schéma de principe, non à l'échelle. Interface porteur à gauche, paroi à inspecter à droite.</text>
   <text x="60" y="130" font-size="22" fill="#1E293B">La caméra cartographie la surface, le calculateur positionne la sonde, seule l'orientation est asservie en boucle fermée.</text>
 
@@ -108,6 +108,6 @@
 
   <!-- pied -->
   <line x1="60" y1="860" x2="1540" y2="860" stroke="#E2E8F0" stroke-width="1.5"/>
-  <text x="60" y="886" font-size="22" font-weight="700" fill="#B45309">Conception détaillée, juin 2026 — en révision</text>
+  <text x="60" y="886" font-size="22" font-weight="700" fill="#B45309">Conception détaillée, juin 2026, en révision</text>
   <text x="1540" y="886" font-size="22" fill="#1E293B" text-anchor="end">MinOtech SPOC · CEA Marcoule × IMT Mines Alès</text>
 </svg>

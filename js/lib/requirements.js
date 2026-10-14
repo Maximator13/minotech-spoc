@@ -31,7 +31,7 @@ export const renderRequirementRows = (reqs) => reqs.map((r) => `
   <td class="py-4 pr-4 font-mono text-sm font-semibold whitespace-nowrap">${esc(r.value)}</td>
   <td class="py-4 pr-4 text-sm text-ink-2 dark:text-silver">${esc(r.source)}</td>
   <td class="py-4 pr-4">${pill(effective(r))}</td>
-  <td class="py-4 text-sm text-ink-2 dark:text-silver">${r.evidence ? esc(r.evidence) : '<span aria-hidden="true">—</span><span class="sr-only">Aucune preuve à ce jour</span>'}</td>
+  <td class="py-4 text-sm text-ink-2 dark:text-silver">${r.evidence ? esc(r.evidence) : 'Aucune à ce jour'}</td>
 </tr>`).join('');
 
 // Frise de 8 périodes : 2 colonnes dès md, 4 dès lg.

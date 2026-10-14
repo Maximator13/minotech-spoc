@@ -3,8 +3,10 @@ import { projectData } from '../data.js';
 import { initMotion, initHeroSchema } from '../motion.js';
 import { renderMedia } from '../lib/media.js';
 import { esc } from '../lib/html.js';
+import { initParticles } from '../particles.js';
 
 mountLayout();
+initParticles();
 initMotion(); // avant tout rendu : une erreur plus bas ne doit pas laisser la page masquée
 
 const { media, poles, team } = projectData;
@@ -103,3 +105,35 @@ $('poles-grid').innerHTML = Object.values(poles).map((p) => {
 }).join('');
 
 initHeroSchema($('hero-schema'));
+
+// Portraits : deux rangées (aria-hidden, la liste nominative est sur equipe.html), dupliquées pour couvrir la largeur.
+const half = Math.ceil(team.length / 2);
+document.querySelectorAll('[data-drift]').forEach((row, r) => {
+  const people = r ? team.slice(half) : team.slice(0, half);
+  row.innerHTML = [...people, ...people].map((m) => `<img src="${esc(m.photo)}-120.webp" srcset="${esc(m.photo)}-120.webp 120w, ${esc(m.photo)}-200.webp 200w" sizes="112px" width="400" height="400" alt="" loading="lazy" decoding="async" class="w-28 h-36 shrink-0 rounded-2xl object-cover">`).join('');
+});
+
+// Défilement lié au scroll, à la manière des pages produit : les rangées glissent en sens opposés,
+// le panneau du showcase grandit jusqu'à sa taille réelle pendant que la photo se dézoome.
+if (!calm()) {
+  const rows = [...document.querySelectorAll('[data-drift]')], grow = document.querySelector('[data-grow]');
+  const clamp = (x) => Math.max(0, Math.min(1, x));
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const h = innerHeight;
+    rows.forEach((row) => {
+      const r = row.parentElement.getBoundingClientRect();
+      const p = clamp((h - r.top) / (h + r.height)), dir = Number(row.dataset.drift);
+      row.style.transform = `translate3d(${(dir > 0 ? -p : p - 1) * 320}px,0,0)`;
+    });
+    if (grow) {
+      const p = clamp((h - grow.getBoundingClientRect().top) / (h * 0.75)), img = grow.querySelector('img');
+      grow.style.transform = `scale(${(0.88 + 0.12 * p).toFixed(4)})`;
+      if (img) img.style.transform = `scale(${(1.12 - 0.12 * p).toFixed(4)})`;
+    }
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener('resize', update);
+  update();
+}

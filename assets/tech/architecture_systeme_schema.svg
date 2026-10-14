@@ -37,7 +37,7 @@
 
   <!-- Raspberry Pi 5 -->
   <rect x="500" y="300" width="600" height="160" rx="14" fill="#EEF2FF" stroke="#4F46E5" stroke-width="3"/>
-  <text x="800" y="334" font-size="24" font-weight="700" text-anchor="middle">Raspberry Pi 5 — calculateur</text>
+  <text x="800" y="334" font-size="24" font-weight="700" text-anchor="middle">Raspberry Pi 5 : calculateur</text>
   <g font-size="22" fill="#1E293B" text-anchor="middle">
     <text x="800" y="366">Raspberry Pi OS Lite 64 bits, logiciel embarqué Java (MVC)</text>
     <text x="800" y="396">Base SQLite sur SSD NVMe, rapports PDF et JSON</text>
@@ -61,7 +61,7 @@
 
   <!-- ESP32 temps réel -->
   <rect x="500" y="520" width="600" height="110" rx="14" fill="#F0F9FF" stroke="#0369A1" stroke-width="3"/>
-  <text x="800" y="554" font-size="24" font-weight="700" text-anchor="middle">ESP32 — microcontrôleur temps réel</text>
+  <text x="800" y="554" font-size="24" font-weight="700" text-anchor="middle">ESP32 : microcontrôleur temps réel</text>
   <g font-size="22" fill="#1E293B" text-anchor="middle">
     <text x="800" y="586">FreeRTOS, boucle de régulation 500 Hz</text>
     <text x="800" y="614">asservissement de l'orientation (parallélisme)</text>
@@ -130,6 +130,6 @@
 
   <!-- pied -->
   <line x1="60" y1="860" x2="1540" y2="860" stroke="#E2E8F0" stroke-width="1.5"/>
-  <text x="60" y="886" font-size="22" font-weight="700" fill="#0369A1">Conception détaillée, juin 2026 — en révision</text>
+  <text x="60" y="886" font-size="22" font-weight="700" fill="#0369A1">Conception détaillée, juin 2026, en révision</text>
   <text x="1540" y="886" font-size="22" fill="#1E293B" text-anchor="end">MinOtech SPOC · CEA Marcoule × IMT Mines Alès</text>
 </svg>

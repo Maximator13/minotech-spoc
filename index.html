@@ -6,13 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; base-uri 'self'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>MinOtech · SPOC — Positionnement de sondes à 1 mm en milieu nucléaire</title>
+<title>MinOtech · SPOC : positionnement de sondes à 1 mm en milieu nucléaire</title>
 <meta name="description" content="Projet SPOC : concevoir un module mécatronique pour tenir une sonde radiologique à distance et parallèle d'une paroi contaminée, selon l'exigence CEA de ± 1 mm. Équipe MinOtech, IMT Mines Alès × CEA Marcoule.">
 <link rel="canonical" href="https://maximator13.github.io/minotech-spoc/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="MinOtech · SPOC">
-<meta property="og:title" content="MinOtech · SPOC — Positionnement de sondes à 1 mm en milieu nucléaire">
+<meta property="og:title" content="MinOtech · SPOC : positionnement de sondes à 1 mm en milieu nucléaire">
 <meta property="og:description" content="Projet SPOC : concevoir un module mécatronique pour tenir une sonde radiologique à distance et parallèle d'une paroi contaminée, selon l'exigence CEA de ± 1 mm. Équipe MinOtech, IMT Mines Alès × CEA Marcoule.">
 <meta property="og:url" content="https://maximator13.github.io/minotech-spoc/">
 <meta property="og:image" content="https://maximator13.github.io/minotech-spoc/og-image.jpg">
@@ -34,97 +34,154 @@
 <noscript><nav aria-label="Navigation principale" class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap gap-4 text-sm"><a href="index.html">Accueil</a><a href="projet.html">Projet</a><a href="simulateur.html">Simulateur</a><a href="equipe.html">Équipe</a><a href="apropos.html">À propos</a><a href="contact.html">Contact</a></nav></noscript>
 <main id="main">
 
-  <!-- HERO -->
-  <section class="relative overflow-hidden">
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-16 grid lg:grid-cols-[1.1fr_1fr] gap-12 items-center">
-      <div>
-        <p class="font-mono text-xs tracking-wider text-accent uppercase">Projet fil rouge mécatronique par apprentissage, 3e année · CEA Marcoule × IMT Mines Alès</p>
-        <h1 class="mt-5 text-4xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight leading-[1.05] text-balance">
-          Positionner une sonde à 1&nbsp;mm près.
-          <span class="block mt-1 text-ink-2/50 dark:text-silver/45">Sans jamais toucher la paroi.</span>
-        </h1>
-        <p class="mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-ink-2 dark:text-silver">
-          SPOC positionne une sonde radiologique jusqu'à 50&nbsp;kg face aux parois contaminées, pour la cartographie des installations nucléaires en démantèlement : une caméra de profondeur cartographie la surface ; le calculateur positionne la sonde à la consigne ; seule l'orientation (parallélisme) est asservie en boucle fermée.
-        </p>
-        <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-          <a href="projet.html" class="group inline-flex items-center gap-2 px-5 py-3 rounded-full bg-accent text-white text-sm font-semibold hover:bg-sky-800 dark:text-night dark:hover:bg-sky-300 transition">
-            Découvrir le projet
-            <svg class="w-4 h-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-          <a href="simulateur.html" class="text-sm font-semibold underline decoration-line dark:decoration-line-dark underline-offset-4 hover:decoration-accent">ou essayer le simulateur</a>
-        </div>
+  <!-- HERO : le nuage de particules (particles.js) est le visuel -->
+  <section data-shape="0" data-pos="center" class="relative min-h-[calc(100svh-4rem)] flex items-center justify-center text-center">
+    <div class="intro max-w-5xl mx-auto px-4 sm:px-6 py-16">
+      <p class="font-mono text-xs tracking-wider text-accent uppercase">CEA Marcoule × IMT Mines Alès · 2024 – 2027</p>
+      <h1 class="mt-6 text-5xl sm:text-7xl xl:text-8xl font-extrabold tracking-tighter leading-[0.95] text-balance">
+        À 1&nbsp;mm près.
+        <span class="block mt-2 text-ink-2/50 dark:text-silver/45">Sans jamais toucher.</span>
+      </h1>
+      <p class="mt-8 mx-auto max-w-2xl text-lg sm:text-xl leading-relaxed text-ink-2 dark:text-silver">
+        SPOC positionne une sonde radiologique jusqu'à 50&nbsp;kg face aux parois contaminées des installations nucléaires en démantèlement.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+        <a href="projet.html" class="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-white text-sm font-semibold hover:bg-sky-800 active:scale-[0.97] dark:text-night dark:hover:bg-sky-300 transition">
+          Découvrir le projet
+          <svg class="w-4 h-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="simulateur.html" class="text-sm font-semibold underline decoration-line dark:decoration-line-dark underline-offset-4 hover:decoration-accent">ou essayer le simulateur</a>
       </div>
-
-      <figure class="relative rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-5 sm:p-6">
-        <figcaption class="flex justify-between font-mono text-[11px] text-ink-2/70 dark:text-silver/60">
-          <span>FIG. 01 — PRINCIPE</span><span>ÉCH. INDICATIVE</span>
-        </figcaption>
-        <svg id="hero-schema" viewBox="0 0 400 260" class="mt-3 w-full h-auto" role="img" aria-label="Schéma : la sonde est maintenue à une consigne de distance de la paroi, entre 5 mm et 30 cm, avec une précision de plus ou moins 1 mm et un parallélisme de plus ou moins 1 degré.">
-          <defs>
-            <pattern id="h" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="currentColor" stroke-width="1.2" class="text-ink-2/40 dark:text-silver/30"/></pattern>
-            <marker id="a" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="fill-accent" d="M0 0L10 5L0 10z"/></marker>
-          </defs>
-          <!-- porteur + rail -->
-          <rect x="16" y="110" width="44" height="60" rx="4" class="fill-none stroke-ink-2 dark:stroke-silver" stroke-width="1.5"/>
-          <text x="38" y="186" text-anchor="middle" class="fill-ink-2/70 dark:fill-silver/60 font-mono" font-size="9">PORTEUR</text>
-          <line id="rail" x1="60" y1="140" x2="230" y2="140" class="stroke-ink-2 dark:stroke-silver" stroke-width="5" stroke-linecap="round"/>
-          <text x="140" y="128" text-anchor="middle" class="fill-ink-2/70 dark:fill-silver/60 font-mono" font-size="9">MODULE LINÉAIRE</text>
-          <!-- sonde (déplacée par l'animation) -->
-          <g id="probe">
-            <rect class="fill-accent stroke-accent" x="230" y="92" width="44" height="96" rx="6" fill-opacity=".12" stroke-width="1.8"/>
-            <text x="252" y="144" text-anchor="middle" class="fill-accent font-mono" font-size="9" font-weight="600">SONDE</text>
-            <text x="252" y="206" text-anchor="middle" class="fill-ink-2/70 dark:fill-silver/60 font-mono" font-size="9">≤ 50 kg</text>
-            <line class="stroke-accent" x1="274" y1="60" x2="274" y2="88" stroke-width="1" stroke-dasharray="2 2"/>
-          </g>
-          <!-- paroi -->
-          <rect x="330" y="20" width="34" height="220" fill="url(#h)"/>
-          <line x1="330" y1="20" x2="330" y2="240" class="stroke-ink dark:stroke-white" stroke-width="2"/>
-          <text x="347" y="252" text-anchor="middle" class="fill-ink-2/70 dark:fill-silver/60 font-mono" font-size="9">PAROI</text>
-          <!-- cote distance -->
-          <line class="stroke-accent" x1="330" y1="60" x2="330" y2="88" stroke-width="1" stroke-dasharray="2 2"/>
-          <line class="stroke-accent" id="cote" x1="278" y1="70" x2="326" y2="70" stroke-width="1.2" marker-start="url(#a)" marker-end="url(#a)"/>
-          <text x="302" y="58" text-anchor="middle" class="fill-accent font-mono" font-size="10" font-weight="600">d ± 1 mm</text>
-          <!-- lecture temps réel -->
-          <text id="readout" x="20" y="34" class="fill-ink dark:fill-white font-mono" font-size="12" font-weight="600">d = 50,0 mm</text>
-          <circle class="fill-ok" id="lockDot" cx="24" cy="50" r="3.5"/>
-          <text id="lockTxt" x="33" y="53" class="fill-ink-2/70 dark:fill-silver/60 font-mono" font-size="9">DANS LA TOLÉRANCE</text>
-          <!-- parallélisme -->
-          <path class="stroke-accent" d="M296 196 A 34 34 0 0 1 300 168" fill="none" stroke-width="1.2" marker-end="url(#a)"/>
-          <text x="300" y="222" text-anchor="middle" class="fill-accent font-mono" font-size="10" font-weight="600">∥ ± 1°</text>
-        </svg>
-        <p class="mt-2 font-mono text-[11px] text-ink-2/70 dark:text-silver/60">Consigne d réglable de 5 mm à 30 cm — CDC CEA, besoins 29 à 31</p>
-      </figure>
     </div>
+    <svg class="scroll-hint absolute bottom-6 left-1/2 -translate-x-1/2 w-5 h-5 text-ink-2/50 dark:text-silver/45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
   </section>
 
   <!-- EXIGENCES CLÉS -->
-  <section aria-labelledby="req-title" data-count-root class="border-y border-line dark:border-line-dark">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+  <section aria-labelledby="req-title" data-count-root data-shape="0" data-pos="center" data-dim class="reveal">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
       <h2 id="req-title" class="sr-only">Exigences clés du cahier des charges</h2>
-      <dl class="grid grid-cols-2 lg:grid-cols-4 gap-y-8">
+      <dl class="stagger grid grid-cols-2 lg:grid-cols-4 gap-y-10">
         <div class="pr-6 lg:border-r border-line dark:border-line-dark">
           <dt class="font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Précision distance</dt>
-          <dd class="mt-2 font-mono text-3xl sm:text-4xl font-semibold">± <span data-to="1">1</span> mm</dd>
+          <dd class="mt-2 font-mono text-4xl sm:text-5xl font-semibold tracking-tight">± <span data-to="1">1</span> mm</dd>
         </div>
         <div class="px-0 lg:px-6 lg:border-r border-line dark:border-line-dark">
           <dt class="font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Parallélisme</dt>
-          <dd class="mt-2 font-mono text-3xl sm:text-4xl font-semibold">± <span data-to="1">1</span>°</dd>
+          <dd class="mt-2 font-mono text-4xl sm:text-5xl font-semibold tracking-tight">± <span data-to="1">1</span>°</dd>
         </div>
         <div class="pr-6 lg:px-6 lg:border-r border-line dark:border-line-dark">
           <dt class="font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Charge utile</dt>
-          <dd class="mt-2 font-mono text-3xl sm:text-4xl font-semibold">≤ <span data-to="50">50</span> kg</dd>
+          <dd class="mt-2 font-mono text-4xl sm:text-5xl font-semibold tracking-tight">≤ <span data-to="50">50</span> kg</dd>
         </div>
         <div class="lg:pl-6">
           <dt class="font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Autonomie</dt>
-          <dd class="mt-2 font-mono text-3xl sm:text-4xl font-semibold">≥ <span data-to="8">8</span> h</dd>
+          <dd class="mt-2 font-mono text-4xl sm:text-5xl font-semibold tracking-tight">≥ <span data-to="8">8</span> h</dd>
         </div>
       </dl>
-      <p class="mt-6 text-xs text-ink-2/70 dark:text-silver/60">Exigences issues du cahier des charges CEA Marcoule. Statut de vérification détaillé sur la page Projet.</p>
+      <p class="mt-8 text-xs text-ink-2/70 dark:text-silver/60">Exigences issues du cahier des charges CEA Marcoule. Statut de vérification détaillé sur la page Projet.</p>
+    </div>
+  </section>
+
+  <!-- PRINCIPE -->
+  <section aria-labelledby="principe-title" data-shape="0" data-pos="center" data-dim>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 grid lg:grid-cols-[1fr_1.1fr] gap-12 items-center">
+      <div class="reveal stagger">
+        <p class="font-mono text-sm text-accent">01</p>
+        <h2 id="principe-title" class="mt-3 text-3xl sm:text-4xl font-bold tracking-tight md:whitespace-nowrap">Le principe</h2>
+        <p class="mt-5 text-base sm:text-lg leading-relaxed text-ink-2 dark:text-silver">Une caméra de profondeur cartographie la surface ; le calculateur positionne la sonde à la consigne, réglable de 5&nbsp;mm à 30&nbsp;cm ; seule l'orientation (parallélisme) est asservie en boucle fermée.</p>
+      </div>
+      <div class="reveal">
+        <figure class="relative rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-5 sm:p-6">
+          <figcaption class="flex justify-between font-mono text-[11px] text-ink-2/70 dark:text-silver/60">
+            <span>FIG. 01 · PRINCIPE</span><span>ÉCH. INDICATIVE</span>
+          </figcaption>
+          <svg id="hero-schema" viewBox="0 0 400 260" class="mt-3 w-full h-auto" role="img" aria-label="Schéma : la sonde est maintenue à une consigne de distance de la paroi, entre 5 mm et 30 cm, avec une précision de plus ou moins 1 mm et un parallélisme de plus ou moins 1 degré.">
+            <defs>
+              <pattern id="h" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="currentColor" stroke-width="1.2" class="text-ink-2/40 dark:text-silver/30"/></pattern>
+              <marker id="a" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="fill-accent" d="M0 0L10 5L0 10z"/></marker>
+            </defs>
+            <!-- porteur + rail -->
+            <rect x="16" y="110" width="44" height="60" rx="4" class="fill-none stroke-ink-2 dark:stroke-silver" stroke-width="1.5"/>
+            <text x="38" y="186" text-anchor="middle" class="fill-ink-2/70 dark:fill-silver/60 font-mono" font-size="9">PORTEUR</text>
+            <line id="rail" x1="60" y1="140" x2="230" y2="140" class="stroke-ink-2 dark:stroke-silver" stroke-width="5" stroke-linecap="round"/>
+            <text x="140" y="128" text-anchor="middle" class="fill-ink-2/70 dark:fill-silver/60 font-mono" font-size="9">MODULE LINÉAIRE</text>
+            <!-- sonde (déplacée par l'animation) -->
+            <g id="probe">
+              <rect class="fill-accent stroke-accent" x="230" y="92" width="44" height="96" rx="6" fill-opacity=".12" stroke-width="1.8"/>
+              <text x="252" y="144" text-anchor="middle" class="fill-accent font-mono" font-size="9" font-weight="600">SONDE</text>
+              <text x="252" y="206" text-anchor="middle" class="fill-ink-2/70 dark:fill-silver/60 font-mono" font-size="9">≤ 50 kg</text>
+              <line class="stroke-accent" x1="274" y1="60" x2="274" y2="88" stroke-width="1" stroke-dasharray="2 2"/>
+            </g>
+            <!-- paroi -->
+            <rect x="330" y="20" width="34" height="220" fill="url(#h)"/>
+            <line x1="330" y1="20" x2="330" y2="240" class="stroke-ink dark:stroke-white" stroke-width="2"/>
+            <text x="347" y="252" text-anchor="middle" class="fill-ink-2/70 dark:fill-silver/60 font-mono" font-size="9">PAROI</text>
+            <!-- cote distance -->
+            <line class="stroke-accent" x1="330" y1="60" x2="330" y2="88" stroke-width="1" stroke-dasharray="2 2"/>
+            <line class="stroke-accent" id="cote" x1="278" y1="70" x2="326" y2="70" stroke-width="1.2" marker-start="url(#a)" marker-end="url(#a)"/>
+            <text x="302" y="58" text-anchor="middle" class="fill-accent font-mono" font-size="10" font-weight="600">d ± 1 mm</text>
+            <!-- lecture temps réel -->
+            <text id="readout" x="20" y="34" class="fill-ink dark:fill-white font-mono" font-size="12" font-weight="600">d = 50,0 mm</text>
+            <circle class="fill-ok" id="lockDot" cx="24" cy="50" r="3.5"/>
+            <text id="lockTxt" x="33" y="53" class="fill-ink-2/70 dark:fill-silver/60 font-mono" font-size="9">DANS LA TOLÉRANCE</text>
+            <!-- parallélisme -->
+            <path class="stroke-accent" d="M296 196 A 34 34 0 0 1 300 168" fill="none" stroke-width="1.2" marker-end="url(#a)"/>
+            <text x="300" y="222" text-anchor="middle" class="fill-accent font-mono" font-size="10" font-weight="600">∥ ± 1°</text>
+          </svg>
+          <p class="mt-2 font-mono text-[11px] text-ink-2/70 dark:text-silver/60">Consigne d réglable de 5 mm à 30 cm (CDC CEA, besoins 29 à 31)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPITRES : chaque étape donne sa forme au nuage de particules -->
+  <section aria-labelledby="chap-title" class="max-w-6xl mx-auto px-4 sm:px-6">
+    <h2 id="chap-title" class="sr-only">SPOC, module par module</h2>
+    <div data-shape="1" data-pos="right" class="min-h-[85svh] flex items-center py-16">
+      <div class="reveal stagger max-w-md">
+        <p class="font-mono text-xs uppercase tracking-wider text-heph">Héphaïstos · Mécanique</p>
+        <h3 class="mt-4 text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.05] text-balance">Déplacer 50&nbsp;kg au millimètre.</h3>
+        <p class="mt-5 text-base sm:text-lg leading-relaxed text-ink-2 dark:text-silver">Un module linéaire de 300&nbsp;mm, un module de planéité à deux vérins et une rotule qui oriente la sonde de ± 5°, trois préhenseurs interchangeables. Au sol, au mur ou au plafond.</p>
+      </div>
+    </div>
+    <div data-shape="2" data-pos="right" class="min-h-[85svh] flex items-center py-16">
+      <div class="reveal stagger max-w-md">
+        <p class="font-mono text-xs uppercase tracking-wider text-heph">Héphaïstos · Motorisation</p>
+        <h3 class="mt-4 text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.05] text-balance">Pas à pas, vers la consigne.</h3>
+        <p class="mt-5 text-base sm:text-lg leading-relaxed text-ink-2 dark:text-silver">Moteur pas à pas Nema 23, vis Igus drylin et rails inox : la sonde avance vers la paroi jusqu'à la distance demandée.</p>
+      </div>
+    </div>
+    <div data-shape="3" data-pos="right" class="min-h-[85svh] flex items-center py-16">
+      <div class="reveal stagger max-w-md">
+        <p class="font-mono text-xs uppercase tracking-wider text-zeus">Zeus · Électronique et capteurs</p>
+        <h3 class="mt-4 text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.05] text-balance">Voir la paroi avant de l'approcher.</h3>
+        <p class="mt-5 text-base sm:text-lg leading-relaxed text-ink-2 dark:text-silver">Une caméra de profondeur cartographie la surface. Une centrale inertielle et les capteurs des vérins asservissent le parallélisme à ± 1°.</p>
+      </div>
+    </div>
+    <div data-shape="4" data-pos="right" class="min-h-[85svh] flex items-center py-16">
+      <div class="reveal stagger max-w-md">
+        <p class="font-mono text-xs uppercase tracking-wider text-hermes">Hermès · Informatique</p>
+        <h3 class="mt-4 text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.05] text-balance">Un signal toutes les 100&nbsp;ms.</h3>
+        <p class="mt-5 text-base sm:text-lg leading-relaxed text-ink-2 dark:text-silver">Raspberry Pi 5 pour le calcul, ESP32 pour le temps réel. Commandes en UDP, rapports en TCP : si le signal de vie manque, SPOC passe en mode dégradé.</p>
+      </div>
+    </div>
+    <p class="pb-16 text-xs text-ink-2/70 dark:text-silver/60">Conception détaillée de juin 2026, en révision avant la fabrication.</p>
+  </section>
+
+  <!-- ÉQUIPE : deux rangées de portraits qui glissent avec le scroll (home.js) -->
+  <section aria-labelledby="crew-title" data-shape="0" data-pos="center" data-dim class="py-20 overflow-hidden">
+    <div class="reveal max-w-6xl mx-auto px-4 sm:px-6 text-center">
+      <h2 id="crew-title" class="text-4xl sm:text-6xl font-extrabold tracking-tight md:whitespace-nowrap">14 apprentis ingénieurs.</h2>
+      <p class="mt-4 text-lg text-ink-2 dark:text-silver">Trois pôles, deux demi-groupes, un seul système.</p>
+    </div>
+    <div class="mt-12 space-y-4" aria-hidden="true">
+      <div data-drift="1" class="flex gap-4 w-max will-change-transform"></div>
+      <div data-drift="-1" class="flex gap-4 w-max will-change-transform"></div>
     </div>
   </section>
 
   <!-- SHOWCASE (onglets : home.js) -->
-  <section aria-labelledby="show-title" class="reveal max-w-6xl mx-auto px-4 sm:px-6 py-20">
+  <section aria-labelledby="show-title" data-shape="0" data-pos="center" data-dim class="reveal max-w-6xl mx-auto px-4 sm:px-6 py-20">
     <div class="flex items-baseline gap-4">
       <span class="font-mono text-sm text-accent">02</span>
       <h2 id="show-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Le projet en trois vues</h2>
@@ -134,7 +191,7 @@
       <button type="button" role="tab" id="tab-robot" data-tab="robot" aria-selected="false" aria-controls="show-panel" tabindex="-1" class="px-4 py-2 rounded-full text-sm font-medium">Prototype</button>
       <button type="button" role="tab" id="tab-system" data-tab="system" aria-selected="false" aria-controls="show-panel" tabindex="-1" class="px-4 py-2 rounded-full text-sm font-medium">Architecture</button>
     </div>
-    <div id="show-panel" role="tabpanel" aria-labelledby="tab-team" tabindex="0" class="mt-6 rounded-2xl overflow-hidden border border-line dark:border-line-dark bg-paper dark:bg-card transition-opacity duration-200">
+    <div id="show-panel" role="tabpanel" aria-labelledby="tab-team" tabindex="0" data-grow class="mt-6 will-change-transform rounded-2xl overflow-hidden border border-line dark:border-line-dark bg-paper dark:bg-card transition-opacity duration-200">
       <div id="show-media" class="aspect-[16/9] bg-paper dark:bg-card"><noscript><p class="p-6 text-sm text-ink-2 dark:text-silver">Les vues du projet nécessitent JavaScript. Consultez le <a href="equipe.html" class="underline">trombinoscope</a> de l'équipe.</p></noscript></div>
       <div class="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-line dark:border-line-dark">
         <div>
@@ -151,13 +208,13 @@
   </section>
 
   <!-- PÔLES (rendus par home.js) -->
-  <section aria-labelledby="poles-title" class="reveal border-t border-line dark:border-line-dark">
+  <section aria-labelledby="poles-title" data-shape="0" data-pos="center" data-dim class="reveal border-t border-line dark:border-line-dark">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
       <div class="flex items-baseline gap-4">
         <span class="font-mono text-sm text-accent">03</span>
         <h2 id="poles-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Trois pôles techniques</h2>
       </div>
-      <div id="poles-grid" class="mt-10 grid md:grid-cols-3 gap-px bg-line dark:bg-line-dark border border-line dark:border-line-dark rounded-2xl overflow-hidden"><noscript><p class="bg-paper dark:bg-card p-6 text-sm text-ink-2 dark:text-silver md:col-span-3">Retrouvez le détail des trois pôles techniques sur la page <a href="projet.html" class="underline">Projet</a>.</p></noscript></div>
+      <div id="poles-grid" class="stagger mt-10 grid md:grid-cols-3 gap-px bg-line dark:bg-line-dark border border-line dark:border-line-dark rounded-2xl overflow-hidden"><noscript><p class="bg-paper dark:bg-card p-6 text-sm text-ink-2 dark:text-silver md:col-span-3">Retrouvez le détail des trois pôles techniques sur la page <a href="projet.html" class="underline">Projet</a>.</p></noscript></div>
     </div>
   </section>
 
