@@ -15,7 +15,13 @@ const dialog = $('member-dialog');
 const buttons = [...document.querySelectorAll('[data-filter]')];
 let opener = null;
 
-$('team-photo').innerHTML = renderMedia({ ...media.showcase.team, sizes: '(min-width: 944px) 896px, 100vw' }); // conteneur max-w-4xl
+// Photo entière en 4:3 (l'accueil garde le recadrage 16:9, plus léger) ; conteneur max-w-4xl
+$('team-photo').innerHTML = renderMedia({
+  ...media.showcase.team,
+  src: 'assets/photo-groupe-960.webp',
+  srcset: 'assets/photo-groupe-480.webp 480w, assets/photo-groupe-960.webp 960w, assets/photo-groupe-1200.webp 1200w, assets/photo-groupe-1600.webp 1600w',
+  sizes: '(min-width: 944px) 896px, 100vw', width: 1600, height: 1200,
+});
 
 function applyFilter(key) {
   if (!FILTERS.some((f) => f.key === key)) key = 'all';

@@ -62,6 +62,7 @@ export function initParticles() {
 
   // Scènes : les sections [data-shape] choisissent la forme, [data-pos="right"] décale le nuage, [data-dim] l'efface en fond.
   const scenes = [...document.querySelectorAll('[data-shape]')];
+  const texts = [...document.querySelectorAll('main :is(h1,h2,h3,p,li,dt,dd,figcaption,blockquote)')];
   const N = innerWidth < 768 ? 1800 : 3600;
   // En attendant les pièces (chargées à part), chaque chapitre garde la nébuleuse.
   const shapes = [nebula(N), nebula(N), nebula(N), nebula(N), nebula(N)];
@@ -165,6 +166,14 @@ export function initParticles() {
       const sz = SIZE[b] * dpr, half = sz / 2;
       for (let i = 0; i < N; i++) if (bucket[i] === b) ctx.fillRect(sx[i] - half, sy[i] - half, sz, sz);
     }
+    // Le nuage reste en arrière-plan : on l'efface sous les blocs de texte visibles.
+    ctx.globalCompositeOperation = 'destination-out'; ctx.globalAlpha = 0.9;
+    for (const el of texts) {
+      const r = el.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > h || !r.width) continue;
+      ctx.fillRect((r.left - 12) * dpr, (r.top - 8) * dpr, (r.width + 24) * dpr, (r.height + 16) * dpr);
+    }
+    ctx.globalCompositeOperation = 'source-over';
     raf = requestAnimationFrame(frame);
   }
 
