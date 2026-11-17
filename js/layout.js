@@ -5,6 +5,7 @@ export const NAV = [
   { href: 'index.html', label: 'Accueil' },
   { href: 'projet.html', label: 'Projet' },
   { href: 'simulateur.html', label: 'Simulateur' },
+  { href: 'cao.html', label: 'Maquette 3D' },
   { href: 'equipe.html', label: 'Équipe' },
   { href: 'apropos.html', label: 'À propos' },
   { href: 'contact.html', label: 'Contact' },

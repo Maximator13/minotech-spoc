@@ -1,0 +1,37 @@
+/* Feuille complète de la seule page Maquette 3D (cao.html), à la place de site.min.css : mêmes règles communes,
+   utilitaires de cette page (en-tête et pied compris) et composants .cao-*. */
+@import "tailwindcss" source(none);
+@import "./base.css";
+@source "../cao.html";
+@source "../js/pages/cao.js";
+@source "../js/layout.js";
+@source "../js/motion.js";
+@source "../js/lib";
+@source "../js/data.js";
+
+/* Maquette 3D (cao.html) : boutons d'outils et lignes de nomenclature, états survol, actif, sélection. */
+.cao-btn { border-radius: .5rem; color: var(--color-ink); transition: background-color .15s, color .15s, border-color .15s; }
+.dark .cao-btn { color: var(--color-silver); }
+.cao-btn:hover:not(:disabled) { background: #F0F9FF; color: var(--color-accent); }
+.dark .cao-btn:hover:not(:disabled) { background: #0C2A44; }
+.cao-btn[aria-pressed="true"], .cao-btn[aria-expanded="true"], .cao-btn[aria-pressed="true"]:hover, .cao-btn[aria-expanded="true"]:hover { background: var(--color-ink); border-color: var(--color-ink); color: #FFFFFF; }
+.dark .cao-btn[aria-pressed="true"], .dark .cao-btn[aria-expanded="true"], .dark .cao-btn[aria-pressed="true"]:hover, .dark .cao-btn[aria-expanded="true"]:hover { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-night); }
+/* Œil de la nomenclature : pièce masquée = icône barrée, sans aplat. */
+.cao-btn.cao-eye[aria-pressed="true"] { background: transparent; border-color: transparent; color: var(--color-accent); }
+.cao-row { border-radius: .5rem; transition: background-color .15s; }
+.cao-row:hover, .cao-row.is-hover { background: #F0F9FF; }
+.dark .cao-row:hover, .dark .cao-row.is-hover { background: #0C2A44; }
+.cao-row[aria-pressed="true"] { background: #E0F2FE; box-shadow: inset 3px 0 0 var(--color-accent); }
+.dark .cao-row[aria-pressed="true"] { background: #0C3354; }
+.cao-progress { appearance: none; height: 6px; border: 0; border-radius: 9999px; overflow: hidden;
+  background: color-mix(in srgb, var(--color-accent) 22%, transparent); }
+.cao-progress::-webkit-progress-bar { background: transparent; }
+.cao-progress::-webkit-progress-value { background: var(--color-accent); border-radius: 9999px; transition: width .2s; }
+.cao-progress::-moz-progress-bar { background: var(--color-accent); border-radius: 9999px; }
+/* Plein écran : la scène (vue et nomenclature) occupe tout l'écran. */
+.cao-stage:fullscreen { background: var(--color-paper); padding: 1rem; grid-template-rows: minmax(0, 1fr); }
+.dark .cao-stage:fullscreen { background: var(--color-night); }
+.cao-stage:fullscreen .cao-frame { height: 100%; max-height: none; }
+@media (min-width: 64rem) { .cao-stage:fullscreen .cao-panel { height: 100%; max-height: none; } }
+/* Focus clavier : jamais sous l'en-tête collant quand le navigateur fait défiler jusqu'au contrôle. */
+.cao-btn, .cao-stage input { scroll-margin-top: 5rem; }

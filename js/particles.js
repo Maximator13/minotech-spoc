@@ -1,6 +1,7 @@
 // Fond de particules 3D (Canvas 2D, sans dépendance : la CSP interdit les CDN).
 // Le nuage change de forme selon la section à l'écran : nébuleuse, puis des pièces tirées de la CAO de SPOC
-// (module de planéité, moteur NEMA 24, détection de surface, Raspberry Pi 5).
+// (module de planéité, moteur NEMA 24, détection de surface, Raspberry Pi 5) : les points se posent sur les arêtes
+// de la pièce, puis son dessin au trait se trace par-dessus.
 // La souris repousse localement les particules. Arrêt si l'onglet est masqué ; rien si « réduire les animations ».
 
 const rnd = Math.random;
@@ -15,12 +16,39 @@ function nebula(n) {
   return out;
 }
 
-// Pièces tirées de la CAO de SPOC (assets/spoc-parts.bin, voir communication/visuels/src/cao) : 4 pièces de
-// 2 400 points, x, y (haut), z en octets signés. Ordre : planéité, moteur NEMA 24, détection de surface, calculateur.
-const PART_BYTES = 2400 * 3;
-function cadPart(raw, n) {
-  const out = new Float32Array(n * 3), k = raw.length;
-  for (let i = 0; i < n * 3; i++) out[i] = (raw[i % k] / 127) * 1.05 + (rnd() - 0.5) * 0.01; // léger flou sur les points repris
+// Pièces tirées de la CAO de SPOC (assets/spoc-edges.bin, voir communication/visuels/src/cao/edges_web.py) :
+// pour chaque pièce, un uint16 (nombre de segments) puis les segments en octets signés (x1 y1 z1 x2 y2 z2), y vers le haut.
+// Ordre : planéité, moteur NEMA 24, détection de surface, calculateur.
+function parseEdges(buf) {
+  const parts = [], v = new DataView(buf);
+  let o = 0;
+  while (o + 2 <= buf.byteLength && parts.length < 4) {
+    const n = v.getUint16(o, true); o += 2;
+    const raw = new Int8Array(buf, o, n * 6); o += n * 6;
+    parts.push(Float32Array.from(raw, (q) => (q / 127) * 1.05));
+  }
+  return parts;
+}
+
+// Points répartis le long des arêtes (au prorata de la longueur) : le nuage se pose sur le dessin de la pièce.
+function pointsOnEdges(seg, n) {
+  const m = seg.length / 6, cum = new Float32Array(m);
+  let tot = 0;
+  for (let k = 0; k < m; k++) {
+    const j = k * 6;
+    tot += Math.hypot(seg[j + 3] - seg[j], seg[j + 4] - seg[j + 1], seg[j + 5] - seg[j + 2]);
+    cum[k] = tot;
+  }
+  const out = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) {
+    const r = rnd() * tot;
+    let lo = 0, hi = m - 1;
+    while (lo < hi) { const mid = (lo + hi) >> 1; if (cum[mid] < r) lo = mid + 1; else hi = mid; }
+    const j = lo * 6, t = rnd(), jit = () => (rnd() - 0.5) * 0.018;
+    out[i * 3] = seg[j] + (seg[j + 3] - seg[j]) * t + jit();
+    out[i * 3 + 1] = seg[j + 1] + (seg[j + 4] - seg[j + 1]) * t + jit();
+    out[i * 3 + 2] = seg[j + 2] + (seg[j + 5] - seg[j + 2]) * t + jit();
+  }
   return out;
 }
 
@@ -37,8 +65,9 @@ export function initParticles() {
   const N = innerWidth < 768 ? 1800 : 3600;
   // En attendant les pièces (chargées à part), chaque chapitre garde la nébuleuse.
   const shapes = [nebula(N), nebula(N), nebula(N), nebula(N), nebula(N)];
-  fetch(new URL('../assets/spoc-parts.bin', import.meta.url)).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(r.status)))
-    .then((buf) => { for (let p = 0; p < 4; p++) shapes[p + 1] = cadPart(new Int8Array(buf, p * PART_BYTES, PART_BYTES), N); })
+  const edges = [null, null, null, null, null]; // dessin au trait de chaque pièce (segments), tracé une fois le nuage posé
+  fetch(new URL('../assets/spoc-edges.bin', import.meta.url)).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(r.status)))
+    .then((buf) => parseEdges(buf).forEach((seg, p) => { edges[p + 1] = seg; shapes[p + 1] = pointsOnEdges(seg, N); }))
     .catch(() => {}); // sans les pièces, le fond reste une nébuleuse
   // Chaque particule rejoint sa cible depuis sa position courante (interruptible), à sa propre vitesse.
   const rate = Float32Array.from({ length: N }, () => 0.035 + rnd() * 0.05);
@@ -48,6 +77,7 @@ export function initParticles() {
   const sx = new Float32Array(N), sy = new Float32Array(N), bucket = new Uint8Array(N);
 
   let w = 0, h = 0, dpr = 1, color = '#0369a1', yaw = 0, tilt = 0.3, raf = 0;
+  let lastShape = -1, since = 0, lineA = 0; // trait : apparaît quand le nuage est posé, s'efface au changement de pièce
   const cam = { x: 0.5, alpha: 0, scale: 0.36 };
   const mouse = { x: -1e4, y: -1e4, nx: 0, ny: 0 };
 
@@ -79,6 +109,10 @@ export function initParticles() {
 
   function frame(now) {
     const s = scene(), T = shapes[s.shape];
+    if (s.shape !== lastShape) { lastShape = s.shape; since = now; }
+    const settle = now - since, wantLines = edges[s.shape] && settle > 900 ? 1 : 0;
+    lineA += (wantLines - lineA) * (wantLines ? 0.05 : 0.3);
+    const draw = Math.max(0, Math.min(1, (settle - 900) / 1600)); // le dessin se trace en 1,6 s
     cam.x += (s.x - cam.x) * 0.06; cam.alpha += (s.alpha - cam.alpha) * 0.05; cam.scale += (s.scale - cam.scale) * 0.06;
     // Balancement de trois quarts face (objectifs, arbre et composants vers le lecteur) plutôt qu'une rotation complète.
     yaw = Math.PI + 0.45 + Math.sin(now * 0.0003) * 0.6 + mouse.nx * 0.5;
@@ -107,9 +141,27 @@ export function initParticles() {
     }
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Dessin au trait de la pièce, tracé progressivement par-dessus le nuage
+    const seg = edges[s.shape];
+    if (seg && lineA > 0.01) {
+      const m = seg.length / 6, P = (x, y, z) => {
+        const x1 = x * cy + z * syw, z1 = -x * syw + z * cy, y2 = y * ct - z1 * st, z2 = y * st + z1 * ct, p = D / Math.max(D + z2, 0.5);
+        return [(cx + x1 * scale * p) * dpr, (cyc - y2 * scale * p) * dpr];
+      };
+      ctx.strokeStyle = color; ctx.lineWidth = 1.05 * dpr; ctx.globalAlpha = 0.55 * lineA * cam.alpha;
+      ctx.beginPath();
+      for (let k = 0; k < m; k++) {
+        const f = Math.min(1, draw * 1.35 - (k / m) * 0.35); // chaque segment démarre un peu après le précédent
+        if (f <= 0) continue;
+        const j = k * 6, [ax, ay] = P(seg[j], seg[j + 1], seg[j + 2]), [bx, by] = P(seg[j + 3], seg[j + 4], seg[j + 5]);
+        ctx.moveTo(ax, ay); ctx.lineTo(ax + (bx - ax) * f, ay + (by - ay) * f);
+      }
+      ctx.stroke();
+    }
     ctx.fillStyle = color;
+    const dust = 1 - 0.45 * lineA; // une fois le trait là, les points restent en poussière autour
     for (let b = 0; b < 3; b++) {
-      ctx.globalAlpha = ALPHA[b] * cam.alpha;
+      ctx.globalAlpha = ALPHA[b] * cam.alpha * dust;
       const sz = SIZE[b] * dpr, half = sz / 2;
       for (let i = 0; i < N; i++) if (bucket[i] === b) ctx.fillRect(sx[i] - half, sy[i] - half, sz, sz);
     }

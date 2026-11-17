@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; base-uri 'self'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Maquette 3D de SPOC | MinOtech</title>
+<meta name="description" content="Manipulez la maquette numérique de SPOC : rotation, éclaté, plan de coupe et nomenclature des douze sous-ensembles du robot de positionnement de sonde.">
+<link rel="canonical" href="https://maximator13.github.io/minotech-spoc/cao.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="MinOtech · SPOC">
+<meta property="og:title" content="Maquette 3D de SPOC | MinOtech">
+<meta property="og:description" content="Manipulez la maquette numérique de SPOC : rotation, éclaté, plan de coupe et nomenclature des douze sous-ensembles du robot de positionnement de sonde.">
+<meta property="og:url" content="https://maximator13.github.io/minotech-spoc/cao.html">
+<meta property="og:image" content="https://maximator13.github.io/minotech-spoc/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#070C18" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/cao.min.css">
+<script src="js/theme-init.js"></script>
+<script type="module" src="js/pages/cao.js"></script>
+</head>
+<body class="bg-paper text-ink dark:bg-night dark:text-silver font-sans antialiased">
+<a href="#main" class="skip-link">Aller au contenu</a>
+<header data-layout="header" class="h-16 border-b border-line dark:border-line-dark"></header>
+<noscript><nav aria-label="Navigation principale" class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap gap-4 text-sm"><a href="index.html">Accueil</a><a href="projet.html">Projet</a><a href="simulateur.html">Simulateur</a><a href="cao.html">Maquette 3D</a><a href="equipe.html">Équipe</a><a href="apropos.html">À propos</a><a href="contact.html">Contact</a></nav></noscript>
+<main id="main">
+
+  <!-- HERO -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-12">
+    <p class="font-mono text-xs tracking-wider text-accent uppercase">Maquette 3D</p>
+    <h1 class="mt-5 max-w-3xl text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.05] text-balance">SPOC, pièce par pièce.</h1>
+    <p class="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-ink-2 dark:text-silver">
+      Faites tourner l'assemblage, écartez ses sous-ensembles, coupez-le d'un plan et parcourez sa nomenclature, comme dans un logiciel de CAO.
+    </p>
+  </section>
+
+  <!-- 01 MAQUETTE -->
+  <section id="maquette" aria-labelledby="maquette-title" class="scroll-mt-20 border-t border-line dark:border-line-dark">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+      <div class="flex items-baseline gap-4">
+        <span class="font-mono text-sm text-accent">01</span>
+        <h2 id="maquette-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">L'assemblage, en douze sous-ensembles</h2>
+      </div>
+
+      <div id="cao-stage" class="cao-stage relative mt-8 grid lg:grid-cols-[minmax(0,1fr)_20rem] gap-6">
+        <!-- Vue 3D -->
+        <div class="cao-frame relative min-w-0 h-[72vh] min-h-[28rem] max-h-[52rem] overflow-hidden rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card">
+          <canvas id="cao-canvas" tabindex="0" role="application" aria-roledescription="visionneuse 3D" aria-describedby="cao-keys" aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown Shift+ArrowLeft Shift+ArrowRight Shift+ArrowUp Shift+ArrowDown F Escape" aria-label="Maquette 3D de SPOC, vue isométrique." class="absolute inset-0 w-full h-full touch-none cursor-grab active:cursor-grabbing focus-visible:outline-offset-[-3px]"></canvas>
+
+          <!-- Barre d'outils -->
+          <div id="cao-tools" hidden class="absolute top-3 left-3 right-3 z-10 flex flex-col items-start gap-2 pointer-events-none">
+            <div role="group" aria-label="Outils de la maquette" class="flex flex-nowrap sm:flex-wrap items-start gap-2 overflow-x-auto sm:overflow-visible max-w-full [&>*]:pointer-events-auto [&>*]:shrink-0">
+              <div role="group" aria-label="Vues" class="flex items-center gap-0.5 p-1 rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card shadow-sm">
+                <button type="button" data-view="iso" aria-label="Vue isométrique" title="Vue isométrique" class="cao-btn w-9 h-9 grid place-items-center">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+                </button>
+                <button type="button" data-view="face" aria-label="Vue de face" title="Vue de face" class="cao-btn w-9 h-9 grid place-items-center">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h12v12H4z" fill="currentColor" fill-opacity=".35"/><path d="M4 8l4-4h12v12l-4 4M16 8l4-4"/></svg>
+                </button>
+                <button type="button" data-view="dessus" aria-label="Vue de dessus" title="Vue de dessus" class="cao-btn w-9 h-9 grid place-items-center">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l4-4h12l-4 4z" fill="currentColor" fill-opacity=".35"/><path d="M4 8h12v12H4zM16 8l4-4v12l-4 4"/></svg>
+                </button>
+                <button type="button" data-view="cote" aria-label="Vue de côté" title="Vue de côté" class="cao-btn w-9 h-9 grid place-items-center">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M16 8l4-4v12l-4 4z" fill="currentColor" fill-opacity=".35"/><path d="M4 8h12v12H4zM4 8l4-4h12"/></svg>
+                </button>
+                <span class="w-px h-5 mx-0.5 bg-line dark:bg-line-dark" aria-hidden="true"></span>
+                <button type="button" data-view="fit" aria-label="Ajuster à la fenêtre" title="Ajuster à la fenêtre" class="cao-btn w-9 h-9 grid place-items-center">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <div role="group" aria-label="Analyse" class="flex items-center gap-0.5 p-1 rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card shadow-sm">
+                <button type="button" data-pop="explode" aria-expanded="false" aria-controls="pop-explode" aria-label="Vue éclatée" title="Vue éclatée" class="cao-btn w-9 h-9 grid place-items-center">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="4" rx="1"/><rect x="5" y="10" width="14" height="4" rx="1" fill="currentColor" fill-opacity=".35"/><rect x="5" y="17" width="14" height="4" rx="1"/></svg>
+                </button>
+                <button type="button" data-pop="section" aria-expanded="false" aria-controls="pop-section" aria-label="Plan de coupe" title="Plan de coupe" class="cao-btn w-9 h-9 grid place-items-center">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12h12v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1z" fill="currentColor" fill-opacity=".35"/><path d="M6 12V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7M2 12h20"/></svg>
+                </button>
+              </div>
+              <div role="group" aria-label="Affichage" class="flex items-center gap-0.5 p-1 rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card shadow-sm">
+                <button type="button" id="cao-full" aria-pressed="false" aria-label="Plein écran" title="Plein écran" class="cao-btn group w-9 h-9 grid place-items-center">
+                  <svg class="w-5 h-5 group-aria-pressed:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-6 6M4 20l6-6"/></svg>
+                  <svg class="w-5 h-5 hidden group-aria-pressed:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10h-6V4M4 14h6v6M14 10l6-6M10 14l-6 6"/></svg>
+                </button>
+                <button type="button" id="cao-reset" aria-label="Réinitialiser la maquette" title="Réinitialiser" class="cao-btn w-9 h-9 grid place-items-center">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7L4 8.6"/><path d="M4 4v4.6h4.6"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Réglage de l'éclaté -->
+            <div id="pop-explode" hidden class="pointer-events-auto w-64 max-w-full rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card shadow-lg p-4">
+              <div class="flex items-baseline justify-between gap-3">
+                <label for="cao-explode" class="text-sm font-semibold">Vue éclatée</label>
+                <output id="cao-explode-out" for="cao-explode" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">0 %</output>
+              </div>
+              <input id="cao-explode" type="range" min="0" max="100" step="1" value="0" aria-valuetext="0 %" class="mt-2 w-full">
+              <p class="mt-1 text-xs text-ink-2 dark:text-silver">Le porteur reste fixe, les modules s'écartent par étages.</p>
+            </div>
+
+            <!-- Plan de coupe -->
+            <div id="pop-section" hidden class="pointer-events-auto w-64 max-w-full rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card shadow-lg p-4">
+              <p id="cao-axis-label" class="text-sm font-semibold">Plan de coupe</p>
+              <div role="group" aria-labelledby="cao-axis-label" class="mt-3 grid grid-cols-4 gap-1.5">
+                <button type="button" data-axis="x" aria-pressed="false" class="cao-btn h-8 border border-line dark:border-line-dark text-xs font-semibold">X</button>
+                <button type="button" data-axis="y" aria-pressed="false" class="cao-btn h-8 border border-line dark:border-line-dark text-xs font-semibold">Y</button>
+                <button type="button" data-axis="z" aria-pressed="false" class="cao-btn h-8 border border-line dark:border-line-dark text-xs font-semibold">Z</button>
+                <button type="button" data-axis="" aria-pressed="true" class="cao-btn h-8 border border-line dark:border-line-dark text-xs font-semibold">Aucun</button>
+              </div>
+              <div class="mt-4 flex items-baseline justify-between gap-3">
+                <label for="cao-section" class="text-sm font-medium">Position</label>
+                <output id="cao-section-out" for="cao-section" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">50 %</output>
+              </div>
+              <input id="cao-section" type="range" min="0" max="100" step="1" value="50" aria-valuetext="50 %" disabled class="mt-2 w-full disabled:opacity-40 disabled:cursor-not-allowed">
+              <button type="button" id="cao-flip" aria-pressed="false" disabled class="cao-btn mt-3 w-full h-9 inline-flex items-center justify-center gap-2 border border-line dark:border-line-dark text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 20V4M4 7l3-3 3 3M17 4v16M14 17l3 3 3-3"/></svg>
+                Inverser le côté conservé
+              </button>
+            </div>
+          </div>
+
+          <!-- Chargement -->
+          <div id="cao-loading" class="absolute inset-0 z-20 grid place-items-center p-6 bg-paper dark:bg-card">
+            <div class="w-64 max-w-full text-center">
+              <svg class="mx-auto w-10 h-10 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+              <p id="cao-loading-label" class="mt-4 text-sm font-semibold">Chargement de la maquette</p>
+              <progress id="cao-progress" max="1" value="0" aria-labelledby="cao-loading-label" class="cao-progress mt-3 w-full"></progress>
+              <p id="cao-progress-out" class="mt-2 font-mono text-xs text-ink-2 dark:text-silver">0 %</p>
+            </div>
+          </div>
+
+          <!-- Erreur réseau -->
+          <div id="cao-error" hidden role="alert" class="absolute inset-0 z-20 grid place-items-center p-6 bg-paper dark:bg-card">
+            <div class="max-w-sm text-center">
+              <svg class="mx-auto w-10 h-10 text-error" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></svg>
+              <p class="mt-4 text-sm font-semibold">La maquette n'a pas pu être chargée.</p>
+              <p class="mt-1 text-sm text-ink-2 dark:text-silver">Vérifiez votre connexion, puis réessayez.</p>
+              <button type="button" id="cao-retry" class="mt-5 inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-line dark:border-line-dark text-sm font-semibold hover:border-accent">Réessayer</button>
+            </div>
+          </div>
+
+          <!-- Contexte graphique perdu -->
+          <p id="cao-lost" hidden role="status" class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 px-4 py-2 rounded-full border border-line dark:border-line-dark bg-paper dark:bg-card text-sm font-medium shadow-sm">Affichage 3D interrompu, reprise en cours.</p>
+
+          <!-- Repli sans 3D interactive -->
+          <div id="cao-fallback" hidden class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 p-6 max-lg:pb-36 bg-paper dark:bg-card">
+            <img src="assets/tech/spoc-3d-843.webp" srcset="assets/tech/spoc-3d-420.webp 420w, assets/tech/spoc-3d-843.webp 843w" sizes="(min-width: 1024px) 420px, 70vw" alt="Rendu 3D de l'assemblage SPOC" width="843" height="1054" loading="lazy" class="min-h-0 flex-1 w-auto max-w-full object-contain">
+            <p class="text-sm text-center text-ink-2 dark:text-silver">Votre navigateur ne permet pas l'affichage 3D interactif.</p>
+          </div>
+          <noscript><div class="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 p-6 bg-paper dark:bg-card"><img src="assets/tech/spoc-3d-843.webp" srcset="assets/tech/spoc-3d-420.webp 420w, assets/tech/spoc-3d-843.webp 843w" sizes="(min-width: 1024px) 420px, 70vw" alt="Rendu 3D de l'assemblage SPOC" width="843" height="1054" class="min-h-0 flex-1 w-auto max-w-full object-contain"><p class="text-sm text-center text-ink-2 dark:text-silver">La maquette 3D interactive nécessite JavaScript.</p></div></noscript>
+        </div>
+
+        <!-- Nomenclature : colonne sur grand écran, tiroir dans la vue sur mobile -->
+        <aside id="cao-panel" aria-label="Nomenclature" class="cao-panel z-20 flex flex-col min-h-0 rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card max-lg:absolute max-lg:inset-x-2 max-lg:bottom-2 max-lg:shadow-lg lg:h-[72vh] lg:min-h-[28rem] lg:max-h-[52rem]">
+          <button type="button" id="cao-drawer" aria-expanded="false" aria-controls="cao-list-wrap" class="group lg:hidden w-full flex flex-col items-center gap-2 px-4 pt-2 pb-3 rounded-t-2xl">
+            <span class="w-10 h-1 rounded-full bg-accent/30" aria-hidden="true"></span>
+            <span class="w-full flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold">Nomenclature <span class="font-normal text-ink-2 dark:text-silver">· 12 sous-ensembles</span></span>
+              <svg class="w-4 h-4 transition-transform group-aria-expanded:rotate-180 motion-reduce:transition-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
+            </span>
+          </button>
+          <h3 class="max-lg:hidden px-5 pt-5 font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/70">Nomenclature</h3>
+          <div id="cao-sheet" aria-live="polite" class="mx-3 lg:mx-4 mb-3 lg:mt-3 px-3 py-3 rounded-xl border border-line dark:border-line-dark">
+            <p class="text-sm text-ink-2 dark:text-silver">Sélectionnez une pièce dans la vue ou la liste.</p>
+          </div>
+          <div id="cao-list-wrap" data-open="false" class="grid grid-rows-[0fr] data-[open=true]:grid-rows-[1fr] lg:grid-rows-[minmax(0,1fr)] lg:flex-1 lg:min-h-0 transition-[grid-template-rows] duration-300 motion-reduce:transition-none">
+            <div id="cao-scroll" class="min-h-0 overflow-y-auto overscroll-contain max-lg:max-h-[24vh] border-t border-line dark:border-line-dark">
+              <ol id="cao-list" class="pb-3"></ol>
+              <noscript><p class="px-5 py-4 text-sm text-ink-2 dark:text-silver">La nomenclature nécessite JavaScript.</p></noscript>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <p class="mt-6 flex items-start gap-2 text-sm text-ink-2 dark:text-silver">
+        <svg class="mt-0.5 w-4 h-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+        <span>Maquette numérique simplifiée de l'assemblage de novembre 2026.</span>
+      </p>
+
+      <dl class="mt-6 grid sm:grid-cols-3 gap-4 text-sm">
+        <div class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-5">
+          <dt class="font-mono text-[11px] uppercase tracking-wider text-accent">Souris</dt>
+          <dd class="mt-2"><ul class="space-y-1 text-ink-2 dark:text-silver">
+            <li><span class="font-semibold text-ink dark:text-white">Glisser</span> : tourner</li>
+            <li><span class="font-semibold text-ink dark:text-white">Clic droit ou Maj + glisser</span> : déplacer</li>
+            <li><span class="font-semibold text-ink dark:text-white">Molette</span> : zoomer vers le curseur</li>
+            <li><span class="font-semibold text-ink dark:text-white">Double-clic</span> : cadrer la pièce</li>
+          </ul></dd>
+        </div>
+        <div class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-5">
+          <dt class="font-mono text-[11px] uppercase tracking-wider text-accent">Tactile</dt>
+          <dd class="mt-2"><ul class="space-y-1 text-ink-2 dark:text-silver">
+            <li><span class="font-semibold text-ink dark:text-white">Un doigt</span> : tourner</li>
+            <li><span class="font-semibold text-ink dark:text-white">Deux doigts</span> : déplacer</li>
+            <li><span class="font-semibold text-ink dark:text-white">Pincer</span> : zoomer</li>
+            <li><span class="font-semibold text-ink dark:text-white">Toucher deux fois</span> : cadrer la pièce</li>
+          </ul></dd>
+        </div>
+        <div class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-5">
+          <dt class="font-mono text-[11px] uppercase tracking-wider text-accent">Clavier</dt>
+          <dd class="mt-2"><ul id="cao-keys" class="space-y-1 text-ink-2 dark:text-silver">
+            <li><span class="font-semibold text-ink dark:text-white">Flèches</span> : tourner</li>
+            <li><span class="font-semibold text-ink dark:text-white">Maj + flèches</span> : déplacer</li>
+            <li><span class="font-semibold text-ink dark:text-white">+ et -</span> : zoomer</li>
+            <li><span class="font-semibold text-ink dark:text-white">F</span> : ajuster, <span class="font-semibold text-ink dark:text-white">Échap</span> : désélectionner</li>
+          </ul></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section aria-labelledby="cta-title" class="reveal border-t border-line dark:border-line-dark">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 flex flex-col md:flex-row md:items-center justify-between gap-8">
+      <div>
+        <h2 id="cta-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">De la maquette à l'asservissement</h2>
+        <p class="mt-3 max-w-xl text-base text-ink-2 dark:text-silver">Réglez une consigne, inclinez la paroi et observez comment la sonde garde sa distance.</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
+        <a href="simulateur.html" class="group inline-flex items-center gap-2 px-5 py-3 rounded-full bg-accent text-white text-sm font-semibold hover:bg-sky-800 dark:text-night dark:hover:bg-sky-300 transition">
+          Essayer le simulateur
+          <svg class="w-4 h-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="projet.html#solution" class="text-sm font-semibold underline decoration-line dark:decoration-line-dark underline-offset-4 hover:decoration-accent">Voir l'architecture de la solution</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer data-layout="footer"></footer>
+</body>
+</html>

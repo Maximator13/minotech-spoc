@@ -48,6 +48,7 @@ function paint(key) {
   $('show-title-text').textContent = v.title;
   $('show-desc').textContent = v.desc;
   $('show-btn').hidden = key !== 'team';
+  $('show-cao').hidden = key !== 'robot';
 }
 
 const pill = $('tab-pill');
