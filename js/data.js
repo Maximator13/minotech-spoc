@@ -29,7 +29,7 @@ const poles = {
     lead: 'Maelan HERVÉ',
     summary: 'Conception du bâti, du module linéaire, du module de planéité, des préhenseurs et de l\'interface porteur.',
     highlights: [
-      'Module linéaire de 300 mm conçu par l\'équipe : vis Igus drylin, rails inox HPC, moteur Nema 23 et courroie',
+      'Module linéaire de 300 mm conçu par l\'équipe : vis Igus Tr18x4, rails inox HPC GCL12, moteur pas à pas NEMA 24 à codeur intégré et courroie',
       'Module de planéité à deux vérins électriques et rotule, orientation réglable ± 5°',
       'Trois préhenseurs interchangeables pour sondes carrées et cylindriques',
       'Fixation porteur symétrique : sol, mur et plafond',
@@ -44,7 +44,7 @@ const poles = {
     summary: 'Architecture électrique, cartes, capteurs et contrôle temps réel.',
     highlights: [
       'Raspberry Pi 5 et microcontrôleur ESP32 temps réel reliés par SPI',
-      'Caméra de profondeur Intel RealSense D435 et centrale inertielle BMI270 (choix en révision)',
+      'Scanner 3D CR-Scan Ferret (caméra de profondeur) et centrale inertielle MPU6050 (CAO de novembre 2026)',
       'Distribution 24 V / 5 V / 3,3 V, batterie LiFePO4 24 V dimensionnée pour 8 h',
       'Deux schémas KiCad : alimentation, capteurs et drivers',
     ],
