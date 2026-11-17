@@ -1,18 +1,13 @@
 // Fond de particules 3D (Canvas 2D, sans dépendance : la CSP interdit les CDN).
-// Le nuage change de forme selon la section à l'écran : nébuleuse, bras robot, moteur pas à pas, caméra de profondeur, carte calculateur.
+// Le nuage change de forme selon la section à l'écran : nébuleuse, SPOC (d'après la CAO), moteur pas à pas, caméra de profondeur, carte calculateur.
 // La souris repousse localement les particules. Arrêt si l'onglet est masqué ; rien si « réduire les animations ».
+
+import { SPOC_POINTS } from './lib/spoc-points.js';
 
 const rnd = Math.random;
 const v = (x, y, z) => [x, y, z];
 
 // --- Échantillonneurs de surfaces : [aire, () => point] ---
-function sphere(c, r) {
-  return [4 * Math.PI * r * r, () => {
-    const u = rnd() * 2 - 1, a = rnd() * 2 * Math.PI, s = Math.sqrt(1 - u * u);
-    return v(c[0] + r * s * Math.cos(a), c[1] + r * u, c[2] + r * s * Math.sin(a));
-  }];
-}
-
 // Cylindre autour du segment a → b (orientation quelconque), avec ou sans fonds.
 function tube(a, b, r, caps = false) {
   const d = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], len = Math.hypot(...d);
@@ -70,18 +65,13 @@ function nebula(n) {
   return out;
 }
 
-const robotArm = (n) => sample([
-  tube(v(0, -1, 0), v(0, -0.86, 0), 0.5, true),
-  tube(v(0, -0.86, 0), v(0, -0.45, 0), 0.2),
-  sphere(v(0, -0.4, 0), 0.19),
-  tube(v(0, -0.4, 0), v(0.45, 0.35, 0), 0.11),
-  sphere(v(0.45, 0.35, 0), 0.14),
-  tube(v(0.45, 0.35, 0), v(-0.25, 0.62, 0), 0.08),
-  sphere(v(-0.25, 0.62, 0), 0.09),
-  tube(v(-0.25, 0.62, 0), v(-0.42, 0.44, 0), 0.06, true),
-  tube(v(-0.42, 0.44, 0), v(-0.56, 0.28, 0.09), 0.025),
-  tube(v(-0.42, 0.44, 0), v(-0.56, 0.28, -0.09), 0.025),
-], n);
+// SPOC lui-meme, d'apres l'assemblage CAO : les points stockes sont repris en boucle, avec un leger flou.
+function spocModel(n) {
+  const raw = Uint8Array.from(atob(SPOC_POINTS), (c) => c.charCodeAt(0)), k = raw.length / 3;
+  const out = new Float32Array(n * 3);
+  for (let i = 0; i < n * 3; i++) out[i] = (((raw[(i % (k * 3))] << 24) >> 24) / 127) * 1.05 + (rnd() - 0.5) * 0.012;
+  return out;
+}
 
 const depthCamera = (n) => sample([
   box(v(0, 0.15, 0), 1.7, 0.42, 0.36),
@@ -123,7 +113,7 @@ export function initParticles() {
   // Scènes : les sections [data-shape] choisissent la forme, [data-pos="right"] décale le nuage, [data-dim] l'efface en fond.
   const scenes = [...document.querySelectorAll('[data-shape]')];
   const N = innerWidth < 768 ? 1400 : 2600;
-  const shapes = [nebula(N), robotArm(N), stepperMotor(N), depthCamera(N), computeBoard(N)];
+  const shapes = [nebula(N), spocModel(N), stepperMotor(N), depthCamera(N), computeBoard(N)];
   // Chaque particule rejoint sa cible depuis sa position courante (interruptible), à sa propre vitesse.
   const rate = Float32Array.from({ length: N }, () => 0.035 + rnd() * 0.05);
   const cur = new Float32Array(N * 3);

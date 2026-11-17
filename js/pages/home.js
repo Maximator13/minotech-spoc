@@ -22,8 +22,8 @@ const VIEWS = {
   },
   robot: {
     tag: 'Prototype',
-    title: 'Module de positionnement SPOC',
-    desc: 'Module linéaire de 300 mm, module de planéité à deux vérins et rotule, préhenseur et caméra de profondeur (conception détaillée, juin 2026, en révision).',
+    title: 'SPOC, en 3D',
+    desc: "Rendu de l'assemblage SolidWorks de novembre 2026 : module linéaire, module de planéité à deux vérins et rotule, support du préhenseur et, en transparence, la place de la sonde.",
     fit: 'w-full h-full object-contain p-6',
   },
   system: {

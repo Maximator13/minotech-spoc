@@ -157,11 +157,13 @@ const media = {
       alt: 'Photo de groupe des 14 apprentis ingénieurs de l\'équipe MinOtech',
     },
     robot: {
-      type: 'svg',
-      src: 'assets/tech/prototype_robot_schema.svg',
-      width: 1600,
-      height: 900,
-      alt: 'Schéma du SPOC : module linéaire de 300 mm, module de planéité à deux vérins et rotule, préhenseur et caméra de profondeur face à la paroi',
+      type: 'image',
+      src: 'assets/tech/spoc-3d-843.webp',
+      srcset: 'assets/tech/spoc-3d-420.webp 420w, assets/tech/spoc-3d-843.webp 843w',
+      sizes: '(min-width: 768px) 420px, 60vw',
+      width: 843,
+      height: 1054,
+      alt: 'Rendu 3D de l\'assemblage SPOC : porteur en profilés, module linéaire, module de planéité à deux vérins et rotule, support du préhenseur et volume réservé à la sonde en transparence',
     },
     system: {
       type: 'svg',
