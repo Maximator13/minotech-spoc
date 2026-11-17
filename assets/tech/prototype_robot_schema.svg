@@ -99,7 +99,7 @@
   <g font-size="22" fill="#1E293B">
     <text x="110" y="638">Interface porteur symétrique, 4 positions (sol, mur, plafond) ; porteur manuel ou robotisé non défini</text>
     <text x="110" y="672">Bâti aluminium ; calculs RDM et éléments finis, aucun essai</text>
-    <text x="110" y="706">Module linéaire 300 mm conçu par l'équipe : vis Igus Tr18x4, rails inox HPC GCL12, NEMA 24, courroie</text>
+    <text x="110" y="706">Module linéaire 300 mm conçu par l'équipe : vis Igus Tr18x4, rails inox HPC GCL12, moteur pas à pas, courroie</text>
     <text x="110" y="740">Module de planéité : deux vérins électriques (750 N, course 50 mm) et rotule, orientation réglable ± 5°</text>
     <text x="110" y="774">Détection de surface : scanner 3D CR-Scan Ferret sur son support, pour cartographier la surface</text>
     <text x="110" y="808">Préhenseur interchangeable (3 modèles, sondes carrées ou cylindriques) ; sonde jusqu'à 50 kg selon le CDC</text>

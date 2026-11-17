@@ -14,14 +14,14 @@ export const GROUPS = [
 export const PARTS = {
   '01-interface-porteur': { label: 'Interface porteur', qty: 1 },
   '02-structure': { label: 'Structure en profilés', qty: 1 },
-  '03-moteur': { label: 'Moteur pas à pas NEMA 24 à codeur intégré', qty: 1 },
+  '03-moteur': { label: 'Moteur pas à pas', qty: 1 },
   '04-vis': { label: 'Vis Igus Tr18x4, poulies et courroie', qty: 1 },
   '05-guidages': { label: 'Guidages GCL12', qty: 2 },
   '06-verins': { label: 'Vérins électriques LD75', qty: 2 },
   '07-rotules': { label: 'Rotules Igus', qty: 4 },
   '08-support-prehenseur': { label: 'Support du préhenseur (impression 3D)', qty: 1 },
   '09-detection-surface': { label: 'Détection de surface, scanner 3D CR-Scan Ferret', qty: 1 },
-  '10-electronique': { label: 'Raspberry Pi 5, ESP32, drivers, centrale MPU6050', qty: 1 },
+  '10-electronique': { label: 'Raspberry Pi 5, ESP32, drivers, centrale BMI270', qty: 1 },
   '11-alimentation': { label: 'Alimentation 24 V et boîtier', qty: 1 },
   '12-sonde': { label: 'Volume de la sonde, 50 x 50 x 40 cm', qty: 1 },
 };

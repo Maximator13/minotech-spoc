@@ -1,6 +1,6 @@
 // Fond de particules 3D (Canvas 2D, sans dépendance : la CSP interdit les CDN).
 // Le nuage change de forme selon la section à l'écran : nébuleuse, puis des pièces tirées de la CAO de SPOC
-// (module de planéité, moteur NEMA 24, détection de surface, Raspberry Pi 5) : les points se posent sur les arêtes
+// (module de planéité, moteur pas à pas, détection de surface, Raspberry Pi 5) : les points se posent sur les arêtes
 // de la pièce, puis son dessin au trait se trace par-dessus.
 // La souris repousse localement les particules. Arrêt si l'onglet est masqué ; rien si « réduire les animations ».
 
@@ -18,7 +18,7 @@ function nebula(n) {
 
 // Pièces tirées de la CAO de SPOC (assets/spoc-edges.bin, voir communication/visuels/src/cao/edges_web.py) :
 // pour chaque pièce, un uint16 (nombre de segments) puis les segments en octets signés (x1 y1 z1 x2 y2 z2), y vers le haut.
-// Ordre : planéité, moteur NEMA 24, détection de surface, calculateur.
+// Ordre : planéité, moteur pas à pas, détection de surface, calculateur.
 function parseEdges(buf) {
   const parts = [], v = new DataView(buf);
   let o = 0;
