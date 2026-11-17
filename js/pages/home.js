@@ -38,7 +38,6 @@ const tabs = [...document.querySelectorAll('[role="tab"][data-tab]')];
 const panel = $('show-panel');
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 let current = 'team';
-let timer = 0;
 
 function paint(key) {
   const v = VIEWS[key];
@@ -51,27 +50,56 @@ function paint(key) {
   $('show-btn').hidden = key !== 'team';
 }
 
-function markTabs(key) {
+const pill = $('tab-pill');
+// Pastille sous l'onglet actif ; sans transition au premier affichage et au redimensionnement.
+function placePill(key, still) {
+  const t = tabs.find((x) => x.dataset.tab === key);
+  pill.classList.toggle('still', still);
+  pill.style.width = t.offsetWidth + 'px';
+  pill.style.transform = `translateX(${t.offsetLeft}px)`;
+}
+
+// L'onglet actif reprend lui-meme le fond une fois la pastille arrivee (contraste lisible meme sans la pastille).
+let pillTimer = 0;
+function markTabs(key, still = false) {
   panel.setAttribute('aria-labelledby', 'tab-' + key);
+  clearTimeout(pillTimer);
   tabs.forEach((t) => {
     const on = t.dataset.tab === key;
     t.setAttribute('aria-selected', String(on));
     t.tabIndex = on ? 0 : -1;
-    t.classList.toggle('bg-ink', on);
     t.classList.toggle('text-white', on);
-    t.classList.toggle('dark:bg-accent', on);
     t.classList.toggle('dark:text-night', on);
+    t.classList.remove('tab-on');
   });
+  placePill(key, still);
+  const act = tabs.find((t) => t.dataset.tab === key);
+  if (still || calm()) act.classList.add('tab-on');
+  else pillTimer = setTimeout(() => act.classList.add('tab-on'), 560);
 }
 
+// Le contenu du panneau glisse dans le sens de l'onglet choisi : sortie rapide, entrée amortie.
+const EASE = 'cubic-bezier(.32,.72,0,1)';
+const parts = () => [...panel.children];
+let token = 0;
 function select(key) {
   if (key === current) return;
+  const dir = Math.sign(tabs.findIndex((t) => t.dataset.tab === key) - tabs.findIndex((t) => t.dataset.tab === current)) || 1;
   current = key;
-  markTabs(key); // état des onglets immédiat ; seul le contenu du panneau se fond
-  clearTimeout(timer);
+  markTabs(key);
   if (calm()) return paint(key);
-  panel.classList.add('opacity-0'); // fondu 200 ms (transition-opacity duration-200)
-  timer = setTimeout(() => { paint(key); panel.classList.remove('opacity-0'); }, 200);
+  const mine = ++token;
+  parts().forEach((el) => el.getAnimations().forEach((a) => a.cancel()));
+  const out = parts().map((el) => el.animate([{ transform: 'none', opacity: 1 }, { transform: `translateX(${-dir * 40}px)`, opacity: 0 }],
+    { duration: 170, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' }));
+  Promise.all(out.map((a) => a.finished.catch(() => 0))).then(() => {
+    if (mine !== token) return; // un autre onglet a ete choisi entre-temps
+    paint(key);
+    parts().forEach((el) => {
+      el.getAnimations().forEach((a) => a.cancel());
+      el.animate([{ transform: `translateX(${dir * 40}px)`, opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 480, easing: EASE });
+    });
+  });
 }
 
 tabs.forEach((t, i) => {
@@ -88,7 +116,9 @@ tabs.forEach((t, i) => {
 });
 
 paint('team');
-markTabs('team');
+markTabs('team', true);
+addEventListener('resize', () => placePill(current, true));
+document.fonts?.ready.then(() => placePill(current, true)); // largeurs exactes une fois Inter chargee
 
 // Pôles : classes de couleur littérales (Tailwind ne voit pas les classes construites).
 const TONE = { heph: 'text-heph', zeus: 'text-zeus', hermes: 'text-hermes' };

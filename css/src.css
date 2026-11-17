@@ -6,7 +6,7 @@
   --color-night: #070C18; --color-card: #0D1527; --color-line-dark: #1E293B; --color-silver: #E2E8F0;
   --color-accent: #0369A1; --color-heph: #B45309; --color-zeus: #0369A1; --color-hermes: #4F46E5;
   --color-ok: #047857; --color-warn: #B45309; --color-error: #B91C1C;
-  --font-sans: "Inter", system-ui, sans-serif; --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: "Inter", system-ui, sans-serif; --font-mono: "Inter", system-ui, sans-serif; /* legendes et chiffres : Inter, chiffres tabulaires (plus de police a chasse fixe) */
 }
 /* Teintes lisibles en texte (WCAG AA) : foncées en clair (ci-dessus), claires en sombre ; html.dark posé par theme-init.js. */
 .dark {
@@ -18,11 +18,6 @@
   font-family: "Inter"; src: url("../fonts/inter-var.woff2") format("woff2");
   font-weight: 100 900; font-style: normal; font-display: swap;
 }
-@font-face {
-  font-family: "JetBrains Mono"; src: url("../fonts/jetbrains-mono-var.woff2") format("woff2");
-  font-weight: 100 900; font-style: normal; font-display: swap;
-}
-
 .skip-link {
   position: absolute; left: 0; top: 0; z-index: 100; padding: 0.75rem 1rem;
   background: var(--color-accent); color: #FFFFFF; font-weight: 600;
@@ -30,6 +25,16 @@
 }
 .skip-link:focus { transform: translateY(0); }
 .dark .skip-link { color: var(--color-night); }
+
+.font-mono { font-variant-numeric: tabular-nums; }
+
+/* Onglets du showcase : la pastille glisse sous l'onglet actif (home.js pose largeur et position). */
+.tab-pill { position: absolute; top: 4px; bottom: 4px; left: 0; width: 0; border-radius: 9999px; background: var(--color-ink);
+  transition: transform .55s cubic-bezier(.32,.72,0,1), width .55s cubic-bezier(.32,.72,0,1); }
+.dark .tab-pill { background: var(--color-accent); }
+.tab-pill.still { transition: none; }
+.tab-on { background: var(--color-ink); }
+.dark .tab-on { background: var(--color-accent); }
 
 :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
 

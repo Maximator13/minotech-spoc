@@ -1,59 +1,9 @@
 // Fond de particules 3D (Canvas 2D, sans dépendance : la CSP interdit les CDN).
-// Le nuage change de forme selon la section à l'écran : nébuleuse, SPOC (d'après la CAO), moteur pas à pas, caméra de profondeur, carte calculateur.
+// Le nuage change de forme selon la section à l'écran : nébuleuse, puis des pièces tirées de la CAO de SPOC
+// (module de planéité, moteur NEMA 24, détection de surface, Raspberry Pi 5).
 // La souris repousse localement les particules. Arrêt si l'onglet est masqué ; rien si « réduire les animations ».
 
-import { SPOC_POINTS } from './lib/spoc-points.js';
-
 const rnd = Math.random;
-const v = (x, y, z) => [x, y, z];
-
-// --- Échantillonneurs de surfaces : [aire, () => point] ---
-// Cylindre autour du segment a → b (orientation quelconque), avec ou sans fonds.
-function tube(a, b, r, caps = false) {
-  const d = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], len = Math.hypot(...d);
-  const w = d.map((x) => x / len);
-  const t = Math.abs(w[1]) < 0.9 ? [0, 1, 0] : [1, 0, 0];
-  let p = [w[1] * t[2] - w[2] * t[1], w[2] * t[0] - w[0] * t[2], w[0] * t[1] - w[1] * t[0]];
-  const pl = Math.hypot(...p); p = p.map((x) => x / pl);
-  const q = [w[1] * p[2] - w[2] * p[1], w[2] * p[0] - w[0] * p[2], w[0] * p[1] - w[1] * p[0]];
-  const side = 2 * Math.PI * r * len, cap = caps ? 2 * Math.PI * r * r : 0;
-  return [side + cap, () => {
-    const ang = rnd() * 2 * Math.PI, rim = rnd() < 0.4, onCap = !rim && rnd() * (side + cap) > side;
-    const rr = onCap ? r * Math.sqrt(rnd()) : r, k = rim || onCap ? (rnd() < 0.5 ? 0 : 1) : rnd();
-    const c = Math.cos(ang) * rr, s = Math.sin(ang) * rr;
-    return [0, 1, 2].map((i) => a[i] + d[i] * k + p[i] * c + q[i] * s);
-  }];
-}
-
-function box(c, sx, sy, sz) {
-  const faces = [[sy * sz, 0], [sx * sz, 1], [sx * sy, 2]];
-  const area = 2 * (sy * sz + sx * sz + sx * sy);
-  return [area, () => {
-    let r = rnd() * area / 2, axis = 2;
-    for (const [fa, i] of faces) { if (r < fa) { axis = i; break; } r -= fa; }
-    const size = [sx, sy, sz], pt = size.map((d) => (rnd() - 0.5) * d);
-    pt[axis] = (size[axis] / 2) * (rnd() < 0.5 ? -1 : 1);
-    if (rnd() < 0.5) { const o = (axis + 1 + (rnd() < 0.5 ? 0 : 1)) % 3; pt[o] = (size[o] / 2) * (rnd() < 0.5 ? -1 : 1); } // arête
-    return v(c[0] + pt[0], c[1] + pt[1], c[2] + pt[2]);
-  }];
-}
-
-// Rotation autour de x (incliner une pièce vers le lecteur).
-const tiltX = (pts, a) => {
-  const c = Math.cos(a), s = Math.sin(a);
-  for (let j = 0; j < pts.length; j += 3) { const y = pts[j + 1], z = pts[j + 2]; pts[j + 1] = y * c + z * s; pts[j + 2] = -y * s + z * c; }
-  return pts;
-};
-
-function sample(parts, n) {
-  const total = parts.reduce((s, [a]) => s + a, 0), out = new Float32Array(n * 3);
-  for (let i = 0; i < n; i++) {
-    let r = rnd() * total, f = parts[parts.length - 1][1];
-    for (const [a, g] of parts) { if (r < a) { f = g; break; } r -= a; }
-    out.set(f(), i * 3);
-  }
-  return out;
-}
 
 // --- Formes ---
 function nebula(n) {
@@ -65,42 +15,14 @@ function nebula(n) {
   return out;
 }
 
-// SPOC lui-meme, d'apres l'assemblage CAO : les points stockes sont repris en boucle, avec un leger flou.
-function spocModel(n) {
-  const raw = Uint8Array.from(atob(SPOC_POINTS), (c) => c.charCodeAt(0)), k = raw.length / 3;
-  const out = new Float32Array(n * 3);
-  for (let i = 0; i < n * 3; i++) out[i] = (((raw[(i % (k * 3))] << 24) >> 24) / 127) * 1.05 + (rnd() - 0.5) * 0.012;
+// Pièces tirées de la CAO de SPOC (assets/spoc-parts.bin, voir communication/visuels/src/cao) : 4 pièces de
+// 2 400 points, x, y (haut), z en octets signés. Ordre : planéité, moteur NEMA 24, détection de surface, calculateur.
+const PART_BYTES = 2400 * 3;
+function cadPart(raw, n) {
+  const out = new Float32Array(n * 3), k = raw.length;
+  for (let i = 0; i < n * 3; i++) out[i] = (raw[i % k] / 127) * 1.05 + (rnd() - 0.5) * 0.01; // léger flou sur les points repris
   return out;
 }
-
-const depthCamera = (n) => sample([
-  box(v(0, 0.15, 0), 1.7, 0.42, 0.36),
-  tube(v(-0.55, 0.15, 0.18), v(-0.55, 0.15, 0.26), 0.13, true),
-  tube(v(0, 0.15, 0.18), v(0, 0.15, 0.24), 0.07, true),
-  tube(v(0.55, 0.15, 0.18), v(0.55, 0.15, 0.26), 0.13, true),
-  tube(v(0, -0.06, 0), v(0, -0.7, 0), 0.05),
-  tube(v(0, -0.7, 0), v(0, -0.76, 0), 0.4, true),
-], n);
-
-// Moteur pas à pas (type Nema 23), axe horizontal, arbre vers la droite de l'écran : flasques, stator, centrage, arbre, câble.
-const stepperMotor = (n) => sample([
-  box(v(0.75, 0, 0), 0.2, 1, 1),
-  box(v(0.3, 0, 0), 0.7, 0.92, 0.92),
-  box(v(-0.13, 0, 0), 0.16, 1, 1),
-  tube(v(-0.21, 0, 0), v(-0.28, 0, 0), 0.3, true),
-  tube(v(-0.28, 0, 0), v(-0.85, 0, 0), 0.06, true),
-  tube(v(0.85, -0.3, 0.2), v(1.15, -0.6, 0.2), 0.04),
-], n);
-
-// Carte calculateur vue de dessus : circuit, processeur, second microcontrôleur, connecteur GPIO, prises.
-const computeBoard = (n) => tiltX(sample([
-  box(v(0, 0, 0), 1.6, 1.05, 0.05),
-  box(v(-0.3, 0.02, 0.07), 0.42, 0.42, 0.09),
-  box(v(0.35, 0.18, 0.05), 0.3, 0.34, 0.06),
-  box(v(-0.1, 0.44, 0.09), 1.15, 0.09, 0.13),
-  box(v(0.68, -0.24, 0.14), 0.3, 0.32, 0.25),
-  box(v(0.68, 0.22, 0.1), 0.3, 0.2, 0.16),
-], n), 0.9);
 
 export function initParticles() {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -112,8 +34,12 @@ export function initParticles() {
 
   // Scènes : les sections [data-shape] choisissent la forme, [data-pos="right"] décale le nuage, [data-dim] l'efface en fond.
   const scenes = [...document.querySelectorAll('[data-shape]')];
-  const N = innerWidth < 768 ? 1400 : 2600;
-  const shapes = [nebula(N), spocModel(N), stepperMotor(N), depthCamera(N), computeBoard(N)];
+  const N = innerWidth < 768 ? 1800 : 3600;
+  // En attendant les pièces (chargées à part), chaque chapitre garde la nébuleuse.
+  const shapes = [nebula(N), nebula(N), nebula(N), nebula(N), nebula(N)];
+  fetch(new URL('../assets/spoc-parts.bin', import.meta.url)).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(r.status)))
+    .then((buf) => { for (let p = 0; p < 4; p++) shapes[p + 1] = cadPart(new Int8Array(buf, p * PART_BYTES, PART_BYTES), N); })
+    .catch(() => {}); // sans les pièces, le fond reste une nébuleuse
   // Chaque particule rejoint sa cible depuis sa position courante (interruptible), à sa propre vitesse.
   const rate = Float32Array.from({ length: N }, () => 0.035 + rnd() * 0.05);
   const cur = new Float32Array(N * 3);
@@ -147,7 +73,7 @@ export function initParticles() {
       shape: act ? Number(act.dataset.shape) || 0 : 0,
       x: right && wide ? 0.72 : 0.5,
       alpha: act && act.hasAttribute('data-dim') ? 0.3 : wide ? (right ? 1 : 0.85) : 0.5, // sur mobile le nuage passe sous le texte
-      scale: right ? 0.36 : 0.42,
+      scale: right ? 0.29 : 0.42,
     };
   }
 

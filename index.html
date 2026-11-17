@@ -186,12 +186,13 @@
       <span class="font-mono text-sm text-accent">02</span>
       <h2 id="show-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-balance md:whitespace-nowrap">Le projet en trois vues</h2>
     </div>
-    <div role="tablist" aria-label="Vues du projet" class="mt-8 inline-flex p-1 rounded-full border border-line dark:border-line-dark bg-paper dark:bg-card">
-      <button type="button" role="tab" id="tab-team" data-tab="team" aria-selected="true" aria-controls="show-panel" class="px-4 py-2 rounded-full text-sm font-medium">L'équipe</button>
-      <button type="button" role="tab" id="tab-robot" data-tab="robot" aria-selected="false" aria-controls="show-panel" tabindex="-1" class="px-4 py-2 rounded-full text-sm font-medium">Prototype</button>
-      <button type="button" role="tab" id="tab-system" data-tab="system" aria-selected="false" aria-controls="show-panel" tabindex="-1" class="px-4 py-2 rounded-full text-sm font-medium">Architecture</button>
+    <div role="tablist" aria-label="Vues du projet" class="relative mt-8 inline-flex p-1 rounded-full border border-line dark:border-line-dark bg-paper dark:bg-card">
+      <span id="tab-pill" class="tab-pill" aria-hidden="true"></span>
+      <button type="button" role="tab" id="tab-team" data-tab="team" aria-selected="true" aria-controls="show-panel" class="relative z-10 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300">L'équipe</button>
+      <button type="button" role="tab" id="tab-robot" data-tab="robot" aria-selected="false" aria-controls="show-panel" tabindex="-1" class="relative z-10 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300">Prototype</button>
+      <button type="button" role="tab" id="tab-system" data-tab="system" aria-selected="false" aria-controls="show-panel" tabindex="-1" class="relative z-10 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300">Architecture</button>
     </div>
-    <div id="show-panel" role="tabpanel" aria-labelledby="tab-team" tabindex="0" data-grow class="mt-6 will-change-transform rounded-2xl overflow-hidden border border-line dark:border-line-dark bg-paper dark:bg-card transition-opacity duration-200">
+    <div id="show-panel" role="tabpanel" aria-labelledby="tab-team" tabindex="0" data-grow class="mt-6 will-change-transform rounded-2xl overflow-hidden border border-line dark:border-line-dark bg-paper dark:bg-card">
       <div id="show-media" class="aspect-[16/9] bg-paper dark:bg-card"><noscript><p class="p-6 text-sm text-ink-2 dark:text-silver">Les vues du projet nécessitent JavaScript. Consultez le <a href="equipe.html" class="underline">trombinoscope</a> de l'équipe.</p></noscript></div>
       <div class="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-line dark:border-line-dark">
         <div>
