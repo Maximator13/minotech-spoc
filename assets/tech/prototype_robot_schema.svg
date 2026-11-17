@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="Inter, system-ui, sans-serif" fill="#0F172A">
-  <title>SPOC : vue de côté de la conception détaillée (juin 2026, en révision)</title>
+  <title>SPOC : vue de côté de la conception révisée (novembre 2026)</title>
   <defs>
     <marker id="dim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="#0F172A"/>
@@ -108,6 +108,6 @@
 
   <!-- pied -->
   <line x1="60" y1="860" x2="1540" y2="860" stroke="#E2E8F0" stroke-width="1.5"/>
-  <text x="60" y="886" font-size="22" font-weight="700" fill="#B45309">Conception détaillée, juin 2026, en révision</text>
+  <text x="60" y="886" font-size="22" font-weight="700" fill="#B45309">Conception révisée, novembre 2026</text>
   <text x="1540" y="886" font-size="22" fill="#1E293B" text-anchor="end">MinOtech SPOC · CEA Marcoule × IMT Mines Alès</text>
 </svg>

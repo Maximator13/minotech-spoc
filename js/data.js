@@ -1,6 +1,6 @@
 // Source unique du contenu du site MinOtech SPOC. Données pures : aucune fonction, aucun DOM.
 // Les chiffres affichés sont ceux du CDC CEA ; tout statut 'valide' exige une preuve (evidence).
-// Faits techniques : architecture de conception détaillée (juin 2026), en révision depuis le 15/09/2026,
+// Faits techniques : architecture de conception détaillée (juin 2026), révisée à l'automne 2026 (assemblage CAO de novembre),
 // source : voir v2/README.md. Choix de conception, jamais résultats.
 
 export const siteConfig = {
@@ -124,10 +124,10 @@ const milestones = [
     desc: 'Bâti optimisé à deux vérins et rotule, bilan de puissance, schémas KiCad initiés, réseau UDP et TCP, base SQLite.' },
   { sem: 'Période 8.2 · mai-juin 2026', title: 'Dossier de conception détaillée', status: 'realise', statusLabel: 'Soutenu',
     desc: 'Mises en plan, nomenclature, flyer et dossier rendus le 22 juin ; soutenance le 25 juin 2026.' },
-  { sem: 'Période 9.1 · sept.-oct. 2026', title: 'Préparation de la fabrication', status: 'en-cours', statusLabel: 'En cours',
-    desc: 'Révision de la conception, références des pièces, demandes de devis et achats, maquette 3D.' },
-  { sem: 'Période 9.2 · nov.-déc. 2026', title: 'Fabrication et intégration', status: 'a-venir', statusLabel: 'À venir',
-    desc: 'Fabrication, intégration, premiers essais et banc d\'essais.' },
+  { sem: 'Période 9.1 · sept.-oct. 2026', title: 'Préparation de la fabrication', status: 'realise', statusLabel: 'Réalisé',
+    desc: 'Révision de la conception, références des pièces, demandes de devis et achats ; assemblage CAO complet (novembre 2026).' },
+  { sem: 'Période 9.2 · nov.-déc. 2026', title: 'Fabrication et intégration', status: 'en-cours', statusLabel: 'En cours',
+    desc: 'Achats, fabrication et impression 3D des pièces, câblage et intégration ; construction du banc d\'essais et premiers essais.' },
   { sem: 'Période 9.3 · févr.-mars 2027', title: 'Essais et qualification', status: 'a-venir', statusLabel: 'À venir',
     desc: 'Essais, qualification opérationnelle avec le CEA et dossier de livraison ; soutenance en mars 2027.' },
 ];
