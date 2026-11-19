@@ -40,7 +40,7 @@ const poles = {
     name: 'ZEUS',
     domain: 'Pôle Électronique',
     logo: 'assets/logos/logo_zeus-320.webp',
-    lead: 'Zinedine DJADJA',
+    lead: 'Zineddine DJADJA',
     summary: 'Architecture électrique, cartes, capteurs et contrôle temps réel.',
     highlights: [
       'Raspberry Pi 5 et microcontrôleur ESP32 temps réel reliés par SPI',
@@ -77,7 +77,7 @@ const team = [
     'A rejoint l\'équipe en septembre 2026. Participe à la révision de la conception électronique (cartes, capteurs) en vue de la fabrication.'),
   member('Noémie BEKHIT', 'Cheffe du Pôle Informatique & IHM', 'hermes', 'G1', true, 'noemie_info',
     'A rejoint MinOtech en septembre 2026. Pilote la révision des choix logiciels (système, base de données, Java ou ROS) et le poste de pilotage.'),
-  member('Zinedine DJADJA', 'Chef du Pôle Électronique & Capteurs', 'zeus', 'G1', true, 'zineddine_djadja',
+  member('Zineddine DJADJA', 'Chef du Pôle Électronique & Capteurs', 'zeus', 'G1', true, 'zineddine_djadja',
     'Dirige le pôle électronique depuis la 2e année : distribution 24 V / 5 V / 3,3 V, schémas KiCad des cartes alimentation et capteurs, chaîne de sécurité.'),
   member('Alexis FOURQUIER', 'Ingénieur Réseaux & Systèmes Embarqués', 'hermes', 'G1', false, 'alexis_info',
     'A rejoint l\'équipe en septembre 2026. Travaille sur les échanges réseau et le poste de pilotage.'),
