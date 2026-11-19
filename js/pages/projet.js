@@ -18,7 +18,7 @@ $('solution-list').innerHTML = Object.values(poles).flatMap((p) => p.highlights)
 $('jalons-list').innerHTML = renderMilestones(milestones);
 $('sondes-grid').innerHTML = sensors.map((s) => `
 <article class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6 flex flex-col gap-2">
-  <p class="font-mono text-[11px] uppercase tracking-wider text-accent">${esc(s.type)}</p>
+  <p class="font-mono text-xs uppercase tracking-wider text-accent">${esc(s.type)}</p>
   <h3 class="text-lg font-bold">${esc(s.name)}</h3>
   <p class="mt-1 text-sm leading-relaxed text-ink-2 dark:text-silver">${esc(s.desc)}</p>
 </article>`).join('');

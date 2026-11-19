@@ -47,7 +47,7 @@ const row = (key) => {
 $('cao-list').innerHTML = GROUPS.map((g) => `
 <li>
   <div class="flex items-center justify-between gap-3 pl-4 pr-3 pt-4 pb-1">
-    <p class="font-mono text-[11px] uppercase tracking-wider text-ink-2/80 dark:text-silver/80">${esc(g.label)}</p>
+    <p class="font-mono text-xs uppercase tracking-wider text-ink-2/80 dark:text-silver/80">${esc(g.label)}</p>
     <button type="button" data-isolate="${g.id}" aria-pressed="false" aria-label="Isoler : ${esc(g.label)}" hidden class="cao-btn px-2.5 h-7 border border-line dark:border-line-dark text-xs font-semibold">Isoler</button>
   </div>
   <ul>${g.parts.map(row).join('')}</ul>
@@ -79,7 +79,7 @@ function paintSheet() {
   if (selected) {
     const { label, qty } = PARTS[selected];
     html = `
-<p class="font-mono text-[11px] uppercase tracking-wider text-accent">Repère ${num(selected)} · ${esc(groupOf(selected).label)}</p>
+<p class="font-mono text-xs uppercase tracking-wider text-accent">Repère ${num(selected)} · ${esc(groupOf(selected).label)}</p>
 <p class="mt-1 text-base font-bold leading-snug">${esc(label)}</p>
 <p class="mt-1 text-sm text-ink-2 dark:text-silver">Quantité : ${qty}${hidden.has(selected) ? ' · masquée' : ''}</p>`;
   }

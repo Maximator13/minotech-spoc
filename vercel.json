@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/minotech-spoc/:path*", "destination": "/:path*", "permanent": false }
+  ]
+}

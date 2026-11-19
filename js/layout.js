@@ -36,7 +36,7 @@ const LEGAL = [
   { href: 'cgu.html', label: 'CGU' },
 ];
 
-const BTN = 'w-9 h-9 grid place-items-center rounded-lg border border-line dark:border-line-dark bg-paper dark:bg-card hover:border-accent';
+const BTN = 'w-11 h-11 lg:w-9 lg:h-9 grid place-items-center rounded-lg border border-line dark:border-line-dark bg-paper dark:bg-card hover:border-accent';
 const LINK = 'hover:text-accent';
 
 export const THEME_COLOR = { light: '#FFFFFF', dark: '#070C18' };
@@ -65,7 +65,7 @@ function headerHTML(page) {
     <a href="index.html" class="flex items-center gap-2.5 shrink-0" aria-label="MinOtech SPOC, accueil">
       <svg class="w-7 h-7 text-accent" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 49V19l19 21 19-21v30"/><circle cx="32" cy="52.5" r="3.6" fill="currentColor" stroke="none"/></svg>
       <span class="font-bold tracking-tight">MinOtech</span>
-      <span class="font-mono text-[11px] text-ink-2/70 dark:text-silver/60 border-l border-line dark:border-line-dark pl-2.5">SPOC</span>
+      <span class="font-mono text-xs text-ink-2/70 dark:text-silver/60 border-l border-line dark:border-line-dark pl-2.5">SPOC</span>
     </a>
     <nav aria-label="Navigation principale" class="hidden lg:flex items-center gap-7 text-sm font-medium">${navLinks(page)}</nav>
     <div class="flex items-center gap-2">
@@ -90,10 +90,10 @@ function footerHTML(page, dark) {
         <div class="flex items-center gap-2.5">
           <svg class="w-6 h-6 text-accent" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 49V19l19 21 19-21v30"/><circle cx="32" cy="52.5" r="3.6" fill="currentColor" stroke="none"/></svg>
           <span class="font-bold tracking-tight">MinOtech</span>
-          <span class="font-mono text-[11px] text-ink-2/70 dark:text-silver/60">SPOC</span>
+          <span class="font-mono text-xs text-ink-2/70 dark:text-silver/60">SPOC</span>
         </div>
-        <nav aria-label="Pied de page" class="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium">${navLinks(page)}</nav>
-        <div class="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-2 dark:text-silver">
+        <nav aria-label="Pied de page" class="mt-5 flex flex-wrap gap-x-6 md:gap-y-2 text-sm font-medium [&>a]:py-2.5 md:[&>a]:py-0">${navLinks(page)}</nav>
+        <div class="mt-3 flex flex-wrap gap-x-6 md:gap-y-2 text-sm text-ink-2 dark:text-silver [&>*]:py-2.5 md:[&>*]:py-0">
           ${LEGAL.map((l) => `<a href="${l.href}" class="${LINK}">${l.label}</a>`).join('')}
           ${siteConfig.analytics.enabled ? `<button type="button" data-consent-manage class="${LINK}">Gérer les cookies</button>` : ''}
         </div>
@@ -104,7 +104,7 @@ function footerHTML(page, dark) {
       </div>
     </div>
     <div class="border-t border-line dark:border-line-dark">
-      <p class="max-w-6xl mx-auto px-4 sm:px-6 py-5 font-mono text-[11px] text-ink-2/70 dark:text-silver/60">MinOtech · SPOC · 2024–2027</p>
+      <p class="max-w-6xl mx-auto px-4 sm:px-6 py-5 font-mono text-xs text-ink-2/70 dark:text-silver/60">MinOtech · SPOC · 2024–2027</p>
     </div>
   </div>`;
 }

@@ -47,7 +47,7 @@
         <svg class="w-4 h-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
-    <nav aria-label="Sections de la page" class="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wider">
+    <nav aria-label="Sections de la page" class="mt-8 sm:mt-10 flex flex-wrap gap-x-6 sm:gap-y-2 font-mono text-xs uppercase tracking-wider [&>a]:py-3 sm:[&>a]:py-0">
       <a href="#contexte" class="text-ink-2 dark:text-silver hover:text-accent">01 Contexte</a>
       <a href="#exigences" class="text-ink-2 dark:text-silver hover:text-accent">02 Exigences</a>
       <a href="#solution" class="text-ink-2 dark:text-silver hover:text-accent">03 Solution</a>
@@ -70,12 +70,12 @@
         </div>
         <div class="grid gap-4 content-start">
           <div class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6">
-            <p class="font-mono text-[11px] uppercase tracking-wider text-accent">Cas d'usage 1</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-accent">Cas d'usage 1</p>
             <h3 class="mt-1 text-lg font-bold">Usines de Diffusion Gazeuse de Pierrelatte</h3>
             <p class="mt-2 text-sm text-ink-2 dark:text-silver">Arrêtées en 1996 et partiellement démantelées, avec de très grandes surfaces de murs, sols et plafonds à cartographier.</p>
           </div>
           <div class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6">
-            <p class="font-mono text-[11px] uppercase tracking-wider text-accent">Cas d'usage 2</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-accent">Cas d'usage 2</p>
             <h3 class="mt-1 text-lg font-bold">Bassins STEL de Marcoule</h3>
             <p class="mt-2 text-sm text-ink-2 dark:text-silver">Station de traitement des effluents liquides : bassins en béton armé de grand volume, à cartographier eux aussi.</p>
           </div>
@@ -93,10 +93,10 @@
       </div>
       <p class="mt-6 max-w-2xl text-base text-ink-2 dark:text-silver">Chaque exigence reprend le cahier des charges CEA. Le statut indique l'état réel de la vérification : une exigence n'est marquée « Validé » que lorsqu'une preuve est référencée. La méthode prévue vient du plan de validation ; aucun essai n'a encore eu lieu.</p>
       <div class="relative mt-8 overflow-x-auto rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card">
-        <table class="w-full min-w-[40rem] text-left border-collapse">
+        <table class="block md:table w-full md:min-w-[40rem] text-left border-collapse">
           <caption class="sr-only">Exigences du cahier des charges CEA et statut de vérification</caption>
-          <thead>
-            <tr class="font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">
+          <thead class="sr-only md:not-sr-only md:table-header-group">
+            <tr class="font-mono text-xs uppercase tracking-wider text-ink-2/70 dark:text-silver/60">
               <th scope="col" class="pl-4 pr-4 pt-4 pb-3 font-medium">Réf.</th>
               <th scope="col" class="pr-4 pt-4 pb-3 font-medium">Exigence</th>
               <th scope="col" class="pr-4 pt-4 pb-3 font-medium">Valeur</th>
@@ -105,11 +105,11 @@
               <th scope="col" class="pr-4 pt-4 pb-3 font-medium">Preuve</th>
             </tr>
           </thead>
-          <tbody id="req-rows" class="[&_tr>*:first-child]:pl-4 [&_tr>*:last-child]:pr-4"></tbody>
+          <tbody id="req-rows" class="block md:table-row-group [&_tr:first-child]:border-t-0 md:[&_tr:first-child]:border-t md:[&_tr>*:first-child]:pl-4 md:[&_tr>*:last-child]:pr-4"></tbody>
         </table>
       </div>
       <noscript><p class="mt-4 text-sm text-ink-2 dark:text-silver">Le tableau des exigences nécessite JavaScript. Valeurs clés du CDC : distance de 5 mm à 30 cm, précision ± 1 mm, parallélisme ± 1°, charge utile jusqu'à 50 kg, autonomie d'au moins 8 h.</p></noscript>
-      <p class="mt-4 font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Légende des statuts : <span class="text-ink-2 dark:text-silver">À venir</span> · <span class="text-warn">En cours</span> · <span class="text-ok">Validé</span> (preuve référencée)</p>
+      <p class="mt-4 font-mono text-xs uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Légende des statuts : <span class="text-ink-2 dark:text-silver">À venir</span> · <span class="text-warn">En cours</span> · <span class="text-ok">Validé</span> (preuve référencée)</p>
     </div>
   </section>
 
@@ -124,7 +124,7 @@
       <ul id="solution-list" class="mt-6 max-w-3xl grid gap-3 sm:grid-cols-2 text-sm leading-relaxed text-ink-2 dark:text-silver"></ul>
       <figure data-media class="mt-8 rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-4 sm:p-6">
         <div id="solution-img" class="aspect-[16/9] [&_img]:w-full [&_img]:h-full"><noscript><p class="text-sm text-ink-2 dark:text-silver">Le schéma de la solution nécessite JavaScript.</p></noscript></div>
-        <figcaption class="mt-3 font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Architecture de la solution SPOC : conception révisée, novembre 2026</figcaption>
+        <figcaption class="mt-3 font-mono text-xs uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Architecture de la solution SPOC : conception révisée, novembre 2026</figcaption>
       </figure>
       <a href="cao.html" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold underline decoration-line dark:decoration-line-dark underline-offset-4 hover:decoration-accent">
         Explorer la maquette 3D

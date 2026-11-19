@@ -56,8 +56,8 @@
         <!-- Canvas et lectures -->
         <div class="min-w-0 rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-4 sm:p-5">
           <div class="flex items-center justify-between gap-3">
-            <p class="font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Fig. 01 · Vue de dessus, écart zoomé</p>
-            <button type="button" id="sim-pause" class="shrink-0 inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-line dark:border-line-dark text-xs font-semibold hover:border-accent transition">
+            <p class="font-mono text-xs uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Fig. 01 · Vue de dessus, écart zoomé</p>
+            <button type="button" id="sim-pause" class="shrink-0 inline-flex items-center gap-2 px-3.5 py-2.5 sm:py-1.5 rounded-full border border-line dark:border-line-dark text-xs font-semibold hover:border-accent transition">
               <svg class="icon-pause w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
               <svg class="icon-play hidden w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 7 5.5z"/></svg>
               <span data-label>Pause</span>
@@ -67,23 +67,23 @@
           <noscript><p class="mt-3 text-sm text-ink-2 dark:text-silver">Le simulateur nécessite JavaScript.</p></noscript>
           <dl class="mt-4 grid grid-cols-2 sm:grid-cols-5 gap-px rounded-xl overflow-hidden border border-line dark:border-line-dark bg-line dark:bg-line-dark">
             <div class="col-span-2 sm:col-span-1 bg-paper dark:bg-card px-3 py-3">
-              <dt class="font-mono text-[10px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Distance mesurée</dt>
+              <dt class="font-mono text-xs uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Distance mesurée</dt>
               <dd class="mt-1 font-mono text-lg font-semibold"><output id="out-dist" aria-live="off">50,0 mm</output></dd>
             </div>
             <div class="bg-paper dark:bg-card px-3 py-3">
-              <dt class="font-mono text-[10px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Erreur mesurée</dt>
+              <dt class="font-mono text-xs uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Erreur mesurée</dt>
               <dd class="mt-1 font-mono text-lg font-semibold"><output id="out-err" aria-live="off">0,0 mm</output></dd>
             </div>
             <div class="bg-paper dark:bg-card px-3 py-3">
-              <dt class="font-mono text-[10px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Angle relatif</dt>
+              <dt class="font-mono text-xs uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Angle relatif</dt>
               <dd class="mt-1 font-mono text-lg font-semibold"><output id="out-angle" aria-live="off">0,00°</output></dd>
             </div>
             <div class="bg-paper dark:bg-card px-3 py-3">
-              <dt class="font-mono text-[10px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Course du chariot</dt>
+              <dt class="font-mono text-xs uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Course du chariot</dt>
               <dd class="mt-1 font-mono text-lg font-semibold"><output id="out-stroke" aria-live="off">330 mm</output></dd>
             </div>
             <div class="bg-paper dark:bg-card px-3 py-3">
-              <dt class="font-mono text-[10px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Temps en tolérance</dt>
+              <dt class="font-mono text-xs uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Temps en tolérance</dt>
               <dd class="mt-1 font-mono text-lg font-semibold"><output id="out-tol" aria-live="off">0 %</output></dd>
             </div>
           </dl>
@@ -91,7 +91,7 @@
 
         <!-- Réglages -->
         <div class="min-w-0 rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-5 sm:p-6">
-          <h3 class="font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Réglages</h3>
+          <h3 class="font-mono text-xs uppercase tracking-wider text-ink-2/70 dark:text-silver/60">Réglages</h3>
           <div role="group" aria-label="Préréglages de paroi" class="mt-4 grid grid-cols-2 gap-2">
             <button type="button" data-preset="nominal" aria-pressed="true" class="px-3 py-2 rounded-lg border border-line dark:border-line-dark text-sm font-medium text-left hover:border-accent transition aria-pressed:bg-ink aria-pressed:border-ink aria-pressed:text-white dark:aria-pressed:bg-white dark:aria-pressed:border-white dark:aria-pressed:text-night">Nominal</button>
             <button type="button" data-preset="inclinee" aria-pressed="false" class="px-3 py-2 rounded-lg border border-line dark:border-line-dark text-sm font-medium text-left hover:border-accent transition aria-pressed:bg-ink aria-pressed:border-ink aria-pressed:text-white dark:aria-pressed:bg-white dark:aria-pressed:border-white dark:aria-pressed:text-night">Paroi inclinée</button>
@@ -107,7 +107,7 @@
                 <output id="sim-target-out" for="sim-target" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">50 mm</output>
               </div>
               <input id="sim-target" type="range" min="5" max="300" step="1" value="50" aria-valuetext="50 millimètres" class="mt-2 w-full">
-              <div class="flex justify-between font-mono text-[10px] text-ink-2/70 dark:text-silver/60" aria-hidden="true"><span>5 mm</span><span>300 mm</span></div>
+              <div class="flex justify-between font-mono text-xs text-ink-2/70 dark:text-silver/60" aria-hidden="true"><span>5 mm</span><span>300 mm</span></div>
             </div>
             <div>
               <div class="flex items-baseline justify-between gap-3">
@@ -115,7 +115,7 @@
                 <output id="sim-tilt-out" for="sim-tilt" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">0,0°</output>
               </div>
               <input id="sim-tilt" type="range" min="-5" max="5" step="0.5" value="0" aria-valuetext="0,0 degrés" class="mt-2 w-full">
-              <div class="flex justify-between font-mono text-[10px] text-ink-2/70 dark:text-silver/60" aria-hidden="true"><span>−5°</span><span>+5°</span></div>
+              <div class="flex justify-between font-mono text-xs text-ink-2/70 dark:text-silver/60" aria-hidden="true"><span>−5°</span><span>+5°</span></div>
             </div>
             <div>
               <div class="flex items-baseline justify-between gap-3">
@@ -123,7 +123,7 @@
                 <output id="sim-speed-out" for="sim-speed" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">40 mm/s</output>
               </div>
               <input id="sim-speed" type="range" min="10" max="100" step="5" value="40" aria-valuetext="40 millimètres par seconde" class="mt-2 w-full">
-              <div class="flex justify-between font-mono text-[10px] text-ink-2/70 dark:text-silver/60" aria-hidden="true"><span>10 mm/s</span><span>100 mm/s</span></div>
+              <div class="flex justify-between font-mono text-xs text-ink-2/70 dark:text-silver/60" aria-hidden="true"><span>10 mm/s</span><span>100 mm/s</span></div>
             </div>
             <div>
               <div class="flex items-baseline justify-between gap-3">
@@ -131,7 +131,7 @@
                 <output id="sim-noise-out" for="sim-noise" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">0,3 mm</output>
               </div>
               <input id="sim-noise" type="range" min="0" max="2" step="0.1" value="0.3" aria-valuetext="0,3 millimètres" class="mt-2 w-full">
-              <div class="flex justify-between font-mono text-[10px] text-ink-2/70 dark:text-silver/60" aria-hidden="true"><span>0 mm</span><span>2 mm</span></div>
+              <div class="flex justify-between font-mono text-xs text-ink-2/70 dark:text-silver/60" aria-hidden="true"><span>0 mm</span><span>2 mm</span></div>
             </div>
           </div>
         </div>
@@ -153,22 +153,22 @@
       </div>
       <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <article class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6">
-          <p class="font-mono text-[11px] uppercase tracking-wider text-accent">Paroi</p>
+          <p class="font-mono text-xs uppercase tracking-wider text-accent">Paroi</p>
           <h3 class="mt-1 text-lg font-bold">Un profil imparfait</h3>
           <p class="mt-2 text-sm leading-relaxed text-ink-2 dark:text-silver">Inclinaison réglable, ondulation et défauts ponctuels. À chaque passe, le porteur reprend la paroi depuis son début.</p>
         </article>
         <article class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6">
-          <p class="font-mono text-[11px] uppercase tracking-wider text-accent">Capteur de distance</p>
+          <p class="font-mono text-xs uppercase tracking-wider text-accent">Capteur de distance</p>
           <h3 class="mt-1 text-lg font-bold">Une mesure bruitée</h3>
           <p class="mt-2 text-sm leading-relaxed text-ink-2 dark:text-silver">La distance mesurée est la distance réelle entachée d'un bruit gaussien, dont l'amplitude se règle.</p>
         </article>
         <article class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6">
-          <p class="font-mono text-[11px] uppercase tracking-wider text-accent">Boucle distance</p>
+          <p class="font-mono text-xs uppercase tracking-wider text-accent">Boucle distance</p>
           <h3 class="mt-1 text-lg font-bold">Un régulateur PI</h3>
           <p class="mt-2 text-sm leading-relaxed text-ink-2 dark:text-silver">Il pilote la vitesse du module linéaire ; la commande est saturée par sa vitesse maximale et bornée par sa course.</p>
         </article>
         <article class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-6">
-          <p class="font-mono text-[11px] uppercase tracking-wider text-accent">Boucle angle</p>
+          <p class="font-mono text-xs uppercase tracking-wider text-accent">Boucle angle</p>
           <h3 class="mt-1 text-lg font-bold">Le parallélisme</h3>
           <p class="mt-2 text-sm leading-relaxed text-ink-2 dark:text-silver">La sonde suit l'inclinaison locale de la paroi avec une dynamique du premier ordre ; le cahier des charges exige ± 1°.</p>
         </article>

@@ -123,15 +123,17 @@ document.fonts?.ready.then(() => placePill(current, true)); // largeurs exactes 
 
 // Pôles : classes de couleur littérales (Tailwind ne voit pas les classes construites).
 const TONE = { heph: 'text-heph', zeus: 'text-zeus', hermes: 'text-hermes' };
+// Pictogrammes des pôles (brand/pictos), même trait que la marque.
+const PICTO = { heph: 'M4 11h16l-3 4H7zM8 15l-1 4h10l-1-4M9 11V8h8v3', zeus: 'M13 3 5 14h6l-1 7 9-12h-6z', hermes: 'M3 19c7 0 13-5 17-14-7 1-13 6-17 14zM3 19c4-1 8-3 11-7' };
 $('poles-grid').innerHTML = Object.values(poles).map((p) => {
   const n = team.filter((m) => m.pole === p.key).length;
   return `<article class="bg-paper dark:bg-card p-6">
     <div class="flex items-center gap-3">
-      <img src="${esc(p.logo)}" alt="" width="40" height="40" loading="lazy" class="w-10 h-10 rounded-lg object-contain border border-line dark:border-line-dark bg-paper">
-      <div><p class="font-mono text-[11px] font-semibold ${TONE[p.key]}">${esc(p.name)}</p><h3 class="font-bold">${esc(p.domain.replace(/^Pôle /, ''))}</h3></div>
+      <span class="w-10 h-10 shrink-0 grid place-items-center rounded-lg border border-line dark:border-line-dark ${TONE[p.key]}" aria-hidden="true"><svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${PICTO[p.key]}"/></svg></span>
+      <div><p class="font-mono text-xs font-semibold ${TONE[p.key]}">${esc(p.name)}</p><h3 class="font-bold">${esc(p.domain.replace(/^Pôle /, ''))}</h3></div>
     </div>
     <p class="mt-4 text-sm leading-relaxed text-ink-2 dark:text-silver">${esc(p.summary)}</p>
-    <p class="mt-4 font-mono text-[11px] text-ink-2/70 dark:text-silver/60">Lead : ${esc(p.lead)} · ${n} membres</p>
+    <p class="mt-4 font-mono text-xs text-ink-2/70 dark:text-silver/60">Lead : ${esc(p.lead)} · ${n} membres</p>
   </article>`;
 }).join('');
 

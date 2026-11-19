@@ -22,16 +22,18 @@ const pill = (status, text) => {
 };
 
 // Méthode de vérification prévue (plan de validation) : un planning, jamais une preuve.
-const method = (r) => (r.method ? `<span class="block mt-1 text-xs text-ink-2 dark:text-silver"><span class="font-mono text-[10px] uppercase tracking-wider">Méthode prévue</span> : ${esc(r.method)}</span>` : '');
+const method = (r) => (r.method ? `<span class="block mt-1 text-xs text-ink-2 dark:text-silver"><span class="font-mono text-xs uppercase tracking-wider">Méthode prévue</span> : ${esc(r.method)}</span>` : '');
 
+// Sous md, chaque exigence devient une carte (grille 2 colonnes, libellés visibles) ; à partir de md, une ligne de tableau.
+const lab = (t) => `<span class="md:hidden block font-mono text-xs uppercase tracking-wider text-ink-2/70 dark:text-silver/60">${t}</span>`;
 export const renderRequirementRows = (reqs) => reqs.map((r) => `
-<tr class="border-t border-line dark:border-line-dark align-middle">
-  <th scope="row" class="py-4 pr-4 font-mono text-sm font-semibold whitespace-nowrap text-left">${esc(r.id)}</th>
-  <td class="py-4 pr-4 text-sm">${esc(r.label)}${method(r)}</td>
-  <td class="py-4 pr-4 font-mono text-sm font-semibold whitespace-nowrap">${esc(r.value)}</td>
-  <td class="py-4 pr-4 text-sm text-ink-2 dark:text-silver">${esc(r.source)}</td>
-  <td class="py-4 pr-4">${pill(effective(r))}</td>
-  <td class="py-4 text-sm text-ink-2 dark:text-silver">${r.evidence ? esc(r.evidence) : 'Aucune à ce jour'}</td>
+<tr class="grid grid-cols-[3.5rem_1fr] gap-x-3 gap-y-3 px-4 py-5 md:table-row md:p-0 border-t border-line dark:border-line-dark align-middle">
+  <th scope="row" class="md:py-4 md:pr-4 font-mono text-sm font-semibold whitespace-nowrap text-left">${esc(r.id)}</th>
+  <td class="md:py-4 md:pr-4 text-sm">${esc(r.label)}${method(r)}</td>
+  <td class="col-start-2 md:py-4 md:pr-4 font-mono text-base md:text-sm font-semibold md:whitespace-nowrap">${esc(r.value)}</td>
+  <td class="col-start-2 md:py-4 md:pr-4 text-sm text-ink-2 dark:text-silver">${lab('Source')}${esc(r.source)}</td>
+  <td class="col-start-2 md:py-4 md:pr-4">${pill(effective(r))}</td>
+  <td class="col-start-2 md:py-4 text-sm text-ink-2 dark:text-silver">${lab('Preuve')}${r.evidence ? esc(r.evidence) : 'Aucune à ce jour'}</td>
 </tr>`).join('');
 
 // Frise de 8 périodes : 2 colonnes dès md, 4 dès lg.

@@ -58,7 +58,7 @@
 
           <!-- Barre d'outils -->
           <div id="cao-tools" hidden class="absolute top-3 left-3 right-3 z-10 flex flex-col items-start gap-2 pointer-events-none">
-            <div role="group" aria-label="Outils de la maquette" class="flex flex-nowrap sm:flex-wrap items-start gap-2 overflow-x-auto sm:overflow-visible max-w-full [&>*]:pointer-events-auto [&>*]:shrink-0">
+            <div role="group" aria-label="Outils de la maquette" class="flex flex-wrap items-start gap-2 max-w-full [&>*]:pointer-events-auto [&>*]:shrink-0">
               <div role="group" aria-label="Vues" class="flex items-center gap-0.5 p-1 rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card shadow-sm">
                 <button type="button" data-view="iso" aria-label="Vue isométrique" title="Vue isométrique" class="cao-btn w-9 h-9 grid place-items-center">
                   <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
@@ -167,7 +167,7 @@
               <svg class="w-4 h-4 transition-transform group-aria-expanded:rotate-180 motion-reduce:transition-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
             </span>
           </button>
-          <h3 class="max-lg:hidden px-5 pt-5 font-mono text-[11px] uppercase tracking-wider text-ink-2/70 dark:text-silver/70">Nomenclature</h3>
+          <h3 class="max-lg:hidden px-5 pt-5 font-mono text-xs uppercase tracking-wider text-ink-2/70 dark:text-silver/70">Nomenclature</h3>
           <div id="cao-sheet" aria-live="polite" class="mx-3 lg:mx-4 mb-3 lg:mt-3 px-3 py-3 rounded-xl border border-line dark:border-line-dark">
             <p class="text-sm text-ink-2 dark:text-silver">Sélectionnez une pièce dans la vue ou la liste.</p>
           </div>
@@ -186,8 +186,8 @@
       </p>
 
       <dl class="mt-6 grid sm:grid-cols-3 gap-4 text-sm">
-        <div class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-5">
-          <dt class="font-mono text-[11px] uppercase tracking-wider text-accent">Souris</dt>
+        <div class="pointer-coarse:hidden rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-5">
+          <dt class="font-mono text-xs uppercase tracking-wider text-accent">Souris</dt>
           <dd class="mt-2"><ul class="space-y-1 text-ink-2 dark:text-silver">
             <li><span class="font-semibold text-ink dark:text-white">Glisser</span> : tourner</li>
             <li><span class="font-semibold text-ink dark:text-white">Clic droit ou Maj + glisser</span> : déplacer</li>
@@ -195,8 +195,8 @@
             <li><span class="font-semibold text-ink dark:text-white">Double-clic</span> : cadrer la pièce</li>
           </ul></dd>
         </div>
-        <div class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-5">
-          <dt class="font-mono text-[11px] uppercase tracking-wider text-accent">Tactile</dt>
+        <div class="pointer-coarse:order-first rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-5">
+          <dt class="font-mono text-xs uppercase tracking-wider text-accent">Tactile</dt>
           <dd class="mt-2"><ul class="space-y-1 text-ink-2 dark:text-silver">
             <li><span class="font-semibold text-ink dark:text-white">Un doigt</span> : tourner</li>
             <li><span class="font-semibold text-ink dark:text-white">Deux doigts</span> : déplacer</li>
@@ -205,7 +205,7 @@
           </ul></dd>
         </div>
         <div class="rounded-2xl border border-line dark:border-line-dark bg-paper dark:bg-card p-5">
-          <dt class="font-mono text-[11px] uppercase tracking-wider text-accent">Clavier</dt>
+          <dt class="font-mono text-xs uppercase tracking-wider text-accent">Clavier</dt>
           <dd class="mt-2"><ul id="cao-keys" class="space-y-1 text-ink-2 dark:text-silver">
             <li><span class="font-semibold text-ink dark:text-white">Flèches</span> : tourner</li>
             <li><span class="font-semibold text-ink dark:text-white">Maj + flèches</span> : déplacer</li>

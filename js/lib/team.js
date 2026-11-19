@@ -36,6 +36,6 @@ export function memberCardHtml(member, index = 0) {
   <img src="${esc(member.photo)}-200.webp" srcset="${esc(member.photo)}-200.webp 200w, ${esc(member.photo)}-400.webp 400w" sizes="(min-width: 1024px) 240px, (min-width: 640px) 30vw, 45vw" width="400" height="400" alt="" loading="lazy" decoding="async" class="w-full aspect-square rounded-xl object-cover">
   <span class="mt-4 block text-base font-bold leading-snug">${name}</span>
   <span class="mt-1 block text-sm text-ink-2 dark:text-silver">${esc(member.role)}</span>
-  <span class="mt-3 flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-ink-2 dark:text-silver"><span class="w-2.5 h-2.5 rounded-full ${POLE_DOT[member.pole] || ''}" aria-hidden="true"></span>${esc(POLE_LABEL[member.pole] || '')}</span>
+  <span class="mt-3 flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-ink-2 dark:text-silver"><span class="w-2.5 h-2.5 rounded-full ${POLE_DOT[member.pole] || ''}" aria-hidden="true"></span>${esc(POLE_LABEL[member.pole] || '')}</span>
 </button></li>`;
 }
