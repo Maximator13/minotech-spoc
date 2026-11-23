@@ -2,6 +2,7 @@
 // vue éclatée, caméra orbitale à ressorts. Navigateur seul (la logique pure est dans math.js et parts.js).
 import { v3, perspective, lookAt, mul, invert, orbitEye, clampPitch, screenRay, rayPlane, spring, fitDistance, shortestAngle } from './math.js';
 import { VIEWS, explodeVectors } from './parts.js';
+import { splitByLink, poseMatrices, clampPose, LIMITS, apply } from './kinematics.js';
 
 const FOV = (35 * Math.PI) / 180;
 const ROTATE = 0.005; // rad par pixel CSS
@@ -28,14 +29,16 @@ const VERT = `#version 300 es
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 aNor;
 uniform mat4 uViewProj;
+uniform mat4 uModel; // pose du corps (base, chariot, plateau)
 uniform vec3 uOffset;
 out vec3 vWorld;
 out vec3 vLocal;
 out vec3 vNor;
 void main() {
-  vLocal = aPos; // repère de l'assemblage : la coupe suit chaque pièce éclatée
-  vWorld = aPos + uOffset;
-  vNor = aNor;
+  vec3 p = (uModel * vec4(aPos, 1.0)).xyz;
+  vLocal = p; // repère de l'assemblage : la coupe suit chaque pièce éclatée
+  vWorld = p + uOffset;
+  vNor = mat3(uModel) * aNor;
   gl_Position = uViewProj * vec4(vWorld, 1.0);
 }`;
 
@@ -129,14 +132,34 @@ export function createViewer(canvas, model, opts = {}) {
   let theme = opts.dark ? THEMES.dark : THEMES.light;
   const boxes = Object.fromEntries(model.nodes.map((n) => [n.name, { min: n.min, max: n.max }]));
   const explode = explodeVectors(boxes);
-  const parts = model.nodes.map((n, i) => ({ ...n, key: n.name, id: i + 1, explode: explode[n.name] || [0, 0, 0] }));
+  // Chaque pièce est découpée par corps (kinematics.js) : une pièce peut être en partie fixe, en partie sur le chariot.
+  const parts = model.nodes.map((n, i) => {
+    const items = splitByLink(n), mob = items.filter((it) => it.link !== 'base').reduce((s, it) => s + it.positions.length, 0);
+    return { ...n, key: n.name, id: i + 1, explode: explode[n.name] || [0, 0, 0], items, mobile: mob > n.positions.length / 2 };
+  });
   const byKey = new Map(parts.map((p) => [p.key, p]));
   const opaque = parts.filter((p) => !p.material.blend), clear = parts.filter((p) => p.material.blend);
   const whole = unionBox(parts);
+  // Enveloppe sur toutes les poses extrêmes : le plan de coupe doit traverser le chariot avancé et la sonde inclinée.
+  const reach = { min: [...whole.min], max: [...whole.max] };
+  {
+    const boxes = parts.flatMap((p) => p.items.filter((it) => it.link !== 'base').map((it) => {
+      const P = it.positions, lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+      for (let i = 0; i < P.length; i += 3) for (let k = 0; k < 3; k++) { lo[k] = Math.min(lo[k], P[i + k]); hi[k] = Math.max(hi[k], P[i + k]); }
+      return { link: it.link, lo, hi };
+    }));
+    for (const course of LIMITS.course) for (const tangage of [...LIMITS.tangage, 0]) for (const lacet of [...LIMITS.lacet, 0]) {
+      const M = poseMatrices({ course, tangage, lacet });
+      for (const { link, lo, hi } of boxes) for (let c = 0; c < 8; c++) {
+        const q = apply(M[link], [c & 1 ? hi[0] : lo[0], c & 2 ? hi[1] : lo[1], c & 4 ? hi[2] : lo[2]]);
+        for (let k = 0; k < 3; k++) { reach.min[k] = Math.min(reach.min[k], q[k]); reach.max[k] = Math.max(reach.max[k], q[k]); }
+      }
+    }
+  }
   const DIST_MIN = 0.15 * whole.radius, DIST_MAX = 6 * whole.radius;
 
-  // Caméra et éclaté : [cibleX, cibleY, cibleZ, yaw, pitch, dist, éclaté 0..1], état, but, vitesses.
-  const S = [...whole.center, VIEWS.iso.yaw, VIEWS.iso.pitch, 1, 0];
+  // Caméra, éclaté et pose : [cibleX, cibleY, cibleZ, yaw, pitch, dist, éclaté 0..1, course mm, tangage °, lacet °], état, but, vitesses.
+  const S = [...whole.center, VIEWS.iso.yaw, VIEWS.iso.pitch, 1, 0, 0, 0, 0];
   const G = S.slice(), V = S.map(() => 0);
   let fling = null;
 
@@ -153,7 +176,7 @@ export function createViewer(canvas, model, opts = {}) {
 
   function init() {
     const shade = compile(gl, VERT, SHADE), pick = compile(gl, VERT, PICK);
-    const meshes = parts.map((p) => {
+    const meshes = parts.map((part) => part.items.map((p) => {
       const vao = gl.createVertexArray();
       gl.bindVertexArray(vao);
       const bufs = [p.positions, p.normals].map((data, loc) => {
@@ -168,8 +191,8 @@ export function createViewer(canvas, model, opts = {}) {
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib);
       gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, p.indices, gl.STATIC_DRAW);
       gl.bindVertexArray(null);
-      return { vao, bufs: [...bufs, ib], count: p.indices.length, type: p.indices instanceof Uint32Array ? gl.UNSIGNED_INT : gl.UNSIGNED_SHORT };
-    });
+      return { vao, bufs: [...bufs, ib], count: p.indices.length, type: p.indices instanceof Uint32Array ? gl.UNSIGNED_INT : gl.UNSIGNED_SHORT, link: p.link };
+    }));
     gpu = { shade, pick, meshes };
     pickFbo = null;
     gl.enable(gl.DEPTH_TEST);
@@ -177,7 +200,7 @@ export function createViewer(canvas, model, opts = {}) {
 
   function freeGpu() {
     if (!gpu || gl.isContextLost()) return;
-    for (const m of gpu.meshes) {
+    for (const m of gpu.meshes.flat()) {
       gl.deleteVertexArray(m.vao);
       m.bufs.forEach((b) => gl.deleteBuffer(b));
     }
@@ -237,11 +260,12 @@ export function createViewer(canvas, model, opts = {}) {
     fling = null;
     const list = (keys?.length ? keys.map((k) => byKey.get(k)).filter(Boolean) : parts.filter(visible));
     if (!list.length) return;
-    const b = unionBox(list.map((p) => ({ min: p.min, max: p.max, off: v3.scale(p.explode, G[6]) })));
+    const off = (p) => v3.add(v3.scale(p.explode, G[6]), p.mobile ? [0, 0, -G[7] / 1000] : [0, 0, 0]); // le chariot emporte ses pièces
+    const b = unionBox(list.map((p) => ({ min: p.min, max: p.max, off: off(p) })));
     [G[0], G[1], G[2]] = b.center;
     let d = fitDistance(Math.max(b.radius, 1e-3), FOV, aspect()) * margin;
     if (margin > 1) { // cadrage d'une piece : jamais plus pres que 60 % de la vue d'ensemble
-      const all = unionBox(parts.filter(visible).map((p) => ({ min: p.min, max: p.max, off: v3.scale(p.explode, G[6]) })));
+      const all = unionBox(parts.filter(visible).map((p) => ({ min: p.min, max: p.max, off: off(p) })));
       d = Math.max(d, fitDistance(Math.max(all.radius, 1e-3), FOV, aspect()) * 0.6);
     }
     G[5] = clampDist(d);
@@ -293,12 +317,15 @@ export function createViewer(canvas, model, opts = {}) {
   }
 
   // --- Rendu ---
-  function drawPart(prog, p, extra) {
-    const m = gpu.meshes[p.id - 1];
+  const pose = () => poseMatrices({ course: S[7], tangage: S[8], lacet: S[9] });
+  function drawPart(prog, p, extra, M) {
     gl.uniform3fv(prog.u.uOffset, v3.scale(p.explode, S[6]));
     extra?.(p);
-    gl.bindVertexArray(m.vao);
-    gl.drawElements(gl.TRIANGLES, m.count, m.type, 0);
+    for (const m of gpu.meshes[p.id - 1]) {
+      gl.uniformMatrix4fv(prog.u.uModel, false, M[m.link]);
+      gl.bindVertexArray(m.vao);
+      gl.drawElements(gl.TRIANGLES, m.count, m.type, 0);
+    }
   }
 
   function partUniforms(p) {
@@ -313,7 +340,7 @@ export function createViewer(canvas, model, opts = {}) {
 
   function draw() {
     if (lost || !gpu) return;
-    const c = camera(), u = gpu.shade.u;
+    const c = camera(), u = gpu.shade.u, M = pose();
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.clearColor(...theme.bg, 1);
@@ -337,7 +364,7 @@ export function createViewer(canvas, model, opts = {}) {
     gl.disable(gl.BLEND);
     gl.depthMask(true);
     gl.uniform1f(u.uCapOn, clipOn ? 1 : 0);
-    for (const p of opaque) if (visible(p)) drawPart(gpu.shade, p, partUniforms);
+    for (const p of opaque) if (visible(p)) drawPart(gpu.shade, p, partUniforms, M);
 
     // Translucides : faces arrière puis avant, sans écriture de profondeur.
     gl.uniform1f(u.uCapOn, 0);
@@ -348,9 +375,9 @@ export function createViewer(canvas, model, opts = {}) {
     for (const p of clear) {
       if (!visible(p)) continue;
       gl.cullFace(gl.FRONT);
-      drawPart(gpu.shade, p, partUniforms);
+      drawPart(gpu.shade, p, partUniforms, M);
       gl.cullFace(gl.BACK);
-      drawPart(gpu.shade, p, partUniforms);
+      drawPart(gpu.shade, p, partUniforms, M);
     }
     gl.depthMask(true);
     gl.disable(gl.BLEND);
@@ -380,7 +407,7 @@ export function createViewer(canvas, model, opts = {}) {
     const px = Math.floor((x * canvas.width) / canvas.clientWidth);
     const py = canvas.height - 1 - Math.floor((y * canvas.height) / canvas.clientHeight);
     if (px < 0 || py < 0 || px >= canvas.width || py >= canvas.height) return null;
-    const prog = gpu.pick, c = camera(), W = canvas.width, H = canvas.height;
+    const prog = gpu.pick, c = camera(), W = canvas.width, H = canvas.height, M = pose();
     const P = new Float32Array([W, 0, 0, 0, 0, H, 0, 0, 0, 0, 1, 0, W - 2 * px - 1, H - 2 * py - 1, 0, 1]);
     gl.bindFramebuffer(gl.FRAMEBUFFER, pickFbo.fb);
     gl.viewport(0, 0, 1, 1);
@@ -393,10 +420,10 @@ export function createViewer(canvas, model, opts = {}) {
     // Sonde d'abord, sans test de profondeur : une pièce opaque gagne partout où elle est visible.
     gl.disable(gl.DEPTH_TEST);
     gl.depthMask(false);
-    for (const p of clear) if (visible(p)) drawPart(prog, p, id);
+    for (const p of clear) if (visible(p)) drawPart(prog, p, id, M);
     gl.enable(gl.DEPTH_TEST);
     gl.depthMask(true);
-    for (const p of opaque) if (visible(p)) drawPart(prog, p, id);
+    for (const p of opaque) if (visible(p)) drawPart(prog, p, id, M);
     gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     gl.bindVertexArray(null);
@@ -603,6 +630,13 @@ export function createViewer(canvas, model, opts = {}) {
       G[6] = Math.max(0, Math.min(100, pct)) / 100;
       settle();
     },
+    // Pose dans les limites de conception : course 0 à 300 mm, tangage et lacet de -5 à 5 degrés.
+    setPose(p) {
+      const c = clampPose(p);
+      [G[7], G[8], G[9]] = [c.course, c.tangage, c.lacet];
+      settle();
+      return c;
+    },
     setSection({ axis = null, pos = 0.5, flip = false } = {}) {
       const k = 'xyz'.indexOf(axis);
       clipOn = k >= 0;
@@ -610,7 +644,7 @@ export function createViewer(canvas, model, opts = {}) {
       else {
         const n = [0, 0, 0];
         n[k] = flip ? -1 : 1;
-        clip = [...n, n[k] * (whole.min[k] + pos * (whole.max[k] - whole.min[k]))];
+        clip = [...n, n[k] * (reach.min[k] + pos * (reach.max[k] - reach.min[k]))];
       }
       requestRender();
     },
@@ -634,7 +668,7 @@ export function createViewer(canvas, model, opts = {}) {
       selected = null;
       clip = [0, 0, 0, 1];
       clipOn = false;
-      G[6] = 0;
+      G[6] = G[7] = G[8] = G[9] = 0;
       fling = null;
       setView('iso');
     },

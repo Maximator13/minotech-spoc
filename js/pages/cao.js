@@ -4,6 +4,7 @@ import { esc } from '../lib/html.js';
 import { parseGLB } from '../cao/glb.js';
 import { createViewer } from '../cao/viewer.js';
 import { GROUPS, PARTS, groupOf } from '../cao/parts.js';
+import { verinElongations } from '../cao/kinematics.js';
 
 mountLayout();
 initMotion(); // avant tout rendu : une erreur plus bas ne doit pas laisser la page masquée
@@ -193,6 +194,40 @@ flipBtn.addEventListener('click', () => {
   syncSection();
 });
 
+// Mouvements : course du chariot et orientation de la sonde, l'allongement des vérins suit.
+const poseIns = { course: $('cao-course'), tangage: $('cao-tangage'), lacet: $('cao-lacet') };
+const deci = (v, d = 1) => v.toFixed(d).replace('.', ',').replace(/^-/, '−');
+const signed = (v) => (v > 0.04 ? '+' : '') + deci(Math.abs(v) < 0.05 ? 0 : v);
+// Sens des angles : tangage positif, la face de la sonde se lève ; lacet positif, elle tourne vers la gauche (vu de l'arrière).
+const DIR = { tangage: ['vers le haut', 'vers le bas'], lacet: ['vers la gauche', 'vers la droite'] };
+function angleText(k, v) {
+  const a = Math.abs(v) < 0.05 ? 0 : v;
+  if (!a) return '0 degré, position centrale';
+  const n = Math.abs(a);
+  return `${deci(n)} ${n < 2 ? 'degré' : 'degrés'} ${DIR[k][a > 0 ? 0 : 1]}`;
+}
+function syncPose(refit = false) {
+  const p = Object.fromEntries(Object.entries(poseIns).map(([k, el]) => [k, Number(el.value)]));
+  for (const [k, el] of Object.entries(poseIns)) {
+    el.style.setProperty('--fill', `${((p[k] - el.min) / (el.max - el.min)) * 100}%`); // CSSOM : autorisé par la CSP
+    const text = k === 'course' ? `${p.course} mm` : `${signed(p[k])}°`;
+    $(`cao-${k}-out`).textContent = text;
+    el.setAttribute('aria-valuetext', k === 'course' ? text : angleText(k, p[k]));
+  }
+  const e = verinElongations(p);
+  $('cao-verins').textContent = `Vérins : gauche ${signed(e.gauche)} mm, droit ${signed(e.droit)} mm d'allongement.`;
+  viewer?.setPose(p);
+  if (refit) viewer?.fit(); // le chariot avance : l'assemblage reste dans le cadre
+}
+poseIns.course.addEventListener('input', () => syncPose(true));
+poseIns.tangage.addEventListener('input', () => syncPose());
+poseIns.lacet.addEventListener('input', () => syncPose());
+function restPose() {
+  Object.values(poseIns).forEach((el) => (el.value = '0'));
+  syncPose(true);
+}
+$('cao-pose-reset').addEventListener('click', restPose);
+
 const pops = all('[data-pop]');
 function openPop(name) {
   if (name && !lgQuery.matches) setDrawer(false);
@@ -243,6 +278,8 @@ $('cao-reset').addEventListener('click', () => {
   Object.assign(section, { axis: null, pos: 0.5, flip: false });
   explodeIn.value = '0';
   fill(explodeIn, 'cao-explode-out', '0 %');
+  Object.values(poseIns).forEach((el) => (el.value = '0'));
+  syncPose();
   isoBtns.forEach((b) => b.setAttribute('aria-pressed', 'false'));
   syncHidden();
   syncSection();
@@ -312,8 +349,10 @@ async function start() {
   viewer.onPick((key) => select(key));
   viewer.onHover(markHover);
   show('ready');
-  fill(explodeIn, 'cao-explode-out', '0 %');
+  fill(explodeIn, 'cao-explode-out', `${explodeIn.value} %`);
+  viewer.setExplode(Number(explodeIn.value)); // valeurs que le navigateur a pu restaurer
   syncSection();
+  syncPose(true);
   describe();
 }
 

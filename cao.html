@@ -39,7 +39,7 @@
     <p class="font-mono text-xs tracking-wider text-accent uppercase">Maquette 3D</p>
     <h1 class="mt-5 max-w-3xl text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.05] text-balance">SPOC, pièce par pièce.</h1>
     <p class="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-ink-2 dark:text-silver">
-      Faites tourner l'assemblage, écartez ses sous-ensembles, coupez-le d'un plan et parcourez sa nomenclature, comme dans un logiciel de CAO.
+      Faites tourner l'assemblage, écartez ses sous-ensembles, coupez-le d'un plan et parcourez sa nomenclature, comme dans un logiciel de CAO. Faites-le aussi bouger comme le prototype : le chariot avance vers la paroi, la sonde s'oriente.
     </p>
   </section>
 
@@ -57,7 +57,7 @@
           <canvas id="cao-canvas" tabindex="0" role="application" aria-roledescription="visionneuse 3D" aria-describedby="cao-keys" aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown Shift+ArrowLeft Shift+ArrowRight Shift+ArrowUp Shift+ArrowDown F Escape" aria-label="Maquette 3D de SPOC, vue isométrique." class="absolute inset-0 w-full h-full touch-none cursor-grab active:cursor-grabbing focus-visible:outline-offset-[-3px]"></canvas>
 
           <!-- Barre d'outils -->
-          <div id="cao-tools" hidden class="absolute top-3 left-3 right-3 z-10 flex flex-col items-start gap-2 pointer-events-none">
+          <div id="cao-tools" hidden class="absolute top-3 left-3 right-3 max-lg:bottom-[9.5rem] z-10 flex flex-col items-start gap-2 pointer-events-none">
             <div role="group" aria-label="Outils de la maquette" class="flex flex-wrap items-start gap-2 max-w-full [&>*]:pointer-events-auto [&>*]:shrink-0">
               <div role="group" aria-label="Vues" class="flex items-center gap-0.5 p-1 rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card shadow-sm">
                 <button type="button" data-view="iso" aria-label="Vue isométrique" title="Vue isométrique" class="cao-btn w-9 h-9 grid place-items-center">
@@ -84,6 +84,9 @@
                 <button type="button" data-pop="section" aria-expanded="false" aria-controls="pop-section" aria-label="Plan de coupe" title="Plan de coupe" class="cao-btn w-9 h-9 grid place-items-center">
                   <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12h12v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1z" fill="currentColor" fill-opacity=".35"/><path d="M6 12V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7M2 12h20"/></svg>
                 </button>
+                <button type="button" data-pop="pose" aria-expanded="false" aria-controls="pop-pose" aria-label="Mouvements" title="Mouvements" class="cao-btn w-9 h-9 grid place-items-center">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18h12M12 15l3 3-3 3"/><path d="M17 4a5 5 0 0 1 3 7" /><path d="M20 7.5l.1 3.6-3.3-1"/><circle cx="8" cy="9" r="3" fill="currentColor" fill-opacity=".35"/></svg>
+                </button>
               </div>
               <div role="group" aria-label="Affichage" class="flex items-center gap-0.5 p-1 rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card shadow-sm">
                 <button type="button" id="cao-full" aria-pressed="false" aria-label="Plein écran" title="Plein écran" class="cao-btn group w-9 h-9 grid place-items-center">
@@ -97,7 +100,7 @@
             </div>
 
             <!-- Réglage de l'éclaté -->
-            <div id="pop-explode" hidden class="pointer-events-auto w-64 max-w-full rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card shadow-lg p-4">
+            <div id="pop-explode" hidden class="pointer-events-auto min-h-0 overflow-y-auto overscroll-contain w-64 max-w-full rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card shadow-lg p-4">
               <div class="flex items-baseline justify-between gap-3">
                 <label for="cao-explode" class="text-sm font-semibold">Vue éclatée</label>
                 <output id="cao-explode-out" for="cao-explode" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">0 %</output>
@@ -106,8 +109,31 @@
               <p class="mt-1 text-xs text-ink-2 dark:text-silver">Le porteur reste fixe, les modules s'écartent par étages.</p>
             </div>
 
+            <!-- Mouvements : la maquette bouge dans les limites de conception -->
+            <div id="pop-pose" hidden class="pointer-events-auto min-h-0 overflow-y-auto overscroll-contain w-72 max-lg:w-60 max-w-full rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card shadow-lg p-4">
+              <p class="text-sm font-semibold">Mouvements</p>
+              <p class="mt-1 max-lg:hidden text-xs text-ink-2 dark:text-silver">Dans les limites de la conception : le chariot glisse sur ses guidages, la sonde pivote sur la rotule centrale.</p>
+              <div class="mt-4 flex items-baseline justify-between gap-3">
+                <label for="cao-course" class="text-sm font-medium">Course vers la paroi</label>
+                <output id="cao-course-out" for="cao-course" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">0 mm</output>
+              </div>
+              <input id="cao-course" type="range" min="0" max="300" step="1" value="0" aria-valuetext="0 mm" class="mt-2 w-full">
+              <div class="mt-4 flex items-baseline justify-between gap-3">
+                <label for="cao-tangage" class="text-sm font-medium">Inclinaison haut-bas</label>
+                <output id="cao-tangage-out" for="cao-tangage" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">0,0°</output>
+              </div>
+              <input id="cao-tangage" type="range" min="-5" max="5" step="0.1" value="0" aria-valuetext="0 degré, position centrale" class="mt-2 w-full">
+              <div class="mt-4 flex items-baseline justify-between gap-3">
+                <label for="cao-lacet" class="text-sm font-medium">Inclinaison gauche-droite</label>
+                <output id="cao-lacet-out" for="cao-lacet" aria-hidden="true" class="font-mono text-sm font-semibold text-accent">0,0°</output>
+              </div>
+              <input id="cao-lacet" type="range" min="-5" max="5" step="0.1" value="0" aria-valuetext="0 degré, position centrale" class="mt-2 w-full">
+              <p id="cao-verins" aria-live="polite" class="mt-4 text-xs text-ink-2 dark:text-silver">Vérins : gauche 0,0 mm, droit 0,0 mm d'allongement.</p>
+              <button type="button" id="cao-pose-reset" class="cao-btn mt-3 w-full h-9 inline-flex items-center justify-center gap-2 border border-line dark:border-line-dark text-sm font-semibold">Position de repos</button>
+            </div>
+
             <!-- Plan de coupe -->
-            <div id="pop-section" hidden class="pointer-events-auto w-64 max-w-full rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card shadow-lg p-4">
+            <div id="pop-section" hidden class="pointer-events-auto min-h-0 overflow-y-auto overscroll-contain w-64 max-w-full rounded-xl border border-line dark:border-line-dark bg-paper dark:bg-card shadow-lg p-4">
               <p id="cao-axis-label" class="text-sm font-semibold">Plan de coupe</p>
               <div role="group" aria-labelledby="cao-axis-label" class="mt-3 grid grid-cols-4 gap-1.5">
                 <button type="button" data-axis="x" aria-pressed="false" class="cao-btn h-8 border border-line dark:border-line-dark text-xs font-semibold">X</button>
