@@ -57,10 +57,10 @@ const poles = {
     lead: 'Noémie BEKHIT',
     summary: 'Logiciel embarqué, échanges réseau, base de données et poste de pilotage.',
     highlights: [
-      'Logiciel embarqué et application de pilotage en Java sur Raspberry Pi OS',
+      'Logiciel embarqué ROS 2 sur Raspberry Pi 5, ESP32 temps réel relié en SPI',
       'Échanges Wi-Fi UDP et TCP, trames TLV, heartbeat 100 ms',
-      'Base SQLite sur SSD, rapports PDF et JSON',
-      'Choix du système, de la base et de l\'environnement (Java ou ROS) en révision',
+      'Base de données : essais PostgreSQL contre SQLite, rapports PDF et JSON',
+      'Trame Raspberry Pi / ESP32 de 64 octets, validée en simulation',
     ],
   },
 };
@@ -76,7 +76,7 @@ const team = [
   member('Mathurin GAZEAU', 'Ingénieur Électronique & Puissance', 'zeus', 'G1', false, 'mathurin_elec',
     'A rejoint l\'équipe en septembre 2026. Participe à la révision de la conception électronique (cartes, capteurs) en vue de la fabrication.'),
   member('Noémie BEKHIT', 'Cheffe du Pôle Informatique & IHM', 'hermes', 'G1', true, 'noemie_info',
-    'A rejoint MinOtech en septembre 2026. Pilote la révision des choix logiciels (système, base de données, Java ou ROS) et le poste de pilotage.'),
+    'A rejoint MinOtech en septembre 2026. Pilote le passage du logiciel à ROS 2, la base de données et le poste de pilotage.'),
   member('Zineddine DJADJA', 'Chef du Pôle Électronique & Capteurs', 'zeus', 'G1', true, 'zineddine_djadja',
     'Dirige le pôle électronique depuis la 2e année : distribution 24 V / 5 V / 3,3 V, schémas KiCad des cartes alimentation et capteurs, chaîne de sécurité.'),
   member('Alexis FOURQUIER', 'Ingénieur Réseaux & Systèmes Embarqués', 'hermes', 'G1', false, 'alexis_info',
@@ -96,7 +96,7 @@ const team = [
   member('Léo RÉGINARD', 'Ingénieur Informatique · Responsable planning (3A)', 'hermes', 'G2', false, 'leo_reginard',
     'Chef de projet de l\'équipe en 2e année ; architecture logicielle embarquée et diagrammes UML ; tient le planning en 3e année.'),
   member('Melvin PATEUX', 'Ingénieur Informatique & Télémétrie', 'hermes', 'G2', false, 'melvin_pateux',
-    'Responsable du pôle informatique en 2e année ; logiciel embarqué Java, échanges UDP et TCP, télémétrie et dépôt Git.'),
+    'Responsable du pôle informatique en 2e année ; logiciel embarqué, échanges UDP et TCP, télémétrie et dépôt Git.'),
 ];
 
 // Numéros de besoin repris du CDC (docs/extracted_pdf.txt).

@@ -23,7 +23,7 @@ const VIEWS = {
   robot: {
     tag: 'Prototype',
     title: 'SPOC, en 3D',
-    desc: "Rendu de l'assemblage SolidWorks de novembre 2026 : module linéaire, module de planéité à deux vérins et rotule, support du préhenseur et, en transparence, la place de la sonde.",
+    desc: "Rendu de l'assemblage SolidWorks : module linéaire, module de planéité à deux vérins et rotule, support du préhenseur et, en transparence, la place de la sonde.",
     fit: 'w-full h-full object-contain p-6',
   },
   system: {
