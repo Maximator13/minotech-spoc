@@ -139,12 +139,17 @@ $('poles-grid').innerHTML = Object.values(poles).map((p) => {
 
 initHeroSchema($('hero-schema'));
 
-// Portraits : deux rangées (aria-hidden, la liste nominative est sur equipe.html), dupliquées pour couvrir la largeur.
+// Portraits : deux rangées centrées (aria-hidden, la liste nominative est sur equipe.html),
+// répétées jusqu'à couvrir la largeur de l'écran plus l'amplitude du glissement, même sur écran large.
 const half = Math.ceil(team.length / 2);
-document.querySelectorAll('[data-drift]').forEach((row, r) => {
+const fillRows = () => document.querySelectorAll('[data-drift]').forEach((row, r) => {
   const people = r ? team.slice(half) : team.slice(0, half);
-  row.innerHTML = [...people, ...people].map((m) => `<img src="${esc(m.photo)}-120.webp" srcset="${esc(m.photo)}-120.webp 120w, ${esc(m.photo)}-200.webp 200w" sizes="112px" width="400" height="400" alt="" loading="lazy" decoding="async" class="w-28 h-36 shrink-0 rounded-2xl object-cover">`).join('');
+  const copies = Math.max(2, Math.ceil((innerWidth + 480) / (people.length * 128)));
+  if (row.childElementCount === copies * people.length) return;
+  row.innerHTML = Array.from({ length: copies }, () => people).flat().map((m) => `<img src="${esc(m.photo)}-120.webp" srcset="${esc(m.photo)}-120.webp 120w, ${esc(m.photo)}-200.webp 200w" sizes="112px" width="400" height="400" alt="" loading="lazy" decoding="async" class="w-28 h-36 shrink-0 rounded-2xl object-cover">`).join('');
 });
+fillRows();
+addEventListener('resize', fillRows);
 
 // Défilement lié au scroll, à la manière des pages produit : les rangées glissent en sens opposés,
 // le panneau du showcase grandit jusqu'à sa taille réelle pendant que la photo se dézoome.
@@ -158,7 +163,7 @@ if (!calm()) {
     rows.forEach((row) => {
       const r = row.parentElement.getBoundingClientRect();
       const p = clamp((h - r.top) / (h + r.height)), dir = Number(row.dataset.drift);
-      row.style.transform = `translate3d(${(dir > 0 ? -p : p - 1) * 320}px,0,0)`;
+      row.style.transform = `translate3d(${dir * (0.5 - p) * 320}px,0,0)`; // ± 160 px autour du centre
     });
     if (grow) {
       const p = clamp((h - grow.getBoundingClientRect().top) / (h * 0.75)), img = grow.querySelector('img');
